@@ -1,14 +1,53 @@
 import { NotificationFilled, UserOutlined } from '@ant-design/icons';
 import { Outlet, Link } from "react-router-dom";
 import { Layout, Menu, Breadcrumb } from 'antd';
-import { Avatar, Badge, Image } from 'antd';
+import { Avatar, Badge, Image, Button } from 'antd';
 
 
 import { memo, useEffect, useState } from "react";
+import { useGoogleLogin } from 'react-google-login';
+import { useGoogleLogout } from 'react-google-login'
 
 
+
+const clientId = "282680443684-tv54qo2sgo37jnn2uqsnmpesr7cfvmc9.apps.googleusercontent.com";
 
 const Navbar = memo(() => {
+
+    const [emailUser, setemailUser] = useState("");
+    
+    const responseGoogle = (response) => {
+        // document.getElementById("emailLogin").innerText = response.profileObj.email;
+        console.log(response);
+        setemailUser(response.profileObj.email)
+    }
+
+    const onFailure = (res) => {
+        console.log(res);
+    }
+
+    const responseSignOut = () => {
+        setemailUser(null)
+    }
+
+
+    const { signIn } = useGoogleLogin({
+        clientId,
+        onSuccess: responseGoogle,
+        onFailure,
+        isSignedIn: true,
+        cookiePolicy: 'single_host_origin',
+    })
+
+    const { signOut } = useGoogleLogout({
+        clientId,
+        onFailure,
+        onLogoutSuccess : responseSignOut
+    })
+
+
+
+
 
     const { Header, Content, Footer } = Layout;
 
@@ -17,25 +56,25 @@ const Navbar = memo(() => {
         <Layout>
             <Header >
 
-                <span style={{color: 'white'}}>Student Service</span>
+                <span style={{ color: 'white', fontSize: '30px' }}>Student Service</span>
 
-                <Menu theme="dark" mode="horizontal" style={{float:'right'}} >
-                    
-                
+                <Menu theme="dark" mode="horizontal" style={{ float: 'right' }} >
+
+
                     <Menu.Item>
                         <Link to="/" >
                             Home
                         </Link>
                     </Menu.Item>
-                    
 
-                    
+
+
                     <Menu.Item>
                         <Link to="/service" >Service</Link>
                     </Menu.Item>
-                
 
-                    
+
+
                     <Menu.Item>
                         <Link to="/notification" >
                             <Badge size="large" count={10} style={{ margin: '5px' }}>
@@ -44,24 +83,28 @@ const Navbar = memo(() => {
                         </Link>
 
                     </Menu.Item>
-                    
-                    <Menu.Item>
-                        Sign In
-                        <span style={{ padding: '10px' }}>
-                            <Avatar icon={<UserOutlined />} />
-                        </span>
+
+
+                    <Menu.Item id="emailLogin" >
+                        {emailUser ? (<div> {emailUser} </div>) : (<Button type="primary" shape="round" size="large" onClick={signIn}>
+                            Sign In
+                            <span style={{ padding: '10px' }}>
+                                <Avatar icon={<UserOutlined />} />
+                            </span>
+                        </Button>)}
+
                     </Menu.Item>
+
+
+
+                    {/* <Menu.Item> */}
+                    <Button type="primary" shape="round" size="large" style={{ marginTop: '30px', float: 'right' }}
+                        onClick={signOut}>
+                        sign out
+                    </Button>
+                    {/* </Menu.Item> */}
                 </Menu>
             </Header>
-            {/* <Content style={{ padding: '0 50px' }}>
-                <Breadcrumb style={{ margin: '16px 0' }}>
-                    <Breadcrumb.Item>Home</Breadcrumb.Item>
-                    <Breadcrumb.Item>List</Breadcrumb.Item>
-                    <Breadcrumb.Item>App</Breadcrumb.Item>
-                </Breadcrumb>
-                <div className="site-layout-content">Content</div>
-            </Content>
-            <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer> */}
         </Layout>
 
         <div className="h-12"></div>

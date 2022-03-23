@@ -8,3 +8,7 @@
   .ant-badge-count > .ant-scroll-number-only > .ant-scroll-number-only-unit {
     font-size: 14px !important;
   }
+
+  .thaiFont {
+    font-family: 'IBM Plex Sans Thai', sans-serif;
+  }
