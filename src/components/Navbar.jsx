@@ -17,24 +17,34 @@ const Navbar = memo(() => {
         <Layout>
             <Header >
 
-                <Menu theme="dark" mode="horizontal" >
+                <span style={{color: 'white'}}>Student Service</span>
+
+                <Menu theme="dark" mode="horizontal" style={{float:'right'}} >
                     
-                    <Link to="/" >
-                        <Menu.Item>Home</Menu.Item>
-                    </Link>
+                
+                    <Menu.Item>
+                        <Link to="/" >
+                            Home
+                        </Link>
+                    </Menu.Item>
+                    
 
-                    <Link to="/service" >
-                        <Menu.Item>Service</Menu.Item>
-                    </Link>
+                    
+                    <Menu.Item>
+                        <Link to="/service" >Service</Link>
+                    </Menu.Item>
+                
 
-                    <Link to="/notification" >
-                        <Menu.Item>
+                    
+                    <Menu.Item>
+                        <Link to="/notification" >
                             <Badge size="large" count={10} style={{ margin: '5px' }}>
                                 <Avatar icon={<NotificationFilled />} />
                             </Badge>
-                        </Menu.Item>
-                    </Link>
+                        </Link>
 
+                    </Menu.Item>
+                    
                     <Menu.Item>
                         Sign In
                         <span style={{ padding: '10px' }}>

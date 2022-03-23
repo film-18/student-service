@@ -3,3 +3,8 @@
     font-family: 'Balsamiq Sans', cursive;
     font-size: medium;
   }
+
+
+  .ant-badge-count > .ant-scroll-number-only > .ant-scroll-number-only-unit {
+    font-size: 14px !important;
+  }
