@@ -551,6 +551,11 @@
     "no-case" "^3.0.4"
     "tslib" "^2.0.3"
 
+"dotenv@^16.0.0":
+  "integrity" "sha512-qD9WU0MPM4SWLPJy/r2Be+2WgQj8plChsyrCNQzW/0WjvcJQiKQJ9mH3ZgB3fxbUUxgc/11ZJ0Fi5KiimWGz2Q=="
+  "resolved" "https://registry.npmjs.org/dotenv/-/dotenv-16.0.0.tgz"
+  "version" "16.0.0"
+
 "electron-to-chromium@^1.4.76":
   "integrity" "sha512-b+DdcyOiZtLXHdgEG8lncYJdxbdJWJvclPNMg0eLUDcSOSO876WA/pYjdSblUTd7eJdIs4YdIxHWGazx7UPSJw=="
   "resolved" "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.4.84.tgz"

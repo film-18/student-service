@@ -1,7 +1,7 @@
 import { NotificationFilled, UserOutlined } from '@ant-design/icons';
 import { Outlet, Link } from "react-router-dom";
 import { Layout, Menu, Breadcrumb } from 'antd';
-import { Avatar, Badge, Image, Button } from 'antd';
+import { Avatar, Badge, Image, Button, Dropdown, Space, Row } from 'antd';
 
 
 import { memo, useEffect, useState } from "react";
@@ -10,16 +10,22 @@ import { useGoogleLogout } from 'react-google-login'
 
 
 
-const clientId = "282680443684-tv54qo2sgo37jnn2uqsnmpesr7cfvmc9.apps.googleusercontent.com";
+const clientId = `${import.meta.env.VITE_GOOGLE_CLIENT_ID}`;
+
+
+
+
+
 
 const Navbar = memo(() => {
 
     const [emailUser, setemailUser] = useState("");
-    
+
     const responseGoogle = (response) => {
         // document.getElementById("emailLogin").innerText = response.profileObj.email;
         console.log(response);
         setemailUser(response.profileObj.email)
+
     }
 
     const onFailure = (res) => {
@@ -42,9 +48,8 @@ const Navbar = memo(() => {
     const { signOut } = useGoogleLogout({
         clientId,
         onFailure,
-        onLogoutSuccess : responseSignOut
+        onLogoutSuccess: responseSignOut
     })
-
 
 
 
@@ -85,13 +90,19 @@ const Navbar = memo(() => {
                     </Menu.Item>
 
 
-                    <Menu.Item id="emailLogin" >
-                        {emailUser ? (<div> {emailUser} </div>) : (<Button type="primary" shape="round" size="large" onClick={signIn}>
-                            Sign In
-                            <span style={{ padding: '10px' }}>
-                                <Avatar icon={<UserOutlined />} />
-                            </span>
-                        </Button>)}
+                    <Menu.Item>
+                        {emailUser ? (
+                            <div> {emailUser}
+
+
+                            </div>
+                        )
+                            : (<div size="large" onClick={signIn}>
+                                Sign In
+                                <span style={{ padding: '10px' }}>
+                                    <Avatar icon={<UserOutlined />} />
+                                </span>
+                            </div>)}
 
                     </Menu.Item>
 
