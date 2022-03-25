@@ -1,0 +1,105 @@
+.container{
+    max-width: 1280px;
+    margin: auto;
+}
+
+.news{
+    height: 400px;
+    display: flex;
+    overflow: hidden;
+}
+
+.news *{
+    box-sizing: border-box;
+}
+
+.news>.news-main{
+    height: calc(100% - 20px);
+    background-color: antiquewhite;
+    margin: 10px 0;
+    width: 50%;
+    border-radius: 10px;
+}
+
+.news-main>.news-img{
+    height: 50%;
+    overflow: hidden;
+    display: flex;
+    border-radius: 10px 10px 0 0;
+}
+
+.news-main>.news-img>img{
+    object-fit: cover;
+}
+
+.news-detail{
+    padding: 10px;
+}
+
+.news-topic{
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.news-date{
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: gray;
+}
+
+.news-short{
+    font-size: 16px;
+    white-space: pre-line;  
+    vertical-align: bottom;
+}
+
+.news-item{
+    display: flex;
+    gap: 10px;
+}
+
+.news-item>.news-img{
+    width: 30%;
+    overflow: hidden;
+    display: flex;
+    border-radius: 10px 0 0 10px;
+}
+
+.news-item>.news-img>img{
+    object-fit: cover;
+}
+
+.news-item>.news-detail{
+    width: 70%;
+}
+
+.news-item>.news-detail>.news-topic{
+    font-weight: bold;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+.news-item>.news-detail>.news-short{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.news>.news-list{
+    width: 50%;
+    height: 100%;
+}
+
+.news>.news-list>.news-item{
+    height: calc((100% - (10px * 4)) / 3);
+    margin: 10px;
+    background-color: antiquewhite;
+    border-radius: 10px;
+}
+
+.ant-picker-cell-today>div{
+    background-color: antiquewhite;
+}

@@ -1,4 +1,4 @@
-import { NotificationFilled, UserOutlined } from '@ant-design/icons';
+import { NotificationFilled, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import { Outlet, Link } from "react-router-dom";
 import { Layout, Menu, Breadcrumb } from 'antd';
 import { Avatar, Badge, Image, Button, Dropdown, Space, Row } from 'antd';
@@ -59,62 +59,49 @@ const Navbar = memo(() => {
     return <>
 
         <Layout>
-            <Header >
+            <Header style={{display: "flex", justifyContent: "space-between"}}>
 
-                <span style={{ color: 'white', fontSize: '30px' }}>Student Service</span>
+                <div style={{ color: 'white', fontSize: '30px' }}>Student Service</div>
+                <div style={{minWidth: "550px"}}>
+                    <Menu theme="dark" mode="horizontal" style={{justifyContent: "flex-end"}}>
 
-                <Menu theme="dark" mode="horizontal" style={{ float: 'right' }} >
+                        <Menu.Item>
+                            <Link to="/" >
+                                Home
+                            </Link>
+                        </Menu.Item>
 
+                        <Menu.Item>
+                            <Link to="/service" >Service</Link>
+                        </Menu.Item>
 
-                    <Menu.Item>
-                        <Link to="/" >
-                            Home
-                        </Link>
-                    </Menu.Item>
-
-
-
-                    <Menu.Item>
-                        <Link to="/service" >Service</Link>
-                    </Menu.Item>
-
-
-
-                    <Menu.Item>
-                        <Link to="/notification" >
-                            <Badge size="large" count={10} style={{ margin: '5px' }}>
-                                <Avatar icon={<NotificationFilled />} />
-                            </Badge>
-                        </Link>
-
-                    </Menu.Item>
-
-
-                    <Menu.Item>
-                        {emailUser ? (
-                            <div> {emailUser}
-
-
-                            </div>
-                        )
-                            : (<div size="large" onClick={signIn}>
-                                Sign In
-                                <span style={{ padding: '10px' }}>
-                                    <Avatar icon={<UserOutlined />} />
-                                </span>
-                            </div>)}
-
-                    </Menu.Item>
-
-
-
-                    {/* <Menu.Item> */}
-                    <Button type="primary" shape="round" size="large" style={{ marginTop: '30px', float: 'right' }}
-                        onClick={signOut}>
-                        sign out
-                    </Button>
-                    {/* </Menu.Item> */}
-                </Menu>
+                        <Menu.SubMenu key="SubMenu" title={emailUser ? emailUser : "Guest"}>
+                            <Menu.ItemGroup style={{textAlign: "center", paddingBottom: "10px"}} title={emailUser}>
+                                {
+                                    emailUser ? 
+                                    <Menu.Item key="setting:1">
+                                        <div onClick={signOut}>
+                                            Sign Out
+                                        </div>
+                                    </Menu.Item> :
+                                    <Menu.Item key="setting:1">
+                                        <div onClick={signIn}>
+                                            Sign In
+                                        </div>
+                                    </Menu.Item>
+                                }
+                            </Menu.ItemGroup>
+                        </Menu.SubMenu>
+                        
+                        <Menu.Item>
+                            <Link to="/notification" >
+                                <Badge size="large" count={10} style={{ margin: '5px' }}>
+                                    <Avatar icon={<NotificationFilled />} />
+                                </Badge>
+                            </Link>
+                        </Menu.Item>
+                    </Menu>
+                </div>
             </Header>
         </Layout>
 
