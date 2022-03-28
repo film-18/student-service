@@ -1,9 +1,9 @@
 import { memo, useEffect, useState } from "react";
 
-export const profile = memo(() => {
+export const Profile = memo(() => {
 
     return <>
-        <p>hi Profile</p>
+        <p>hi Profile </p>
     </>
 
 });

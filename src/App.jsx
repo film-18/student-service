@@ -7,7 +7,7 @@ import Navbar from './components/Navbar';
 import { Home } from './pages/Home';
 import { Service } from './pages/Service';
 import { Notification } from './pages/Notification';
-// import { Profile } from './pages/Profile';
+import { Profile } from './pages/Profile';
 import { RequestOne } from './pages/RequestOne';
 
 
@@ -21,7 +21,7 @@ function App() {
         <Route index element={<Home />} />
         <Route path="service/" element={<Service />} />
         <Route path="notification/" element={<Notification />} />
-        {/* <Route path="SignIn/:Profile" element={<Profile />} /> */}
+        <Route path="profile/" element={<Profile />} />
         <Route path="service/:requestOne" element={<RequestOne />} />
       
       </Route>

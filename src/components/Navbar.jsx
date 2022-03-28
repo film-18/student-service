@@ -19,12 +19,12 @@ const clientId = `${import.meta.env.VITE_GOOGLE_CLIENT_ID}`;
 
 const Navbar = memo(() => {
 
-    const [emailUser, setemailUser] = useState("");
+    const [user, setUser] = useState(null);
 
     const responseGoogle = (response) => {
         // document.getElementById("emailLogin").innerText = response.profileObj.email;
+        setUser(response.profileObj)
         console.log(response);
-        setemailUser(response.profileObj.email)
 
     }
 
@@ -33,7 +33,7 @@ const Navbar = memo(() => {
     }
 
     const responseSignOut = () => {
-        setemailUser(null)
+        setUser(null)
     }
 
 
@@ -51,7 +51,9 @@ const Navbar = memo(() => {
         onLogoutSuccess: responseSignOut
     })
 
-
+    if (!user){
+        return <></>
+    }
 
 
     const { Header, Content, Footer } = Layout;
@@ -75,16 +77,23 @@ const Navbar = memo(() => {
                             <Link to="/service" >Service</Link>
                         </Menu.Item>
 
-                        <Menu.SubMenu key="SubMenu" title={emailUser ? emailUser : "Guest"}>
-                            <Menu.ItemGroup style={{textAlign: "center", paddingBottom: "10px"}} title={emailUser}>
+                        <Menu.SubMenu key="SubMenu" title={user ? user.email : "Guest"}>
+                            <Menu.ItemGroup style={{textAlign: "center", paddingBottom: "10px"}} title={`${user.givenName} ${user.familyName}`}>
                                 {
-                                    emailUser ? 
-                                    <Menu.Item key="setting:1">
-                                        <div onClick={signOut}>
-                                            Sign Out
-                                        </div>
-                                    </Menu.Item> :
-                                    <Menu.Item key="setting:1">
+                                    user ? 
+                                    <>
+                                        <Menu.Item key="setting:1">
+                                            <Link to={`/profile`} >
+                                                โปรไฟล์
+                                            </Link>
+                                        </Menu.Item> 
+                                        <Menu.Item key="setting:2">
+                                            <div onClick={signOut}>
+                                                Sign Out
+                                            </div>
+                                        </Menu.Item>
+                                    </>
+                                    : <Menu.Item key="setting:1">
                                         <div onClick={signIn}>
                                             Sign In
                                         </div>
