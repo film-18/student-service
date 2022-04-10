@@ -51,7 +51,7 @@ const Navbar = memo(() => {
         onLogoutSuccess: responseSignOut
     })
 
-    if (!user){
+    if (!user) {
         return <></>
     }
 
@@ -60,12 +60,23 @@ const Navbar = memo(() => {
 
     return <>
 
+        {/* <Layout style={{ padding: "5px"}}>
+            <div style={{ paddingLeft: "10px"}}>
+                <Image
+                    width={200}
+                    height={50}
+                    src="error"
+                    fallback="https://www.it.kmitl.ac.th/wp-content/themes/itkmitl2017wp/img/nav-eng.svg"
+                />
+            </div>
+        </Layout> */}
         <Layout>
-            <Header style={{display: "flex", justifyContent: "space-between"}}>
-
-                <div style={{ color: 'white', fontSize: '30px' }}>Student Service</div>
-                <div style={{minWidth: "550px"}}>
-                    <Menu theme="dark" mode="horizontal" style={{justifyContent: "flex-end"}}>
+            <Header style={{ display: "flex", justifyContent: "space-between" }}>
+                <Link to="/" >
+                    <div style={{ color: 'white', fontSize: '30px' }}>Student Service</div>
+                </Link>
+                <div style={{ minWidth: "550px" }}>
+                    <Menu theme="dark" mode="horizontal" style={{ justifyContent: "flex-end" }}>
 
                         <Menu.Item>
                             <Link to="/" >
@@ -78,30 +89,30 @@ const Navbar = memo(() => {
                         </Menu.Item>
 
                         <Menu.SubMenu key="SubMenu" title={user ? user.email : "Guest"}>
-                            <Menu.ItemGroup style={{textAlign: "center", paddingBottom: "10px"}} title={`${user.givenName} ${user.familyName}`}>
+                            <Menu.ItemGroup style={{ textAlign: "center", paddingBottom: "10px" }} title={`${user.givenName} ${user.familyName}`}>
                                 {
-                                    user ? 
-                                    <>
-                                        <Menu.Item key="setting:1">
-                                            <Link to={`/profile`} >
-                                                โปรไฟล์
-                                            </Link>
-                                        </Menu.Item> 
-                                        <Menu.Item key="setting:2">
-                                            <div onClick={signOut}>
-                                                Sign Out
+                                    user ?
+                                        <>
+                                            <Menu.Item key="setting:1">
+                                                <Link to={`/profile`} >
+                                                    โปรไฟล์
+                                                </Link>
+                                            </Menu.Item>
+                                            <Menu.Item key="setting:2">
+                                                <div onClick={signOut}>
+                                                    Sign Out
+                                                </div>
+                                            </Menu.Item>
+                                        </>
+                                        : <Menu.Item key="setting:1">
+                                            <div onClick={signIn}>
+                                                Sign In
                                             </div>
                                         </Menu.Item>
-                                    </>
-                                    : <Menu.Item key="setting:1">
-                                        <div onClick={signIn}>
-                                            Sign In
-                                        </div>
-                                    </Menu.Item>
                                 }
                             </Menu.ItemGroup>
                         </Menu.SubMenu>
-                        
+
                         <Menu.Item>
                             <Link to="/notification" >
                                 <Badge size="large" count={10} style={{ margin: '5px' }}>

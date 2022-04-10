@@ -3,6 +3,7 @@
     /* font-family: 'Balsamiq Sans', cursive; */
     font-family: 'IBM Plex Sans Thai', sans-serif;
     font-size: large;
+    /* background-color: '#d6e4ff'; */
   }
 
 
@@ -12,4 +13,8 @@
 
   .thaiFont {
     font-family: 'IBM Plex Sans Thai', sans-serif;
+  }
+
+  body {
+    background-color: rgb(235, 245, 255) !important;
   }
