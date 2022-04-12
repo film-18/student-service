@@ -4,6 +4,7 @@ import { AlertFilled } from '@ant-design/icons';
 import data from "../data/news.json"
 import { NewsItem } from "../components/NewsItem";
 import { CalendarItem } from "../components/CalendarItem";
+import axios from 'axios'
 
 
 function onChange(a, b, c) {
@@ -20,6 +21,16 @@ const contentStyle = {
 
 
 export const Home = memo(() => {
+
+    const [news, setNews] = useState(null);
+
+    useEffect(() => {
+        axios.get('http://localhost:8000/news')
+            .then((res) => {
+                console.log(res.data);
+                setNews(res.data)
+            })
+    }, [])
 
     return <>
         <Carousel afterChange={onChange}>
@@ -66,6 +77,14 @@ export const Home = memo(() => {
                 </p>
                 <CalendarItem lists={{}} />
             </div>
+            {news?.map(_news => <>
+                <h2>
+                    {_news.title}
+                </h2>
+                <p>
+                    {_news.content}
+                </p>
+            </>)}
         </div>
 
     </>

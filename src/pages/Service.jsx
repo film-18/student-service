@@ -50,24 +50,37 @@ export const Service = memo(() => {
 
     return <>
         <div>
+            <div id="modal_mount">
+            </div>
             {
                 items.map((item) => {
                     return <Row>
                         <Col span={6} style={{ padding: '10px' }}>
                             <Row style={{ paddingTop: '10px', paddingLeft: '40px' }}>
-                                <div className="site-card-border-less-wrapper" onClick={showModal}>
+                                <div className="site-card-border-less-wrapper" onClick={() => {
+                                    Modal.info({
+                                        title: item.Name,
+                                        bordered: true,
+                                        hoverable: true,
+                                        getContainer: '#modal_mount',
+                                        // style: { width: 300 },
+                                        content: <>
+                                            <p>ประเภท : {item.Category} </p>
+                                            <p>ขั้นตอน</p>
+                                            <a href="/service/requestOne" >
+                                                <PlusCircleFilled /> คลิกที่นี่! สร้าง {item.Name}
+                                            </a>
+                                        </>
+                                    })
+                                }}>
                                     <Card title={item.Name} bordered={true} hoverable={true} style={{ width: 300 }}>
                                         <Meta title="ประเภท" description={item.Category} />
                                     </Card>
                                 </div>
                             </Row>
-                            <Modal title={item.Name} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                                <p>ประเภท : {item.Category} </p>
-                                <p>ขั้นตอน</p>
-                                <Link to="/service/requestOne" >
-                                    <PlusCircleFilled /> คลิกที่นี่! สร้าง {item.Name}
-                                </Link>
-                            </Modal>
+                            {/* <Modal title={item.Name} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                                
+                            </Modal> */}
                         </Col>
                     </Row>
 

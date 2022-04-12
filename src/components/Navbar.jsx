@@ -51,9 +51,9 @@ const Navbar = memo(() => {
         onLogoutSuccess: responseSignOut
     })
 
-    if (!user) {
-        return <></>
-    }
+    // if (!user) {
+    //     return <></>
+    // }
 
 
     const { Header, Content, Footer } = Layout;
@@ -89,7 +89,7 @@ const Navbar = memo(() => {
                         </Menu.Item>
 
                         <Menu.SubMenu key="SubMenu" title={user ? user.email : "Guest"}>
-                            <Menu.ItemGroup style={{ textAlign: "center", paddingBottom: "10px" }} title={`${user.givenName} ${user.familyName}`}>
+                            <Menu.ItemGroup style={{ textAlign: "center", paddingBottom: "10px" }} title={user ? `${user?.givenName} ${user?.familyName}` : 'Guest'}>
                                 {
                                     user ?
                                         <>
@@ -126,7 +126,7 @@ const Navbar = memo(() => {
         </Layout>
 
         <div className="h-12"></div>
-
+        
         <Outlet />
     </>
 })
