@@ -1,0 +1,44 @@
+[
+    {
+        "reg_id": 1,
+        "type": "General_Request",
+        "title": "ย้ายกลุ่มเรียนในรายวิชา Full Stack",
+        "status": "รอดำเนินการ"
+    },
+    {
+        "reg_id": 2,
+        "type": "Sick_Leave_Request",
+        "title": "ป่วยกะทันหัน",
+        "status": "เสร็จสิ้น"
+    },
+    {
+        "reg_id": 3,
+        "type": "General_Request",
+        "title": "ขอเพิ่มกลุ่มเรียนในรายวิชา ITPM",
+        "status": "ปฏิเสธ"
+    },
+    {
+        "reg_id": 4,
+        "type": "Personal_Leave_Request",
+        "title": "ทำกิจกรรม Open House",
+        "status": "เสร็จสิ้น"
+    },
+    {
+        "reg_id": 5,
+        "type": "General_Request",
+        "title": "ถอนรายวิชาในรายวิชา Seminar",
+        "status": "เสร็จสิ้น"
+    },
+    {
+        "reg_id": 6,
+        "type": "Scholarship",
+        "title": "กยศ. ปีการศึกษา 2565",
+        "status": "รอดำเนินการ"
+    },
+    {
+        "reg_id": 7,
+        "type": "Sick_Leave_Request",
+        "title": "ป่วยเป็นไข้ใจ",
+        "status": "ปฏิเสธ"
+    }
+]

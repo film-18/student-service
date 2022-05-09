@@ -1,0 +1,55 @@
+[
+    {
+        "name": "ใบคำร้องทั่วไป",
+        "nameEN": "General_Request",
+        "category": [
+            "ลงทะเบียน",
+            "ย้ายเซค"
+        ],
+        "description": "",
+        "input": [
+            "ชื่อ",
+            "ชั้นปี"
+        ],
+        "img": "https://cdn.wallpapersafari.com/22/53/IOfeHw.jpg"
+    },
+    {
+        "name": "ใบลาป่วย",
+        "nameEN": "Sick_Leave_Request",
+        "category": [
+            "ลาป่วย"
+        ],
+        "description": "",
+        "input": [
+            "ชื่อ",
+            "ชั้นปี"
+        ],
+        "img": "https://media.istockphoto.com/photos/empty-bed-in-a-modern-hospital-picture-id1163664388?k=20&m=1163664388&s=612x612&w=0&h=essUZ6msB4NFjR4TfW0ST2GAH97Y4js9mg3zs-pBL1E="
+    },
+    {
+        "name": "ใบลากิจ",
+        "nameEN": "Personal_Leave_Request",
+        "category": [
+            "ติดธุระ"
+        ],
+        "description": "",
+        "input": [
+            "ชื่อ",
+            "ชั้นปี"
+        ],
+        "img": "https://wallpaperaccess.com/full/656665.jpg"
+    },
+    {
+        "name": "ใบยื่นทุนการศึกษา",
+        "nameEN": "Scholarship",
+        "category": [
+            "ทุนการศึกษา"
+        ],
+        "description": "",
+        "input": [
+            "ชื่อ",
+            "ชั้นปี"
+        ],
+        "img": "https://media.istockphoto.com/photos/graduation-cap-and-diploma-on-table-with-books-picture-id1154631974?k=20&m=1154631974&s=612x612&w=0&h=RVXFHdj4CtLUAg6jVay-nKS6PiwwlmdqbvGN_k33lNQ="
+    }
+]

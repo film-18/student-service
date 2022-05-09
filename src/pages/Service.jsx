@@ -4,8 +4,12 @@ import { PlusCircleFilled } from '@ant-design/icons';
 import { Link } from "react-router-dom";
 import { Spin, Space } from 'antd';
 
+import requestTopics from "../data/requestInfo.json"
+import requests from "../data/requestItems.json"
 import RequestInfo from "../Data/ResquestInfo";
-
+import { RequestTopic } from "../components/Services/RequestTopic";
+import { RequestList } from "../components/Services/RequestList";
+const { TabPane } = Tabs;
 // const data = [
 //     'Racing car sprays burning fuel into crowd.',
 //     'Japanese princess to wed commoner.',
@@ -14,13 +18,7 @@ import RequestInfo from "../Data/ResquestInfo";
 //     'Los Angeles battles huge wildfires.',
 // ];
 
-const { TabPane } = Tabs;
 const { Meta } = Card;
-
-function callback(key) {
-    console.log(key);
-}
-
 
 export const Service = memo(() => {
 
@@ -47,12 +45,34 @@ export const Service = memo(() => {
                 <Spin size="large" />
             </div>
         </>
+        
 
     return <>
-        <div>
-            <div id="modal_mount">
+        <div className="container request">
+            <div className="request-navbar">
+                <div className="request-navbar-topic">สร้างเอกสาร</div>
+                {
+                    requestTopics.map((request) => (
+                        <RequestTopic request={request} />
+                    ))
+                }
             </div>
-            {
+            <div className="request-body">
+            <Tabs defaultActiveKey="1">
+                {
+                    requestTopics.map((topic, index) => (
+                        <TabPane tab={topic.name} key={index} className="request-list">
+                        {
+                            requests.filter(req => req.type == topic.nameEN).map((req) => (
+                                <RequestList request={req} />
+                            ))
+                        }
+                        </TabPane>
+                    ))
+                }
+            </Tabs>
+            </div>
+            { /*
                 items.map((item) => {
                     return <Row>
                         <Col span={6} style={{ padding: '10px' }}>
@@ -78,14 +98,14 @@ export const Service = memo(() => {
                                     </Card>
                                 </div>
                             </Row>
-                            {/* <Modal title={item.Name} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                            {// <Modal title={item.Name} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
                                 
-                            </Modal> */}
+                            </Modal> //}
                         </Col>
                     </Row>
 
                 })
-            }
+            */}
                 {/* <Col span={18} style={{ padding: '50px' }}>
                     <Tabs defaultActiveKey="1" onChange={callback} centered={true}>
                         <TabPane tab="ทั้งหมด" key="1">
