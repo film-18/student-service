@@ -80,16 +80,16 @@ const Navbar = memo(() => {
 
                         <Menu.Item>
                             <Link to="/" >
-                                Home
+                                หน้าหลัก
                             </Link>
                         </Menu.Item>
 
                         <Menu.Item>
-                            <Link to="/service" >Service</Link>
+                            <Link to="/service" >งานเอกสาร</Link>
                         </Menu.Item>
 
-                        <Menu.SubMenu key="SubMenu" title={user ? user.email : "Guest"}>
-                            <Menu.ItemGroup style={{ textAlign: "center", paddingBottom: "10px" }} title={user ? `${user?.givenName} ${user?.familyName}` : 'Guest'}>
+                        <Menu.SubMenu key="SubMenu" title={user ? user.email : "บัญชี"}>
+                            <Menu.ItemGroup style={{ textAlign: "center", paddingBottom: "10px" }} title={user ? `${user?.givenName} ${user?.familyName}` : 'บัญชี'}>
                                 {
                                     user ?
                                         <>
@@ -100,13 +100,13 @@ const Navbar = memo(() => {
                                             </Menu.Item>
                                             <Menu.Item key="setting:2">
                                                 <div onClick={signOut}>
-                                                    Sign Out
+                                                    ออกจากระบบ
                                                 </div>
                                             </Menu.Item>
                                         </>
                                         : <Menu.Item key="setting:1">
                                             <div onClick={signIn}>
-                                                Sign In
+                                                เข้าสู่ระบบ
                                             </div>
                                         </Menu.Item>
                                 }
