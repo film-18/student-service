@@ -24,6 +24,7 @@ export default defineConfig({
           //   dark: true
           // }),
           '@primary-color': '#5F98A9',
+          '@font-size-base': '15px',
         },
         // modifyVars: getThemeVariables({
         //   '@primary-color': '#01B636'

@@ -38,18 +38,18 @@
 
 .news-topic{
     font-weight: bold;
-    font-size: 20px;
+    /* font-size: 20px; */
     margin-bottom: 5px;
 }
 
 .news-date{
-    font-size: 14px;
+    /* font-size: 14px; */
     margin-bottom: 5px;
     color: gray;
 }
 
 .news-short{
-    font-size: 16px;
+    /* font-size: 16px; */
     white-space: pre-line;  
     vertical-align: bottom;
 }
