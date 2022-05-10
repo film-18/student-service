@@ -4,10 +4,13 @@ import './index.css'
 import App from './App'
 
 import 'antd/dist/antd.less';
+import { GoogleProvider } from './contexts/GoogleContext';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <GoogleProvider>
+      <App />
+    </GoogleProvider>
   </React.StrictMode>,
   document.getElementById('root')
 )

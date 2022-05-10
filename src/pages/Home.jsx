@@ -49,9 +49,6 @@ export const Home = memo(() => {
             <Typography.Title level={3}>
             ข่าวสารและประชาสัมพันธ์
             </Typography.Title>
-            {/* <p className="thaiFont">
-                ข่าวสารและประชาสัมพันธ์
-            </p> */}
             <div className="news">
                 <div className="news-main">
                     <div className="news-img"><img src={data[0].images[0]} width="100%" /></div>
@@ -78,9 +75,6 @@ export const Home = memo(() => {
                 <Typography.Title level={3}>
                     ปฏิทินการศึกษา
                 </Typography.Title>
-                {/* <p className="thaiFont" style={{ fontSize: '40px' }}>
-                    ปฏิทินการศึกษา
-                </p> */}
                 <CalendarItem lists={{}} />
             </div>
             {news?.map(_news => <>

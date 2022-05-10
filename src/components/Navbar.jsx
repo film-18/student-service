@@ -7,49 +7,48 @@ import { Avatar, Badge, Image, Button, Dropdown, Space, Row } from 'antd';
 import { memo, useEffect, useState } from "react";
 import { useGoogleLogin } from 'react-google-login';
 import { useGoogleLogout } from 'react-google-login'
+import { useGoogle } from '../contexts/GoogleContext';
 
 
 
-const clientId = `${import.meta.env.VITE_GOOGLE_CLIENT_ID}`;
-
-
-
-
+// const clientId = `${import.meta.env.VITE_GOOGLE_CLIENT_ID}`;
 
 
 const Navbar = memo(() => {
+    
+    const {user, signIn, signOut} = useGoogle()
+    
+    // const [user, setUser] = useState(null);
 
-    const [user, setUser] = useState(null);
+    // const responseGoogle = (response) => {
+    //     // document.getElementById("emailLogin").innerText = response.profileObj.email;
+    //     setUser(response.profileObj)
+    //     console.log(response);
 
-    const responseGoogle = (response) => {
-        // document.getElementById("emailLogin").innerText = response.profileObj.email;
-        setUser(response.profileObj)
-        console.log(response);
+    // }
 
-    }
+    // const onFailure = (res) => {
+    //     console.log(res);
+    // }
 
-    const onFailure = (res) => {
-        console.log(res);
-    }
-
-    const responseSignOut = () => {
-        setUser(null)
-    }
+    // const responseSignOut = () => {
+    //     setUser(null)
+    // }
 
 
-    const { signIn } = useGoogleLogin({
-        clientId,
-        onSuccess: responseGoogle,
-        onFailure,
-        isSignedIn: true,
-        cookiePolicy: 'single_host_origin',
-    })
+    // const { signIn } = useGoogleLogin({
+    //     clientId,
+    //     onSuccess: responseGoogle,
+    //     onFailure,
+    //     isSignedIn: true,
+    //     cookiePolicy: 'single_host_origin',
+    // })
 
-    const { signOut } = useGoogleLogout({
-        clientId,
-        onFailure,
-        onLogoutSuccess: responseSignOut
-    })
+    // const { signOut } = useGoogleLogout({
+    //     clientId,
+    //     onFailure,
+    //     onLogoutSuccess: responseSignOut
+    // })
 
     // if (!user) {
     //     return <></>

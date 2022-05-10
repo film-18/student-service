@@ -111,3 +111,29 @@
 .request-list-status.warning{
     background-color: yellow;
 }
+
+.request-header-text{
+    padding: 5px 0;
+    font-size: 24px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid black;
+}
+
+.request-input {
+    flex: 1 calc(50% - 20px);
+}
+
+.request-input>.request-input-text{
+    margin: 5px 0;
+}
+
+.request-input>*{
+    border-radius: 5px;
+}
+
+.request-col-2{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 20px;
+}

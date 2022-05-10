@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useCallback, useState } from "react";
 import { Row, Col, Card, List, Typography, Divider, Tabs, Modal } from 'antd';
 import { PlusCircleFilled } from '@ant-design/icons';
 import { Link } from "react-router-dom";
@@ -25,15 +25,24 @@ export const Service = memo(() => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [items, setItems] = useState([...RequestInfo])
     const [isError, setIsError] = useState(false)
+    
+    const [requestPopup, setRequestPopup] = useState(null)
 
-    const showModal = () => {
-        setIsModalVisible(true);
+    const showModal = useCallback(
+        (req) => () => {
+            setRequestPopup(req)
+            setIsModalVisible(true);
+        },
+        []
+    )
 
-    };
-
-    const handleOk = () => {
-        setIsModalVisible(false);
-    };
+    const handleCreate = useCallback(
+        (page) => () => {
+            window.location.href = `service/${page}/create`
+            setIsModalVisible(false);
+        },
+        []
+    )
 
     const handleCancel = () => {
         setIsModalVisible(false);
@@ -53,25 +62,50 @@ export const Service = memo(() => {
                 <div className="request-navbar-topic">สร้างเอกสาร</div>
                 {
                     requestTopics.map((request) => (
-                        <RequestTopic request={request} />
+                        <>
+                            <RequestTopic request={request} toggleModal={showModal} />
+                        </>
                     ))
                 }
             </div>
             <div className="request-body">
-            <Tabs defaultActiveKey="1">
-                {
-                    requestTopics.map((topic, index) => (
-                        <TabPane tab={topic.name} key={index} className="request-list">
+                <Tabs defaultActiveKey="0">
+                    <TabPane tab="ทั้งหมด" key="0" className="request-list">
                         {
-                            requests.filter(req => req.type == topic.nameEN).map((req) => (
+                            requests.map((req) => (
                                 <RequestList request={req} />
                             ))
                         }
-                        </TabPane>
-                    ))
-                }
-            </Tabs>
+                    </TabPane>
+                    {
+                        requestTopics.map((topic, index) => (
+                            <TabPane tab={topic.name} key={index+1} className="request-list">
+                            {
+                                requests.filter(req => req.type == topic.nameEN).map((req) => (
+                                    <RequestList request={req} />
+                                ))
+                            }
+                            </TabPane>
+                        ))
+                    }
+                </Tabs>
             </div>
+            {
+                requestPopup ? 
+                <Modal 
+                title={requestPopup.name} 
+                visible={isModalVisible} 
+                onOk={handleCreate(requestPopup.page)} 
+                onCancel={handleCancel}
+                okText="Create"
+                >
+                    <div className="text-center mb-3 fs-3">{requestPopup.name}</div>
+                    <div>ประเภท : {requestPopup.category.join(" ")}</div>
+                    <div>รายละเอียด : </div>
+                    <div>&emsp;&emsp;{requestPopup.description}</div>
+                </Modal> : ""
+            }
+            
             { /*
                 items.map((item) => {
                     return <Row>

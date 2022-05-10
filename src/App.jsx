@@ -11,6 +11,9 @@ import { Service } from "./pages/Service";
 import { Notification } from "./pages/Notification";
 import { Profile } from "./pages/Profile";
 import { RequestOne } from "./pages/RequestOne";
+import { GeneralRequest } from './pages/GeneralRequest';
+import { LeaveRequest } from './pages/LeaveRequest';
+import { Scholarship } from './pages/Scholarship';
 
 import Thai from "antd/lib/locale/th_TH";
 
@@ -29,6 +32,9 @@ function App() {
             <Route path="notification/" element={<Notification />} />
             <Route path="profile/" element={<Profile />} />
             <Route path="service/:requestOne" element={<RequestOne />} />
+            <Route path="service/general-request/create" element={<GeneralRequest />} />
+            <Route path="service/leave-request/:type/create" element={<LeaveRequest />} />
+            <Route path="service/scholarship/create" element={<Scholarship />} />
           </Route>
         </Routes>
       </BrowserRouter>

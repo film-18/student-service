@@ -6,12 +6,13 @@
             "ลงทะเบียน",
             "ย้ายเซค"
         ],
-        "description": "",
+        "description": "ยื่นเรื่องทั่วไป เช่น การเปลี่ยนเซค การถอน การขอเพิ่ม เป็นต้น",
         "input": [
             "ชื่อ",
             "ชั้นปี"
         ],
-        "img": "https://cdn.wallpapersafari.com/22/53/IOfeHw.jpg"
+        "img": "https://cdn.wallpapersafari.com/22/53/IOfeHw.jpg",
+        "page": "general-request"
     },
     {
         "name": "ใบลาป่วย",
@@ -19,12 +20,13 @@
         "category": [
             "ลาป่วย"
         ],
-        "description": "",
+        "description": "เมื่อป่วยแล้วต้องการลาก็ต้องสมัครใบนี้",
         "input": [
             "ชื่อ",
             "ชั้นปี"
         ],
-        "img": "https://media.istockphoto.com/photos/empty-bed-in-a-modern-hospital-picture-id1163664388?k=20&m=1163664388&s=612x612&w=0&h=essUZ6msB4NFjR4TfW0ST2GAH97Y4js9mg3zs-pBL1E="
+        "img": "https://media.istockphoto.com/photos/empty-bed-in-a-modern-hospital-picture-id1163664388?k=20&m=1163664388&s=612x612&w=0&h=essUZ6msB4NFjR4TfW0ST2GAH97Y4js9mg3zs-pBL1E=",
+        "page": "leave-request/sick"
     },
     {
         "name": "ใบลากิจ",
@@ -32,12 +34,13 @@
         "category": [
             "ติดธุระ"
         ],
-        "description": "",
+        "description": "ติดธุระต่าง ๆ ไม่สามารถเข้าเรียนได้",
         "input": [
             "ชื่อ",
             "ชั้นปี"
         ],
-        "img": "https://wallpaperaccess.com/full/656665.jpg"
+        "img": "https://wallpaperaccess.com/full/656665.jpg",
+        "page": "leave-request/personal"
     },
     {
         "name": "ใบยื่นทุนการศึกษา",
@@ -45,11 +48,12 @@
         "category": [
             "ทุนการศึกษา"
         ],
-        "description": "",
+        "description": "นักศึกษาต้องการทุนการศึกษา",
         "input": [
             "ชื่อ",
             "ชั้นปี"
         ],
-        "img": "https://media.istockphoto.com/photos/graduation-cap-and-diploma-on-table-with-books-picture-id1154631974?k=20&m=1154631974&s=612x612&w=0&h=RVXFHdj4CtLUAg6jVay-nKS6PiwwlmdqbvGN_k33lNQ="
+        "img": "https://media.istockphoto.com/photos/graduation-cap-and-diploma-on-table-with-books-picture-id1154631974?k=20&m=1154631974&s=612x612&w=0&h=RVXFHdj4CtLUAg6jVay-nKS6PiwwlmdqbvGN_k33lNQ=",
+        "page": "scholarship"
     }
 ]
