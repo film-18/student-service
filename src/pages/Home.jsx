@@ -1,5 +1,5 @@
 import { memo, useEffect, useState } from "react";
-import { Image, Carousel, Row, Col, Button } from 'antd';
+import { Image, Carousel, Row, Col, Button, Typography } from 'antd';
 import { AlertFilled } from '@ant-design/icons';
 import data from "../data/news.json"
 import { NewsItem } from "../components/NewsItem";
@@ -46,9 +46,12 @@ export const Home = memo(() => {
 
         </Carousel>
         <div style={{ padding: '30px' }} div className="container">
-            <p className="thaiFont" style={{ fontSize: '40px' }}>
+            <Typography.Title level={3}>
+            ข่าวสารและประชาสัมพันธ์
+            </Typography.Title>
+            {/* <p className="thaiFont">
                 ข่าวสารและประชาสัมพันธ์
-            </p>
+            </p> */}
             <div className="news">
                 <div className="news-main">
                     <div className="news-img"><img src={data[0].images[0]} width="100%" /></div>
@@ -72,9 +75,12 @@ export const Home = memo(() => {
             </Button>
             
             <div style={{ padding: '30px', paddingTop: '100px' }}>
-                <p className="thaiFont" style={{ fontSize: '40px' }}>
+                <Typography.Title level={3}>
                     ปฏิทินการศึกษา
-                </p>
+                </Typography.Title>
+                {/* <p className="thaiFont" style={{ fontSize: '40px' }}>
+                    ปฏิทินการศึกษา
+                </p> */}
                 <CalendarItem lists={{}} />
             </div>
             {news?.map(_news => <>
