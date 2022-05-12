@@ -17,8 +17,8 @@ export const GeneralRequest = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const sendPopup = () => {
-        const inputReqs = document.querySelectorAll(".input-request")
-        const inputDataReqs = document.querySelectorAll(".input-request-date input")
+        const inputReqs = document.querySelectorAll(".student-request .input-request")
+        const inputDataReqs = document.querySelectorAll(".student-request .input-request-date input")
         setContent([])
 
         inputReqs.forEach((el) => {
@@ -72,7 +72,7 @@ export const GeneralRequest = () => {
         <div className="container mt-5 pb-5">
             <h2 className="text-center">สร้างใบคำร้องทั่วไป</h2>
             <RequestHeader text="สำหรับนักศึกษา" />
-            <div className="request-col-2">
+            <div className="request-col-2 student-request">
                 <RequestInput text="หัวข้อเรื่อง" />
                 <RequestInput text="ถึงอาจารย์" />
                 <RequestInput text="รหัสนักศึกษา" value={student ? student.std_id : ""} disabled={student ? true : false} />
@@ -90,7 +90,37 @@ export const GeneralRequest = () => {
                 <RequestInput text="ลงชื่อ" />
             </div>
             <div className='text-end mt-3 mb-3'>
-                <Button type="primary" onClick={sendPopup}>ส่งเรื่อง</Button>
+                <button className="btn btn-primary" onClick={sendPopup}>ส่งเรื่อง</button>
+            </div>
+
+            <div className='row'>
+                <div className="col teacher-request">
+                    <RequestHeader text="สำหรับอาจารย์" />
+                    <RequestInput text="ความคิดเห็น" />
+                    <RequestInput text="วันที่" type="date" />
+                    <div className='mt-3 text-end'>
+                        <button className="btn btn-success btn-approve">อนุญาต</button>
+                        <button className="btn btn-danger ms-2 btn-reject">ปฏิเสธ</button>
+                    </div>
+                </div>
+                <div className="col staff-request">
+                    <RequestHeader text="สำหรับเจ้าหน้าที่" />
+                    <RequestInput text="ความคิดเห็น" />
+                    <RequestInput text="วันที่" type="date" />
+                    <div className='mt-3 text-end'>
+                        <button className="btn btn-success btn-approve">อนุญาต</button>
+                        <button className="btn btn-danger ms-2 btn-reject">ปฏิเสธ</button>
+                    </div>
+                </div>
+                <div className="col dean-request">
+                    <RequestHeader text="สำหรับคณบดี" />
+                    <RequestInput text="ความคิดเห็น" />
+                    <RequestInput text="วันที่" type="date" />
+                    <div className='mt-3 text-end'>
+                        <button className="btn btn-success btn-approve">อนุญาต</button>
+                        <button className="btn btn-danger ms-2 btn-reject">ปฏิเสธ</button>
+                    </div>
+                </div>
             </div>
 
             <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} okText="ส่งใบ">
