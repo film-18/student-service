@@ -5,6 +5,7 @@ import { RequestInput } from "../components/Services/RequestInput"
 import { useGoogle } from "../contexts/GoogleContext"
 
 import data from '../data/students.json'
+import reqInfo from '../data/requestInfo.json'
 
 export const GeneralRequest = () => {
 
@@ -12,33 +13,32 @@ export const GeneralRequest = () => {
     const [student, setStudent] = useState({})
     const [students, setStudents] = useState([])
     const [content, setContent] = useState([])
-    const [contentDate, setContentDate] = useState([])
 
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const sendPopup = () => {
-        const inputReqs = document.querySelectorAll(".student-request .input-request")
-        const inputDataReqs = document.querySelectorAll(".student-request .input-request-date input")
-        setContent([])
+        const inputReqs = document.querySelectorAll(".student-request :where(input.input-request, textarea.input-request,.input-request input)")
 
+        let countEmtry = 0
+        setContent([])
         inputReqs.forEach((el) => {
             if (el.value){
                 setContent((prev) => {
                     return [...prev, el.value]
                 })
             }
-        })
-
-        inputDataReqs.forEach((el) => {
-            console.log(el);
-            if (el.value){
-                setContentDate((prev) => {
-                    return [...prev, el.value]
-                })
+            else{
+                countEmtry++
             }
         })
 
-        showModal()
+        if (!countEmtry){
+            showModal()
+        }
+        else{
+            alert("ไม่ครบ")
+        }
+
     }
 
     const showModal = () => {
@@ -60,7 +60,7 @@ export const GeneralRequest = () => {
             if (user){
                 const stdId = user.email.split("@")[0]
                 if (students){
-                    const std = students.filter(std => std.std_id == stdId)[0]
+                    const std = students.find(std => std.std_id == stdId)
                     setStudent(std);
                 }
             }
@@ -76,12 +76,12 @@ export const GeneralRequest = () => {
                 <RequestInput text="หัวข้อเรื่อง" />
                 <RequestInput text="ถึงอาจารย์" />
                 <RequestInput text="รหัสนักศึกษา" value={student ? student.std_id : ""} disabled={student ? true : false} />
-                <RequestInput text="ชื่อ - นามสกุล" value={student ? `${student.Fname} ${student.Lname}` : ""} disabled={student ? true : false} />
+                <RequestInput text="ชื่อ - นามสกุล" value={student ? `${student.Fname ?? ""} ${student.Lname ?? ""}` : ""} disabled={student ? true : false} />
                 <RequestInput text="ระดับ" value={student ? student.degree : ""} disabled={student ? true : false} />
-                <RequestInput text="ปีที่" value={student ? student.year : ""} disabled={student ? true : false} />
+                <RequestInput text="ปี" value={student ? student.year : ""} disabled={student ? true : false} />
                 <RequestInput text="สาขาวิชา" value={student ? student.program : ""} disabled={student ? true : false} />
                 <RequestInput text="แขนงวิชา" value={student ? student.major : ""} disabled={student ? true : false} />
-                <RequestInput text="ภาคเรียนที่" />
+                <RequestInput text="ภาคเรียน" />
                 <RequestInput text="ปีการศึกษา" />
                 <div className='w-100'>
                     <RequestInput text="รายละเอียด" type="text-area" />
@@ -123,10 +123,15 @@ export const GeneralRequest = () => {
                 </div>
             </div>
 
-            <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} okText="ส่งใบ">
-                {content.join(" ")}
-                <br />
-                {contentDate.join(" ")}
+            <Modal title="ยืนยันใบคำร้องทั่วไป" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} okText="ส่งใบ">
+            {
+                content.map((c, i) => (
+                    <div key={"ct-"+i}>
+                        {reqInfo[0].input[i].nameTH} : {c}
+                    </div>
+                ))
+            }
+            <div className="mt-3 text-secondary">กรุณาตรวจสอบใบคำร้องอีกครั้ง ถ้าข้อมูล<ins>ครบ</ins>และ<ins>ถูกต้อง</ins> กรุณากดปุ่ม ส่งใบ</div>
             </Modal>
         </div>
         

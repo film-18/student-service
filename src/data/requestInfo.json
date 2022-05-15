@@ -8,8 +8,58 @@
         ],
         "description": "ยื่นเรื่องทั่วไป เช่น การเปลี่ยนเซค การถอน การขอเพิ่ม เป็นต้น",
         "input": [
-            "ชื่อ",
-            "ชั้นปี"
+            { 
+                "name": "title", 
+                "nameTH": "หัวข้อเรื่อง" 
+            },
+            { 
+                "name": "to", 
+                "nameTH": "ถึงอาจารย์" 
+            },
+            { 
+                "name": "studentId", 
+                "nameTH": "รหัสนักศึกษา" 
+            },
+            { 
+                "name": "fullName", 
+                "nameTH": "ชื่อ - นามสกุล" 
+            },
+            { 
+                "name": "degree", 
+                "nameTH": "ระดับ" 
+            },
+            { 
+                "name": "year", 
+                "nameTH": "ปี" 
+            },
+            { 
+                "name": "program", 
+                "nameTH": "สาขาวิชา" 
+            },
+            { 
+                "name": "major", 
+                "nameTH": "แขนงวิชา" 
+            },
+            { 
+                "name": "semester", 
+                "nameTH": "ภาคเรียน" 
+            },
+            { 
+                "name": "schoolYear", 
+                "nameTH": "ปีการศึกษา" 
+            },
+            { 
+                "name": "description", 
+                "nameTH": "รายละเอียด" 
+            },
+            { 
+                "name": "date", 
+                "nameTH": "วันที่" 
+            },
+            { 
+                "name": "signature", 
+                "nameTH": "ลงชื่อ" 
+            }
         ],
         "img": "https://cdn.wallpapersafari.com/22/53/IOfeHw.jpg",
         "page": "general-request"
@@ -22,8 +72,78 @@
         ],
         "description": "เมื่อป่วยแล้วต้องการลาก็ต้องสมัครใบนี้",
         "input": [
-            "ชื่อ",
-            "ชั้นปี"
+            { 
+                "name": "title", 
+                "nameTH": "หัวข้อเรื่อง" 
+            },
+            { 
+                "name": "type", 
+                "nameTH": "ประเภทการลา" 
+            },
+            { 
+                "name": "studentId", 
+                "nameTH": "รหัสนักศึกษา" 
+            },
+            { 
+                "name": "fullName", 
+                "nameTH": "ชื่อ - นามสกุล" 
+            },
+            { 
+                "name": "degree", 
+                "nameTH": "ระดับ" 
+            },
+            { 
+                "name": "year", 
+                "nameTH": "ปี" 
+            },
+            { 
+                "name": "program", 
+                "nameTH": "สาขาวิชา" 
+            },
+            { 
+                "name": "major", 
+                "nameTH": "แขนงวิชา" 
+            },
+            { 
+                "name": "semester", 
+                "nameTH": "ภาคเรียน" 
+            },
+            { 
+                "name": "schoolYear", 
+                "nameTH": "ปีการศึกษา" 
+            },
+            { 
+                "name": "description", 
+                "nameTH": "รายละเอียด" 
+            },
+            { 
+                "name": "fromDate", 
+                "nameTH": "ตั้งแต่วันที่" 
+            },
+            { 
+                "name": "toDate", 
+                "nameTH": "ถึงวันที่" 
+            },
+            { 
+                "name": "signature", 
+                "nameTH": "ลงชื่อ" 
+            },
+            { 
+                "name": "parentSignature", 
+                "nameTH": "ลงชื่อผู้ปกครอง" 
+            },
+            { 
+                "name": "subjectCode", 
+                "nameTH": "รหัสวิชา" 
+            },
+            { 
+                "name": "subjectName", 
+                "nameTH": "ชื่อวิชา" 
+            },
+            { 
+                "name": "subjectTeacher", 
+                "nameTH": "อาจารย์" 
+            }
         ],
         "img": "https://media.istockphoto.com/photos/empty-bed-in-a-modern-hospital-picture-id1163664388?k=20&m=1163664388&s=612x612&w=0&h=essUZ6msB4NFjR4TfW0ST2GAH97Y4js9mg3zs-pBL1E=",
         "page": "leave-request/sick"
@@ -36,8 +156,66 @@
         ],
         "description": "ติดธุระต่าง ๆ ไม่สามารถเข้าเรียนได้",
         "input": [
-            "ชื่อ",
-            "ชั้นปี"
+            { 
+                "name": "title", 
+                "nameTH": "หัวข้อเรื่อง" 
+            },
+            { 
+                "name": "type", 
+                "nameTH": "ประเภทการลา" 
+            },
+            { 
+                "name": "studentId", 
+                "nameTH": "รหัสนักศึกษา" 
+            },
+            { 
+                "name": "fullName", 
+                "nameTH": "ชื่อ - นามสกุล" 
+            },
+            { 
+                "name": "degree", 
+                "nameTH": "ระดับ" 
+            },
+            { 
+                "name": "year", 
+                "nameTH": "ปี" 
+            },
+            { 
+                "name": "program", 
+                "nameTH": "สาขาวิชา" 
+            },
+            { 
+                "name": "major", 
+                "nameTH": "แขนงวิชา" 
+            },
+            { 
+                "name": "semester", 
+                "nameTH": "ภาคเรียน" 
+            },
+            { 
+                "name": "schoolYear", 
+                "nameTH": "ปีการศึกษา" 
+            },
+            { 
+                "name": "description", 
+                "nameTH": "รายละเอียด" 
+            },
+            { 
+                "name": "fromDate", 
+                "nameTH": "ตั้งแต่วันที่" 
+            },
+            { 
+                "name": "toDate", 
+                "nameTH": "ถึงวันที่" 
+            },
+            { 
+                "name": "signature", 
+                "nameTH": "ลงชื่อ" 
+            },
+            { 
+                "name": "parentSignature", 
+                "nameTH": "ลงชื่อผู้ปกครอง" 
+            }
         ],
         "img": "https://wallpaperaccess.com/full/656665.jpg",
         "page": "leave-request/personal"

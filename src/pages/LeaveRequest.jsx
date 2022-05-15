@@ -5,6 +5,7 @@ import { RequestHeader } from "../components/Services/RequestHeader"
 import { RequestInput } from "../components/Services/RequestInput"
 import { useGoogle } from "../contexts/GoogleContext"
 import data from '../data/students.json'
+import reqInfo from '../data/requestInfo.json'
 
 import { Upload, message } from 'antd';
 
@@ -34,35 +35,43 @@ export const LeaveRequest = () => {
     const [students, setStudents] = useState([])
     const [subjects, setSubjects] = useState([])
     const [content, setContent] = useState([])
-    const [contentDate, setContentDate] = useState([])
+    const [fileUploadName, setFileUploadName] = useState("")
 
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const sendPopup = () => {
-        const inputReqs = document.querySelectorAll(".student-request .input-request")
-        const inputDataReqs = document.querySelectorAll(".student-request .input-request-date input")
-        setContent([])
+        const inputReqs = document.querySelectorAll(".student-request :where(input.input-request, textarea.input-request,.input-request input)")
+        const fileUpload = document.querySelector(".ant-upload-list-item-name")
 
+        let countEmtry = 0
+        setContent([])
         inputReqs.forEach((el) => {
             if (el.value){
                 setContent((prev) => {
                     return [...prev, el.value]
                 })
             }
-        })
-
-        inputDataReqs.forEach((el) => {
-            console.log(el);
-            if (el.value){
-                setContentDate((prev) => {
-                    return [...prev, el.value]
-                })
+            else{
+                countEmtry++
             }
         })
 
+        if (fileUpload){
+            setFileUploadName(fileUpload.innerHTML)
+        }
+        else{
+            setFileUploadName("")
+        }
 
+        // showModal()
 
-        showModal()
+        if (!countEmtry && fileUpload){
+            showModal()
+        }
+        else{
+            alert("ไม่ครบ")
+        }
+
     }
 
     const showModal = () => {
@@ -86,11 +95,9 @@ export const LeaveRequest = () => {
 
       const deleteSubject = useCallback(
         () => {
-            event.target.parentNode.remove()
-            // let cpy = subjects
-            // cpy.pop()
-            // setSubjects(cpy)
-            // console.log(subjects);
+            setSubjects((prev) => {
+                return [...prev.slice(0, subjects.length-1)]
+            })
         },
         [setSubjects]
       )
@@ -102,7 +109,7 @@ export const LeaveRequest = () => {
             if (user){
                 const stdId = user.email.split("@")[0]
                 if (students){
-                    const std = students.filter(std => std.std_id == stdId)[0]
+                    const std = students.find(std => std.std_id == stdId)
                     setStudent(std);
                 }
             }
@@ -118,7 +125,7 @@ export const LeaveRequest = () => {
                 <RequestInput text="หัวข้อเรื่อง" />
                 <RequestInput text="ประเภทการลา" value={type === "sick" ? "ลาป่วย" : "ลากิจ"} disabled={true} />
                 <RequestInput text="รหัสนักศึกษา" value={student ? student.std_id : ""} disabled={student ? true : false} />
-                <RequestInput text="ชื่อ - นามสกุล" value={student ? `${student.Fname} ${student.Lname}` : ""} disabled={student ? true : false} />
+                <RequestInput text="ชื่อ - นามสกุล" value={student ? `${student.Fname ?? ""} ${student.Lname ?? ""}` : ""} disabled={student ? true : false} />
                 <RequestInput text="ระดับ" value={student ? student.degree : ""} disabled={student ? true : false} />
                 <RequestInput text="ปีที่" value={student ? student.year : ""} disabled={student ? true : false} />
                 <RequestInput text="สาขาวิชา" value={student ? student.program : ""} disabled={student ? true : false} />
@@ -139,7 +146,7 @@ export const LeaveRequest = () => {
                             <RequestInput text="รหัสวิชา" />
                             <RequestInput text="ชื่อวิชา" />
                             <RequestInput text="อาจารย์" />
-                            <div></div>
+                            <button className="btn btn-secondary mt-4" onClick={deleteSubject} disabled>ลบ</button>
                         </div>
                         {
                             subjects.map((s) => (
@@ -156,7 +163,7 @@ export const LeaveRequest = () => {
                 </div>
                 <div className="w-100">
                     <div>เอกสาร : </div>
-                    <Upload {...props}>
+                    <Upload {...props} className="file-upload">
                         <button className="btn btn-success mt-3">+ อัปโหลดไฟล์</button>
                     </Upload>
                 </div>
@@ -167,23 +174,47 @@ export const LeaveRequest = () => {
 
             <div className='teacher-request'>
                 <RequestHeader text="สำหรับอาจารย์" />
-                <div className="row">
-                    <div className="col d-flex justify-content-between">
+                    <div className="d-flex justify-content-between" style={{gap: "10px"}}>
                         <RequestInput text="อาจารย์" />
                         <RequestInput text="ความคิดเห็น" />
                         <RequestInput text="วันที่" type="date" />
                     </div>
-                </div>
+                    {
+                        subjects.map((s) => (
+                            <div className="d-flex justify-content-between" style={{gap: "10px"}}>
+                                <RequestInput />
+                                <RequestInput />
+                                <RequestInput type="date" />
+                            </div>
+                        ))
+                    }
                 <div className='mt-3 text-end'>
                     <button className="btn btn-success btn-approve">อนุญาต</button>
                     <button className="btn btn-danger ms-2 btn-reject">ปฏิเสธ</button>
                 </div>
             </div>
 
-            <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} okText="ส่งใบ">
-                {content.join(" ")}
-                <br />
-                {contentDate.join(" ")}
+            <Modal title="ยืนยันใบลา" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} okText="ส่งใบ">
+            {
+                content.filter((_, i) => i < 15).map((c, i) => (
+                    <div key={"ct-"+i}>
+                        {reqInfo[1].input[i].nameTH} : {c}
+                    </div>
+                ))
+            }
+            <div>วิชา : </div>
+            <div className="row">
+                <div className="col-4">{reqInfo[1].input[15].nameTH}</div>
+                <div className="col-4">{reqInfo[1].input[16].nameTH}</div>
+                <div className="col-4">{reqInfo[1].input[17].nameTH}</div>
+                {
+                    content.filter((_, i) => i >= 15).map((c, i) => (
+                        <div className="col-4">{c}</div>
+                    ))
+                }
+            </div>
+            <div>ไฟล์ที่อัปโหลด : {fileUploadName}</div>
+            <div className="mt-3 text-secondary">กรุณาตรวจสอบใบลาอีกครั้ง ถ้าข้อมูล<ins>ครบ</ins>และ<ins>ถูกต้อง</ins> กรุณากดปุ่ม ส่งใบ</div>
             </Modal>
         </div>
     )
