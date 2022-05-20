@@ -25,7 +25,7 @@ export const Service = memo(() => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [items, setItems] = useState([...RequestInfo])
     const [isError, setIsError] = useState(false)
-    
+
     const [requestPopup, setRequestPopup] = useState(null)
 
     const showModal = useCallback(
@@ -38,7 +38,7 @@ export const Service = memo(() => {
 
     const handleCreate = useCallback(
         (page) => () => {
-            window.location.href = `service/${page}/create`
+            location.href = `service/${page}/create`
             setIsModalVisible(false);
         },
         []
@@ -54,7 +54,7 @@ export const Service = memo(() => {
                 <Spin size="large" />
             </div>
         </>
-        
+
 
     return <>
         <div className="container request">
@@ -79,33 +79,39 @@ export const Service = memo(() => {
                     </TabPane>
                     {
                         requestTopics.map((topic, index) => (
-                            <TabPane tab={topic.name} key={index+1} className="request-list">
-                            {
-                                requests.filter(req => req.type == topic.nameEN).map((req) => (
-                                    <RequestList request={req} />
-                                ))
-                            }
+                            <TabPane tab={topic.name} key={index + 1} className="request-list">
+                                {
+                                    requests.filter(req => req.type == topic.nameEN).map((req) => (
+                                        <RequestList request={req} />
+                                    ))
+                                }
                             </TabPane>
                         ))
                     }
                 </Tabs>
             </div>
             {
-                requestPopup ? 
-                <Modal 
-                title={requestPopup.name} 
-                visible={isModalVisible} 
-                onOk={handleCreate(requestPopup.page)} 
-                onCancel={handleCancel}
-                okText="Create"
-                >
-                    <div className="text-center mb-3 fs-3">{requestPopup.name}</div>
-                    <div>ประเภท : {requestPopup.category.join(" ")}</div>
-                    <div>รายละเอียด : </div>
-                    <div>&emsp;&emsp;{requestPopup.description}</div>
-                </Modal> : ""
+                requestPopup ?
+                    <Modal
+                        title={requestPopup.name}
+                        visible={isModalVisible}
+                        onOk={handleCreate(requestPopup.page)}
+                        onCancel={handleCancel}
+                        okText="สร้างเอกสาร"
+                    >
+                        <h2 className="text-center mb-3 fs-3">{requestPopup.name}</h2>
+                        <h6>ประเภท : {requestPopup.category.join(" ")}</h6>
+                        <h6>รายละเอียด : {requestPopup.description}</h6>
+                        {/* <a href="/service/general-request/create" >
+                            <PlusCircleFilled /> คลิกที่นี่! สร้าง
+
+                        </a> */}
+                    </Modal> : ""
             }
-            
+
+
+
+
             { /*
                 items.map((item) => {
                     return <Row>
@@ -140,7 +146,7 @@ export const Service = memo(() => {
 
                 })
             */}
-                {/* <Col span={18} style={{ padding: '50px' }}>
+            {/* <Col span={18} style={{ padding: '50px' }}>
                     <Tabs defaultActiveKey="1" onChange={callback} centered={true}>
                         <TabPane tab="ทั้งหมด" key="1">
                             <Divider orientation="left">ใบคำร้องทั่วไป</Divider>
@@ -223,7 +229,7 @@ export const Service = memo(() => {
                 </Col>
             <Row>
             </Row> */}
-     
+
 
 
         </div>

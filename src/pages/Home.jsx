@@ -36,8 +36,8 @@ export const Home = memo(() => {
         <Carousel afterChange={onChange}>
             <div>
                 <h3 style={contentStyle}>
-                    <img src="https://www.it.kmitl.ac.th/wp-content/themes/itkmitl2017wp/img/itkmitl-panorama-1.jpg" style={{ width: "100%", height: "500px", objectFit: "cover" }}></img>
-
+                    <img src="https://www.it.kmitl.ac.th/wp-content/themes/itkmitl2017wp/img/itkmitl-panorama-1.jpg" style={{ width: "100%", height: "500px", objectFit: "cover"}}></img>
+                    {/* <p style={{top: "50%", left: "50%", position: "absolute"}}>eee</p> */}
                 </h3>
             </div>
             <div>
