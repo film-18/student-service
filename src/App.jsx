@@ -21,6 +21,7 @@ import moment from 'moment'
 import 'moment/locale/th'
 import { Login } from "./pages/Login";
 import { News } from "./pages/News";
+import { GeneralRequestText } from "./pages/GeneralRequestText";
 moment.locale('th')
 
 function App() {
@@ -37,9 +38,9 @@ function App() {
             <Route path="profile/" element={<Profile />} />
             <Route path="service/:requestOne" element={<RequestOne />} />
             <Route path="service/general-request/create" element={<GeneralRequest />} />
-            {/* <Route path="service/general-request/:id" element={<GeneralRequest />} /> */}
+            <Route path="service/general-request/:id" element={<GeneralRequestText />} />
             <Route path="service/leave-request/:type/create" element={<LeaveRequest />} />
-            {/* <Route path="service/leave-request/:type/:id" element={<LeaveRequest />} /> */}
+            <Route path="service/leave-request/:type/:id" element={<LeaveRequest />} />
             <Route path="service/scholarship/create" element={<Scholarship />} />
           </Route>
         </Routes>
