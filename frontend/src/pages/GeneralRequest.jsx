@@ -10,7 +10,7 @@ import reqInfo from '../data/requestInfo.json'
 export const GeneralRequest = () => {
 
     const { user } = useGoogle()
-    const [student, setStudent] = useState({})
+    const [student, setStudent] = useState(null)
     const [students, setStudents] = useState([])
     const [content, setContent] = useState([])
 

@@ -1,5 +1,6 @@
 import { Input, DatePicker } from "antd"
 const { TextArea } = Input;
+import moment from 'moment';
 
 export const RequestInput = ({text, value, id, type, option, placeholder, disabled=false}) => {
 
@@ -16,6 +17,7 @@ export const RequestInput = ({text, value, id, type, option, placeholder, disabl
         )
     }
     else if (type === "date"){
+        console.log(value);
         return (
             <div className="request-input">
                 {
@@ -23,7 +25,7 @@ export const RequestInput = ({text, value, id, type, option, placeholder, disabl
                     <div className="request-input-text">{text} :</div> :
                     <div className="mt-2"></div>
                 }
-                <DatePicker size="large" className="w-100 input-request" readOnly={disabled} />
+                <DatePicker size="large" className="w-100 input-request" defaultValue={moment()} readOnly={disabled} format="YYYY/MM/DD" />
             </div>
         )
     }

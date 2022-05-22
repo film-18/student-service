@@ -84,6 +84,14 @@ const Navbar = memo(() => {
                         </Menu.Item>
 
                         <Menu.Item>
+                            <Link to="/login" >เข้าสู่ระบบ</Link>
+                        </Menu.Item>
+
+                        <Menu.Item>
+                            <Link to="/news" >ข่าวสาร</Link>
+                        </Menu.Item>
+
+                        <Menu.Item>
                             <Link to="/service" >งานเอกสาร</Link>
                         </Menu.Item>
 

@@ -65,7 +65,7 @@ export const Home = memo(() => {
                 </div>
             </div>
 
-            <Button type="primary" shape="round" size="large" style={{ marginTop: '30px', float: 'right' }} icon={<AlertFilled />}>
+            <Button type="primary" shape="round" size="large" style={{ marginTop: '30px', float: 'right' }} icon={<AlertFilled />} onClick={() => location.href = '/news'}>
                 <span className="thaiFont">
                     ข่าวสารเพิ่มเติม
                 </span>
