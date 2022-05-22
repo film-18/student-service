@@ -3,6 +3,10 @@ import { model, Schema } from 'mongoose'
 import mongooseBcrypt from 'mongoose-bcrypt'
 
 const UserSchema = new Schema({
+  studentID: {
+    type: String,
+    default: '-',
+  },
   firstname: {
     type: String,
     required: true,
@@ -37,6 +41,7 @@ const UserSchema = new Schema({
   },
   year: {
     type: String,
+    default: '-',
   },
   role: {
     type: String,

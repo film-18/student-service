@@ -6,8 +6,8 @@ import cors from 'cors'
 import express from 'express'
 import jsonwebtoken from 'jsonwebtoken'
 
-import './mongoose-connect'
 import schema from './graphql'
+import './mongoose-connect'
 
 const app = express()
 app.use(express.json())
