@@ -1,3 +1,5 @@
+import { Avatar, List, Space } from 'antd';
+
 export const NewsItem = (news) => {
     return (
         <div className="news-item">

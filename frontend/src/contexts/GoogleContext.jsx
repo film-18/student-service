@@ -1,4 +1,4 @@
-import { createContext, useMemo, useState, useContext } from "react";
+import { createContext, useMemo, useState, useContext, useCallback } from "react";
 import { useGoogleLogin } from 'react-google-login';
 import { useGoogleLogout } from 'react-google-login'
 
@@ -10,11 +10,21 @@ export const GoogleProvider = ({children}) => {
 
     const [user, setUser] = useState(null);
 
-    const responseGoogle = (response) => {
-        setUser(response.profileObj)
-        console.log(response.profileObj);
+    // const responseGoogle = (response) => {
+    //     setUser(response.profileObj)
+    //     console.log(response.profileObj);
+    //     // alert("login success")
+    //     // location.href = '/'
 
-    }
+    // }
+
+    const responseGoogle = useCallback(
+        (response) => {
+            setUser(response.profileObj)
+            console.log(response.profileObj)
+        },
+        [setUser]
+    )
 
     const onFailure = (res) => {
         console.log(res);

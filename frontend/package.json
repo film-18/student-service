@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
+    "@apollo/client": "^3.6.4",
     "antd": "^4.19.2",
     "axios": "^0.26.1",
     "dotenv": "^16.0.0",
+    "graphql": "^16.5.0",
     "less": "^4.1.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
