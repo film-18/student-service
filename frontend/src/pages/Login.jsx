@@ -77,9 +77,9 @@ export const Login = () => {
                             </div>
                             <div className='row mt-3 text-center'>
                                 
-                                    <GoogleLogin htmlType="submit" block size='large' onClick={signIn}>
+                                    <Button icon={<GoogleOutlined />} htmlType="submit" block size='large' onClick={signIn}>
                                     <span > Login with Google</span>
-                                    </GoogleLogin>   
+                                    </Button>   
                                 
                             </div>
                         </div>

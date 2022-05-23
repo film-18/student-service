@@ -103,3 +103,7 @@
 .ant-picker-cell-today>div{
     background-color: antiquewhite;
 }
+
+img, svg {
+    vertical-align: initial !important;
+}
