@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import "./styles/service.css";
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {  Route, Routes } from "react-router-dom";
 
 import { ConfigProvider } from "antd";
 import Navbar from "./components/Navbar";
@@ -14,7 +14,7 @@ import { RequestOne } from "./pages/RequestOne";
 import { GeneralRequest } from './pages/GeneralRequest';
 import { LeaveRequest } from './pages/LeaveRequest';
 import { Scholarship } from './pages/Scholarship';
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
+
 
 import Thai from "antd/lib/locale/th_TH";
 
@@ -26,17 +26,10 @@ import { GeneralRequestText } from "./pages/GeneralRequestText";
 moment.locale('th')
 
 
-const client = new ApolloClient({
-  uri: "http://localhost:3001/grapql",
-  cache: new InMemoryCache(),
-  credentials: 'include',
-})
 
 function App() {
   return (
     <ConfigProvider locale={Thai}>
-      <ApolloProvider client={client}>
-        <BrowserRouter>
           <Routes>
             <Route path="/" element={<Navbar />}>
               <Route index element={<Home />} />
@@ -53,8 +46,6 @@ function App() {
               <Route path="service/scholarship/create" element={<Scholarship />} />
             </Route>
           </Routes>
-        </BrowserRouter>
-      </ApolloProvider>
     </ConfigProvider>
   );
 }

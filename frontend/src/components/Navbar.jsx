@@ -58,7 +58,7 @@ const Navbar = memo(() => {
     useEffect(
         () => {
             setProfile(user)
-            alert(user)
+            // alert(user)
         },
         [user , setProfile]
      ) 
