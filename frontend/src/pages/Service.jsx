@@ -10,6 +10,7 @@ import requests from "../data/requestItems.json"
 import RequestInfo from "../Data/ResquestInfo";
 import { RequestTopic } from "../components/Services/RequestTopic";
 import { RequestList } from "../components/Services/RequestList";
+import { gql, useQuery, useMutation } from "@apollo/client"
 const { TabPane } = Tabs;
 // const data = [
 //     'Racing car sprays burning fuel into crowd.',
@@ -21,6 +22,23 @@ const { TabPane } = Tabs;
 
 const { Meta } = Card;
 
+const queryService = gql`
+query {
+    generalRequest {
+      _id,
+      title,
+      status,
+      description,
+    },
+    leaveRequest {
+      _id,
+      title,
+      status,
+      description
+      leaveType,
+    }
+  }`;
+
 export const Service = memo(() => {
 
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -28,6 +46,8 @@ export const Service = memo(() => {
     const [isError, setIsError] = useState(false)
 
     const [requestPopup, setRequestPopup] = useState(null)
+
+    const { data: dataService, refetch } = useQuery(queryService);
 
     const showModal = useCallback(
         (req) => () => {
@@ -72,7 +92,7 @@ export const Service = memo(() => {
                             <>
                                 <div className="col-2 col-md-2 mx-5">
                                     <RequestTopic request={request} toggleModal={showModal} />
-                                    
+
                                 </div>
                             </>
                         ))
@@ -85,12 +105,12 @@ export const Service = memo(() => {
                 <Tabs defaultActiveKey="0">
                     <TabPane tab="ทั้งหมด" key="0" className="request-list ">
                         {
-                            requests.map((req) => (
+                            [...dataService?.generalRequest ?? [] , ...dataService?.leaveRequest ?? []].map((req) => (
                                 <RequestList request={req} />
                             ))
                         }
                     </TabPane>
-                    {
+                    {/* {
                         requestTopics.map((topic, index) => (
                             <TabPane tab={topic.name} key={index + 1} className="request-list">
                                 {
@@ -100,7 +120,32 @@ export const Service = memo(() => {
                                 }
                             </TabPane>
                         ))
-                    }
+                    } */}
+                    <TabPane tab="ใบคำร้องทั่วไป" key="1" className="request-list">
+                        {
+                            dataService?.generalRequest?.map((req) => (
+                                <RequestList request={req} />
+                            ))
+                        }
+
+                    </TabPane>
+                    <TabPane tab="ใบลาป่วย" key="2" className="request-list">
+                        {
+                            dataService?.leaveRequest?.filter(l => l.leaveType === "Sick").map((req) => (
+                                <RequestList request={req} />
+                            ))
+                        }
+                    </TabPane>
+                    <TabPane tab="ใบลากิจ" key="3" className="request-list">
+                        {
+                            dataService?.leaveRequest?.filter(l => l.leaveType === "Business").map((req) => (
+                                <RequestList request={req} />
+                            ))
+                        }
+                    </TabPane>
+                    <TabPane tab="ใบทุนการศึกษา" key="ภ" className="request-list">
+                        
+                    </TabPane>
                 </Tabs>
             </div>
 
@@ -120,7 +165,7 @@ export const Service = memo(() => {
                     </Modal> : ""
             }
 
-            
+
 
         </div>
 

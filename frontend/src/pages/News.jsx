@@ -54,15 +54,18 @@ export const News = () => {
                 return <>
                     <div className='row'>
                         <div className='col-12 col-md-4'>
-                            <Avatar src="https://joeschmoe.io/api/v1/random" />
+                            {/* <Avatar src="https://joeschmoe.io/api/v1/random" /> */}
                             <Image
                                 width={200}
-                                src=""
+                                src={n.image}
                             />
                         </div>
                         <div className='col-12 col-md-8'>
                             <div className='card-title'>
-                                {n.title}
+                                {/* <Typography.Title level={3} >
+                                    {n.title}
+                                </Typography.Title> */}
+
                             </div>
 
                             <div className='card-bode'>
@@ -79,7 +82,7 @@ export const News = () => {
 
             })}
 
-            <List
+            {/* <List
                 itemLayout="vertical"
                 size="default"
                 pagination={{
@@ -112,9 +115,8 @@ export const News = () => {
                             description={item.description}
                         />
                         {item.content}
-                    </List.Item>
-                )}
-            />
+                    </List.Item> */}
+
 
             {/* {
                 news.map((n) => (
