@@ -17,7 +17,7 @@ import { Button, Popover } from "antd";
 
 import requestTopics from "../data/requestInfo.json";
 import requests from "../data/requestItems.json";
-import RequestInfo from "../Data/ResquestInfo";
+import RequestInfo from "../data/ResquestInfo";
 import { RequestTopic } from "../components/Services/RequestTopic";
 import { RequestList } from "../components/Services/RequestList";
 import { gql, useQuery, useMutation } from "@apollo/client";
