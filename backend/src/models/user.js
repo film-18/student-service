@@ -63,6 +63,10 @@ const UserSchema = new Schema({
     enum: ['Software Engineering', 'Network and System Technology', 'Multimedia and Game Development', '-'],
     default: '-',
   },
+  imageUri: {
+    type: String,
+    default: '',
+  },
 })
 
 UserSchema.plugin(mongooseBcrypt)
