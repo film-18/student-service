@@ -2,6 +2,9 @@ import { UserInputError } from 'apollo-server-core'
 import { schemaComposer } from 'graphql-compose'
 
 import { generateUserToken } from '../lib/generateUserToken'
+import { GeneralRequestTC } from '../models/generalRequest'
+import { LeaveRequestTC } from '../models/leaveRequest'
+import { NewsTC } from '../models/news'
 import { UserModel, UserTC } from '../models/user'
 
 export const users = UserTC.getResolver('findMany')
@@ -86,3 +89,67 @@ UserTC.addFields({
   },
 })
 
+// user and generalRequest
+
+UserTC.addRelation('RequestedGeneral', {
+  resolver: GeneralRequestTC.getResolver('findMany'),
+  projection: {
+    _id: 1,
+  },
+  prepareArgs: {
+    filter: (user) => ({
+      studentID: user._id,
+    }),
+  },
+})
+
+UserTC.addRelation('DoRequestGeneral', {
+  resolver: GeneralRequestTC.getResolver('findMany'),
+  projection: {
+    _id: 1,
+  },
+  prepareArgs: {
+    filter: (user) => ({
+      teacherID: user._id,
+    }),
+  },
+})
+
+// user and leaveRequest
+
+UserTC.addRelation('RequestedLeave', {
+  resolver: LeaveRequestTC.getResolver('findMany'),
+  projection: {
+    _id: 1,
+  },
+  prepareArgs: {
+    filter: (user) => ({
+      studentID: user._id,
+    }),
+  },
+})
+
+UserTC.addRelation('DoRequestLeave', {
+  resolver: LeaveRequestTC.getResolver('findMany'),
+  projection: {
+    _id: 1,
+  },
+  prepareArgs: {
+    filter: (user) => ({
+      teacherID: user._id,
+    }),
+  },
+})
+
+// user and News
+UserTC.addRelation('RequestedLeave', {
+  resolver: NewsTC.getResolver('findMany'),
+  projection: {
+    _id: 1,
+  },
+  prepareArgs: {
+    filter: (user) => ({
+      staffID: user._id,
+    }),
+  },
+})

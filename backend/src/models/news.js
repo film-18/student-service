@@ -26,6 +26,10 @@ const NewsSchema = new Schema({
     type: Date,
     default: null,
   },
+  staffID: {
+    type: String,
+    required: true,
+  },
 })
 
 NewsSchema.plugin(mongooseBcrypt)

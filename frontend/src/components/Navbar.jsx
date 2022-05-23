@@ -105,10 +105,10 @@ const Navbar = memo(() => {
                                     หน้าหลัก
                                 </Link>
                             </Menu.Item>
-
+{/* 
                             <Menu.Item>
                                 <Link to="/login" >เข้าสู่ระบบ</Link>
-                            </Menu.Item>
+                            </Menu.Item> */}
 
                             <Menu.Item>
                                 <Link to="/news" >ข่าวสาร</Link>

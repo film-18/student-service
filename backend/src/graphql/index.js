@@ -4,7 +4,7 @@ import * as generalRequests from './generalRequest'
 import * as leaveRequest from './leaveRequest'
 // import * as posts from './post'
 import * as news from './news'
-import * as requests from './request'
+// import * as requests from './request'
 import * as users from './user'
 
 schemaComposer.Query.addFields({
@@ -15,9 +15,9 @@ schemaComposer.Query.addFields({
   users: users.users,
   userId: users.userId,
 
-  request: requests.request,
-  requestId: requests.requestId,
-  requestPagination: requests.requestPagination,
+  // request: requests.request,
+  // requestId: requests.requestId,
+  // requestPagination: requests.requestPagination,
 
   generalRequest: generalRequests.generalRequest,
   generalRequestId: generalRequests.generalRequestId,
@@ -41,9 +41,9 @@ schemaComposer.Mutation.addFields({
   createUser: users.createUser,
   login: users.login,
 
-  createRequest: requests.createRequest,
-  updateRequestId: requests.updateRequestId,
-  deleteRequestId: requests.deleteRequestId,
+  // createRequest: requests.createRequest,
+  // updateRequestId: requests.updateRequestId,
+  // deleteRequestId: requests.deleteRequestId,
 
   createGeneralRequest: generalRequests.createGeneralRequest,
   updateGeneralRequestId: generalRequests.updateGeneralRequestId,
