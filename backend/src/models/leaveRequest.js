@@ -72,6 +72,8 @@ const LeaveRequestSchema = new Schema({
     type: String,
     default: '-',
   },
+}, {
+  timestamps: true,
 })
 
 LeaveRequestSchema.plugin(mongooseBcrypt)
