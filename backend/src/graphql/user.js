@@ -143,7 +143,7 @@ UserTC.addRelation('DoRequestLeave', {
 })
 
 // user and News
-UserTC.addRelation('RequestedLeave', {
+UserTC.addRelation('DoNews', {
   resolver: NewsTC.getResolver('findMany'),
   projection: {
     _id: 1,

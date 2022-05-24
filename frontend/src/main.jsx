@@ -48,9 +48,9 @@ ReactDOM.render(
       <BrowserRouter>
         <CookiesProvider>
           <AppProvider>
-            <GoogleProvider>
+            {/* <GoogleProvider> */}
               <App />
-            </GoogleProvider>
+            {/* </GoogleProvider> */}
           </AppProvider>
         </CookiesProvider>
       </BrowserRouter>

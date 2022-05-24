@@ -7,7 +7,7 @@ import { Avatar, Badge, Image, Button, Dropdown, Space, Row, Input } from 'antd'
 import { memo, useEffect, useState } from "react";
 import { useGoogleLogin } from 'react-google-login';
 import { useGoogleLogout } from 'react-google-login'
-import { useGoogle } from '../contexts/GoogleContext';
+// import { useGoogle } from '../contexts/GoogleContext';
 import { useApp } from '../contexts/AccountContext';
 
 
@@ -17,7 +17,7 @@ import { useApp } from '../contexts/AccountContext';
 
 const Navbar = memo(() => {
 
-    const { user, signIn, signOut } = useGoogle()
+    // const { user, signIn, signOut } = useGoogle()
     const {user2, data, logout} = useApp();
     const [ profile, setProfile ] = useState(null)
 

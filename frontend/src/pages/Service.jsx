@@ -1,4 +1,4 @@
-import { memo, useEffect, useCallback, useState } from "react";
+import { memo, useEffect, useCallback, useState, useMemo } from "react";
 import {
     Row,
     Col,
@@ -16,11 +16,11 @@ import { Spin, Space, Empty } from "antd";
 import { Button, Popover } from "antd";
 
 import requestTopics from "../data/requestInfo.json";
-import requests from "../data/requestItems.json";
 import RequestInfo from "../Data/ResquestInfo";
 import { RequestTopic } from "../components/Services/RequestTopic";
 import { RequestList } from "../components/Services/RequestList";
 import { gql, useQuery, useMutation } from "@apollo/client";
+import { useApp } from "../contexts/AccountContext";
 const { TabPane } = Tabs;
 // const data = [
 //     'Racing car sprays burning fuel into crowd.',
@@ -32,20 +32,32 @@ const { TabPane } = Tabs;
 
 const { Meta } = Card;
 
-const queryService = gql`
-  query {
-    generalRequest {
-      _id
-      title
-      status
-      description
-    }
-    leaveRequest {
-      _id
-      title
-      status
-      description
-      leaveType
+const USER_QUERY = gql`
+query ($id: MongoID!) {
+    userId (_id: $id) {
+      role
+      RequestedGeneral {
+        title
+        status
+        _id
+      }
+      RequestedLeave {
+        title
+        status
+        _id
+        leaveType
+      }
+      DoRequestGeneral {
+        title
+        status
+        _id
+      }
+      DoRequestLeave {
+        title
+        status
+        _id
+        leaveType
+      }
     }
   }
 `;
@@ -57,7 +69,15 @@ export const Service = memo(() => {
 
     const [requestPopup, setRequestPopup] = useState(null);
 
-    const { data: dataService, refetch } = useQuery(queryService);
+    const { user2: user } = useApp()
+
+    const { data: dataService, refetch, loading } = useQuery(USER_QUERY, {
+        variables: {
+            id: user?._id ?? "628c892d914de55bf71b90be"
+            // id: "628cd69016475755ddf0f005"
+        }
+    });
+
 
     const showModal = useCallback(
         (req) => () => {
@@ -87,7 +107,50 @@ export const Service = memo(() => {
                 </div>
             </>
         );
+    
+    
+    const [requests, setRequests] = useState(null)
 
+    useEffect(
+        () => {
+            if (!dataService) {
+                console.log("No!");
+                setRequests(null)
+            }
+            else if (dataService?.userId?.role === "student"){
+                console.log("STUDENT : " + dataService?.userId?.role);
+                setRequests([[...dataService?.userId?.RequestedGeneral], [...dataService?.userId?.RequestedLeave]])
+                // setRequests([].concat(dataService?.userId?.RequestedGeneral, dataService?.userId?.RequestedLeave))
+            }
+            else {
+                console.log("OTHER : " + dataService?.userId?.role);
+                let reqs = []
+                if (dataService.userId.DoRequestGeneral){
+                    reqs.push(dataService.userId.DoRequestGeneral)
+                }
+                else {
+                    reqs.push([])
+                }
+                if (dataService.userId.DoRequestLeave){
+                    reqs.push(dataService.userId.DoRequestLeave)
+                }
+                else {
+                    reqs.push([])
+                }
+                // setRequests([[...dataService?.userId?.DoRequestedGeneral], [...dataService?.userId?.DoRequestedLeave]])
+                // const reqs = [].concat([dataService?.userId?.DoRequestedGeneral], [dataService?.userId?.DoRequestedLeave]) 
+                setRequests(reqs)
+                console.log(reqs);
+                console.log(dataService);
+            }
+        },
+        [dataService, setRequests]
+    )
+
+    if (loading) {
+        return <div>Loading...</div>
+    }
+    
     return (
         <>
             <Layout
@@ -120,10 +183,7 @@ export const Service = memo(() => {
                 <div className="request-body row justify-content-center">
                     <Tabs defaultActiveKey="0">
                         <TabPane tab="ทั้งหมด" key="0" className="request-list ">
-                            {[
-                                ...(dataService?.generalRequest ?? []),
-                                ...(dataService?.leaveRequest ?? []),
-                            ].map((req) => (
+                            {(requests ? [...requests[0], ...requests[1]] : []).map((req) => (
                                 <RequestList request={req} />
                             ))}
                         </TabPane>
@@ -139,20 +199,19 @@ export const Service = memo(() => {
                         ))
                     } */}
                         <TabPane tab="ใบคำร้องทั่วไป" key="1" className="request-list">
-                            {dataService?.generalRequest?.map((req) => (
+                            {(requests ? requests[0] : []).map((req) => (
                                 <RequestList request={req} />
                             ))}
                         </TabPane>
                         <TabPane tab="ใบลาป่วย" key="2" className="request-list">
-                            {dataService?.leaveRequest
-                                ?.filter((l) => l.leaveType === "Sick")
+                            {(requests ? requests[1] : []).filter((l) => l.leaveType === "Sick")
                                 .map((req) => (
                                     <RequestList request={req} />
-                                ))}
+                                ))
+                                }
                         </TabPane>
                         <TabPane tab="ใบลากิจ" key="3" className="request-list">
-                            {dataService?.leaveRequest
-                                ?.filter((l) => l.leaveType === "Business")
+                            {(requests ? requests[1] : []).filter((l) => l.leaveType === "Business")
                                 .map((req) => (
                                     <RequestList request={req} />
                                 ))}

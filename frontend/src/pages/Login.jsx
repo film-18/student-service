@@ -3,7 +3,7 @@ import { useState, useCallback, useEffect } from 'react'
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import { Avatar, Card } from 'antd';
 import { UserOutlined, LockOutlined, GoogleOutlined } from '@ant-design/icons';
-import { useGoogle } from '../contexts/GoogleContext';
+// import { useGoogle } from '../contexts/GoogleContext';
 import { GoogleLogin } from 'react-google-login';
 import { gql, useQuery, useMutation } from "@apollo/client"
 import {useNavigate} from 'react-router-dom';
@@ -35,7 +35,7 @@ export const Login = () => {
     const [cookies, setCookie, removeCookie] = useCookies(['token'])
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    const { user, signIn, signOut } = useGoogle()
+    // const { user, signIn, signOut } = useGoogle()
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -83,9 +83,9 @@ export const Login = () => {
                             </div>
                             <div className='row mt-3 text-center'>
                                 
-                                    <Button icon={<GoogleOutlined />} htmlType="submit" block size='large' onClick={signIn}>
+                                    {/* <Button icon={<GoogleOutlined />} htmlType="submit" block size='large' onClick={signIn}>
                                     <span > Login with Google</span>
-                                    </Button>   
+                                    </Button>    */}
                                 
                             </div>
                         </div>
