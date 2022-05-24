@@ -1,0 +1,398 @@
+[
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Suksan-300x300.jpg",  
+        "name": "Prof. Dr. Sooksan Panichpapiboon",
+        "email": "sooksan@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2021/02/Suphamit-300x300.jpg",
+        "name": "Prof. Dr. Suphamit Chittayasothorn",
+        "email": "Suphamit@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Nopporn-300x300.jpg", 
+        "name": "Assoc. Prof. Dr. Nopporn Chotikakamthorn",
+        "email": "nopporn@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Chanboon-300x300.jpg",
+        "name": "Assoc. Prof. Dr. Chanboon Sathitwiriyawong",
+        "email": "chanboon@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Worapoj-300x300.jpg",
+        "name": "Assoc. Prof. Dr. Worapoj Kreesuradej",
+        "email": "worapoj@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Arit-300x300.jpg",
+        "name": "Assoc. Prof. Dr. Arit Thammano",
+        "email": "arit@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Chotipat-300x300.jpg",
+        "name": "Assoc. Prof. Dr. Chotipat Pornavalai",
+        "email": "chotipat@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Ponrudee-300x300.jpg",
+        "name": "Assoc. Prof. Dr. Ponrudee Netisopakul",
+        "email": "ponrudee@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Kitsuchart-300x300.jpg",
+        "name": "Assoc. Prof. Dr. Kitsuchart Pasupa",
+        "email": "kitsuchart@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Panwit-300x300.jpg",
+        "name": "Assoc. Prof. Dr. Panwit Tuwanut",
+        "email": "panwit@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Kunpong-300x300.jpg",
+        "name": "Assoc. Prof. Dr. Kuntpong Woraratpanya",
+        "email": "kuntpong@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Teerapong-300x300.jpg",
+        "name": "Assoc. Prof. Dr. Teerapong Leelanupab",
+        "email": "teerapong@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Olan-300x300.jpg",
+        "name": "Asst. Prof. Dr. Olarn Wongwirat",
+        "email": "olarn@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Akharin-300x300.jpg",
+        "name": "Asst. Prof. Akharin Khunkitti",
+        "email": "akharin@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Pattarachai-300x300.jpg",
+        "name": "Asst. Prof. Dr. Pattarachai Lalitrojwong",
+        "email": "pattarachai@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Boonprasert-300x300.jpg",
+        "name": "Asst. Prof. Dr. Boonprasert Surakratanasakul",
+        "email": "boonprasert@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Somkiat-300x300.jpg",
+        "name": "Asst. Prof. Dr. Somkiat Wangsiripitak",
+        "email": "somkiat@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Sumet-300x300.jpg",
+        "name": "Asst. Prof. Dr. Sumet Prabhavat",
+        "email": "sumet@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Kanokwan-300x300.jpg",
+        "name": "Asst. Prof. Dr. Kanokwan Atchariyachanvanich",
+        "email": "kanokwan@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Manop-300x300.jpg",
+        "name": "Asst. Prof. Dr. Manop Phankokkruad",
+        "email": "manop@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Supakit-300x300.jpg",
+        "name": "Asst. Prof. Dr. Supakit Nootyaskool",
+        "email": "supakit@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Srinual-300x300.jpg",
+        "name": "Asst. Prof. Srinual Nalintippayawong",
+        "email": "srinual@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Bundit-300x300.jpg",
+        "name": "Asst. Prof. Dr. Bundit Thanasopon",
+        "email": "bundit@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Anuntapat-300x300.jpg",
+        "name": "Asst. Prof. Dr. Anuntapat Anuntachai",
+        "email": "anuntapat@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Lapas-300x300.jpg",
+        "name": "Asst. Prof. Dr. Lapas Pradittasnee",
+        "email": "lapas@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2020/01/parmapon-Profile-Pic-iT-KMiTL.jpg",
+        "name": "Asst. Prof. Dr. Parmapon Raungpaka",
+        "email": "parmapon@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Sirion-300x300.jpg",
+        "name": "Asst. Prof. Dr. Sirion Vittayakorn",
+        "email": "sirion@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2019/06/Taravichet-300x300.jpg",
+        "name": "Asst.Prof.Dr. Taravichet Titijaroonroj",
+        "email": "taravichet@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Warunee-300x300.jpg",
+        "name": "Mrs. Warune Buawirat",
+        "email": "warune@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Pattanapong-300x300.jpg",
+        "name": "Dr. Pattanapong Chantamit-O-Pas",
+        "email": "pattanapong@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Supannada-300x300.jpg",
+        "name": "Dr. Supannada Chotipant",
+        "email": "supannada@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Supawan-300x300.jpg",
+        "name": "Dr. Supawan Tassanaprasert",
+        "email": "supawan@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Pornsuree-300x300.jpg",
+        "name": "Dr. Pornsuree Jamsri",
+        "email": "pornsuree@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Samart-300x300.jpg",
+        "name": "Dr. Samart Moodleah",
+        "email": "samart@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2019/03/Chayanon-300x300.jpg",
+        "name": "Dr. Chayanon Sub-r-pa",
+        "email": "chayanon@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2020/01/\u0e14\u0e23-\u0e19\u0e19\u0e17\u0e4c.jpg",
+        "name": "Dr. Nont Kanungsukkasem",
+        "email": "nont@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2020/08/praphan-300x300.jpg",
+        "name": "Dr. Praphan Pavarangkoon",
+        "email": "praphan@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2020/10/sirasit-300x300.jpg",
+        "name": "Dr. Sirasit Lochanachit",
+        "email": "sirasit@it.kmitl.ac.th",
+        "type": "Academic"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Nitsawara-300x300.jpg",
+        "name": "Miss. Nitsawara Janphet",
+        "email": "nitsawara@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Chidapa-300x300.jpg",
+        "name": "Miss. Chidapa Paoyaemtaweep",
+        "email": "chidapa@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Natthawut-300x300.jpg",
+        "name": "Mr. Nuttawut Cumpasano",
+        "email": "nuttawut@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Prayong-300x300.jpg",
+        "name": "Mr. Prayong Soottipan",
+        "email": "prayong@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Vooranuns-300x300.jpg",
+        "name": "Mrs. Vooranuns Skulwongheran",
+        "email": "vooranuns@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Apinya-300x300.jpg",
+        "name": "Miss. Apinya Pin-ngenrn",
+        "email": "apinya@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Vipada-300x300.jpg",
+        "name": "Miss. Vipada Sila",
+        "email": "vipada@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/rungtiwa-300x300.jpg",
+        "name": "Miss. Rungtiwa Kitchareon",
+        "email": "rungtiwa@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Pichitra-300x300.jpg",
+        "name": "Miss. Pichitra Suwansri",
+        "email": "pichitra@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Wipavan-300x300.jpg",
+        "name": "Miss. Wipavan Malai",
+        "email": "wipavan@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Supa-300x300.jpg",
+        "name": "Mrs. Supa Pimswat",
+        "email": "supa@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Wancharawan-300x300.jpg",
+        "name": "Mrs. Watcharawan Nivitchanyong",
+        "email": "watcharawan@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Apichat-300x300.jpg",
+        "name": "Acting Sub Lt. Apichat Chayarati",
+        "email": "apichat@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Chalermkiat-300x300.jpg",
+        "name": "Mr. Chalermkiat Puangmalai",
+        "email": "chalermkiat@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Jirayu-300x300.jpg",
+        "name": "Mr. Jirayu Chompunut",
+        "email": "jirayu@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Phanlop-300x300.jpg",
+        "name": "Mr. Phanlop Juyluksa",
+        "email": "phanlop@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Vimolluck-300x300.jpg",
+        "name": "Mrs. Vimolluck Thianjew",
+        "email": "vimolluck@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Nutcharee-300x300.jpg",
+        "name": "Miss Nutcharee Domchomsap",
+        "email": "nutcharee@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Nutnaree-300x300.jpg",
+        "name": "Miss. Nutnaree Lertpairat",
+        "email": "nutnaree@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Thanatjade-300x300.jpg",
+        "name": "Mr. Thanatjade Buncherd",
+        "email": "Thanatjade@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Rattana-300x300.jpg",
+        "name": "Miss. Rattana Wolrapaluk",
+        "email": "rattana@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/10/Atcharaphorn-300x300.jpg",
+        "name": "Miss Atcharaphorn Deunklang",
+        "email": "atcharaphorn@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Kamonnat-300x300.jpg",
+        "name": "Miss. kamonnat Chuensakun",
+        "email": "kamonnat@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Prateep-300x300.jpg",
+        "name": "Mr. Prateep In-Khiaw",
+        "email": "prateep@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Withchayada02-300x300.jpg",
+        "name": "Miss. Witchayada Vorakangananon",
+        "email": "witchayada@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Montree-300x300.jpg",
+        "name": "Mr. Montree Kingkaew",
+        "email": "Montree@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Thanabordee-300x300.jpg",
+        "name": "SM.1 Thanabordee Khaimarn",
+        "email": "Thanabordee@it.kmitl.ac.th",
+        "type": "Support"
+    },
+    {
+        "imgUri": "https://www.it.kmitl.ac.th/wp-content/uploads/2018/03/Sompong-300x300.jpg",
+        "name": "Mr. Sompong Sancha",
+        "email": "sompong@it.kmitl.ac.th",
+        "type": "Support"
+    }
+]

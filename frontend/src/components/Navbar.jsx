@@ -117,6 +117,9 @@ const Navbar = memo(() => {
                             <Menu.Item>
                                 <Link to="/service" >งานเอกสาร</Link>
                             </Menu.Item>
+                            <Menu.Item>
+                                <Link to="/staff" >บุคลลากร</Link>
+                            </Menu.Item>
 
                             <Menu.SubMenu key="SubMenu" title={profile ?  profile.email : "บัญชี"}>
                                 <Menu.ItemGroup style={{ textAlign: "center", paddingBottom: "10px" }} title={profile ? `${profile?.givenName} ${profile?.familyName}` : 'บัญชี'}>
