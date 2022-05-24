@@ -81,41 +81,52 @@ export const News = () => {
                 </>
 
             })}
+            <div>
+                {/* {dateNews?.news?.map((s) => {
+                    return <> */}
+                        {/* <List
+                            itemLayout="vertical"
+                            size="large"
+                            pagination={{
+                                onChange: (page) => {
+                                    console.log(page);
+                                },
+                                pageSize: 3,
+                            }}
+                            dataSource={dateNews?.news?.map(s)}
+                            renderItem={(s) => (    
+                                <List.Item
+                                    key={s.title}
+                                    actions={[
+                                        <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
+                                        <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
+                                        <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
+                                    ]}
+                                    extra={
+                                        <img
+                                            width={272}
+                                            alt="logo"
+                                            src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                                        />
+                                    }
+                                    
+                                >
+                                    <List.Item.Meta
+                                        avatar={<Avatar src={s.title} />}
+                                        title={<a>{s.body}</a>}
+                                        description={s.shortDes}
+                                    />
+                                    
+                                </List.Item>
 
-            {/* <List
-                itemLayout="vertical"
-                size="default"
-                pagination={{
-                    onChange: (page) => {
-                        console.log(page);
-                    },
-                    pageSize: 3,
-                }}
-                // dataSource={title}
+                            )}
+                        /> */}
+                    {/* </>
 
-                renderItem={(item) => (
-                    <List.Item
-                        key={item.title}
-                        actions={[
-                            <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
-                            <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
-                            <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
-                        ]}
-                        extra={
-                            <img
-                                width={272}
-                                alt="logo"
-                                src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                            />
-                        }
-                    >
-                        <List.Item.Meta
-                            avatar={<Avatar src={item.avatar} />}
-                            title={<a href={item.href}>{item.title}</a>}
-                            description={item.description}
-                        />
-                        {item.content}
-                    </List.Item> */}
+                })} */}
+            </div>
+
+
 
 
             {/* {

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 import stdsData from '../data/students.json'
 import reqData from '../data/requestItems.json'
@@ -21,6 +22,7 @@ export const GeneralRequestText = () => {
     )
     
     return (
+        // <Link to={`service/general-request/${generalRequest._id}`} className="text-decoration-none text-black">
         <div className="container pb-5 pt-4">
             <div className="request-form">
                 <div className='request-form-degree text-end'>
@@ -104,5 +106,6 @@ export const GeneralRequestText = () => {
                 </div>
             </div>
         </div>
+        // </Link>
     )
 }

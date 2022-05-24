@@ -1,5 +1,9 @@
+import { Empty } from "antd";
+
 export const Scholarship = () => {
     return (
-        <div>Hi Scholarship</div>
+        <div>
+             <Empty />
+        </div>
     )
 }

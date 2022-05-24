@@ -5,14 +5,28 @@ import { Avatar, Card } from 'antd';
 import { UserOutlined, LockOutlined, GoogleOutlined } from '@ant-design/icons';
 import { useGoogle } from '../contexts/GoogleContext';
 import { GoogleLogin } from 'react-google-login';
+import { gql, useQuery, useMutation } from "@apollo/client"
 
 
 const { Meta } = Card;;
+
+// const queryUser = gql`
+// query {
+//     users {
+//       username,
+//       password,
+//       role
+//     }
+//   }
+// `
+
 
 export const Login = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const { user, signIn, signOut } = useGoogle()
+
+    // const { data: dataUser } = useQuery(queryUser)
 
 
     const handleSubmit = useCallback(
