@@ -98,7 +98,7 @@ UserTC.addRelation('RequestedGeneral', {
   },
   prepareArgs: {
     filter: (user) => ({
-      studentID: user._id,
+      studentIdMongo: user._id,
     }),
   },
 })
@@ -124,7 +124,7 @@ UserTC.addRelation('RequestedLeave', {
   },
   prepareArgs: {
     filter: (user) => ({
-      studentID: user._id,
+      studentIdMongo: user._id,
     }),
   },
 })

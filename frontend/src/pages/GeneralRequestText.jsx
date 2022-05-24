@@ -1,32 +1,71 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useParams } from "react-router-dom"
-import { Link } from "react-router-dom"
 
 import stdsData from '../data/students.json'
 import reqData from '../data/requestItems.json'
+import { gql, useQuery } from '@apollo/client';
+
+const REQUEST_QUERY = gql`
+query ($gen_id: MongoID!) {
+    generalRequestId (_id: $gen_id) {
+        title
+        teacherName
+        studentId
+        semester
+        description
+        requestDate
+        degree
+        year
+        school_year
+        fullname
+        program
+        major
+        teacherComment
+        staffComment
+        deanComment
+    }
+}
+`;
 
 export const GeneralRequestText = () => {
     const { id } = useParams()
-    const [request, setRequest] = useState(null)
-    const [student, setStudent] = useState(null)
 
-    useEffect(
+    const {data: requestData} = useQuery(REQUEST_QUERY, {
+        variables: {
+            "gen_id": id
+        }
+    })
+
+    const dateRequest = useMemo(
         () => {
-            const req = reqData.find(req => req.req_id == id)
-            setRequest(req);
-            if (req){
-                const std = stdsData.find(std => std.std_id == req.std_id)
-                setStudent(std); 
+            if (requestData) {
+                const date = requestData?.generalRequestId?.requestDate.split("T")[0].split("-")
+                const monthName = ["มกราคม", "กุมภาพันธ์", "มีนาคม","เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"]
+                return [date[2], monthName[parseInt(date[1])], date[0]]
             }
-        }, []
+        },
+        [requestData]
     )
+    
+    // useEffect(
+    //     () => {
+    //         const req = reqData.find(req => req.req_id == id)
+    //         setRequest(req);
+    //         if (req){
+    //             const std = stdsData.find(std => std.std_id == req.std_id)
+    //             setStudent(std); 
+    //         }
+    //     if (requestData){
+    //     }
+    //     }, [requestData, setStudent]
+    // )
     
     return (
         // <Link to={`service/general-request/${generalRequest._id}`} className="text-decoration-none text-black">
         <div className="container pb-5 pt-4">
             <div className="request-form">
                 <div className='request-form-degree text-end'>
-                    <div>ระดับ{student?.degree}</div>
+                    <div>ระดับ{requestData?.generalRequestId?.degree}</div>
                 </div>
                 <h3 className='text-center mt-5'>คำร้องทั่วไป</h3>
                 <div className='d-flex justify-content-between'>
@@ -37,31 +76,31 @@ export const GeneralRequestText = () => {
                         <div>คณะเทคโนโลยีสารสนเทศ</div>
                         <div>สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง</div>
                         <div>
-                            วันที่ {request?.date.split("/")[2]} เดือน {request?.date.split("/")[1]} พ.ศ. {parseInt(request?.date.split("/")[0]) + 543}
+                            วันที่ {dateRequest ? dateRequest[0] : ""} เดือน {dateRequest ? dateRequest[1] : ""} พ.ศ. {parseInt(dateRequest ? dateRequest[2] : 0) +  543}
 
                         </div>
                     </div>
                 </div>
                 <div className='request-form-title mt-4'>
                     <b>เรื่อง : </b>
-                    {request?.title} 
-                    &nbsp;ภาคการศึกษาที่ {request?.semester}
-                    &nbsp;ปีการศึกษา {request?.school_year}
+                    {requestData?.generalRequestId?.title} 
+                    &nbsp;ภาคการศึกษาที่ {requestData?.generalRequestId?.semester}
+                    &nbsp;ปีการศึกษา {requestData?.generalRequestId?.school_year}
                     </div>
                 <div><b>เรียน : </b>คณบดีคณะเทคโนโลยีสารสนเทศ</div>
                 <div className='mt-4'>
-                    &emsp;&emsp;&emsp;&emsp;ข้าพเจ้า {student?.Fname} {student?.Lname}
-                    &nbsp;รหัสนักศึกษา {student?.std_id}
-                    &nbsp;ชั้นปีที่ {student?.year}
-                    &nbsp;สาขาวิชา {student?.program}
+                    &emsp;&emsp;&emsp;&emsp;ข้าพเจ้า {requestData?.generalRequestId?.fullname}
+                    &nbsp;รหัสนักศึกษา {requestData?.generalRequestId?.studentID}
+                    &nbsp;ชั้นปีที่ {requestData?.generalRequestId?.year}
+                    &nbsp;สาขาวิชา {requestData?.generalRequestId?.program}
                     &nbsp;{
-                        student?.major != "-" ?
-                        "แขนงวิชา " + student?.major :
+                        requestData?.generalRequestId?.major != "-" ?
+                        "แขนงวิชา " + requestData?.generalRequestId?.major :
                         ""
                     }
                 </div>
                 <div className='mt-4'>
-                    &emsp;&emsp;&emsp;&emsp;มีความประสงค์ {request?.detail}
+                    &emsp;&emsp;&emsp;&emsp;มีความประสงค์ {requestData?.generalRequestId?.description}
                 </div>
                 <div className='mt-4'>&emsp;&emsp;&emsp;&emsp;จึงเรียนมาเพื่อโปรดพิจารณาและดำเนินการต่อไปด้วย</div>
                 <div className='request-form-sign mt-4 d-flex justify-content-around'>
@@ -71,8 +110,8 @@ export const GeneralRequestText = () => {
                     <div></div>
                     <div className='text-center'>
                         <div>ขอแสดงความนับถือ</div>
-                        <div>{student?.Fname} {student?.Lname}</div>
-                        <div>({student?.Fname} {student?.Lname})</div>
+                        <div>{requestData?.generalRequestId?.fullname}</div>
+                        <div>({requestData?.generalRequestId?.fullname})</div>
                         <div>ผู้ยื่นคำร้อง</div>
                     </div>
                 </div>
@@ -85,9 +124,9 @@ export const GeneralRequestText = () => {
                         </thead>
                         <tbody>
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>{requestData?.generalRequestId?.teacherComment === "-" ? "" : requestData?.generalRequestId?.teacherComment}</td>
+                                <td>{requestData?.generalRequestId?.staffComment === "-" ? "" : requestData?.generalRequestId?.staffComment}</td>
+                                <td>{requestData?.generalRequestId?.deanComment === "-" ? "" : requestData?.generalRequestId?.deanComment}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -100,8 +139,8 @@ export const GeneralRequestText = () => {
                     <div></div>
                     <div></div>
                     <div className='text-center'>
-                        <div>ลงชื่อ {student?.Fname} {student?.Lname}</div>
-                        <div>({student?.Fname} {student?.Lname})</div>
+                        <div>ลงชื่อ {requestData?.generalRequestId?.fullname}</div>
+                        <div>({requestData?.generalRequestId?.fullname})</div>
                     </div>
                 </div>
             </div>

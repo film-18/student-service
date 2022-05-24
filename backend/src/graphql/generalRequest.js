@@ -16,10 +16,10 @@ export const deleteGeneralRequestId = GeneralRequestTC.getResolver('removeById')
 GeneralRequestTC.addRelation('GeneralListStudent', {
   resolver: UserTC.getResolver('findById'),
   projection: {
-    studentID: 1, // เอามาจากฝั่งตัวเอง
+    studentIdMongo: 1, // เอามาจากฝั่งตัวเอง
   },
   prepareArgs: {
-    _id: (req) => req.studentID, // ฝั่งตรงข้าม => ฝั่งตัวเอง
+    _id: (req) => req.studentIdMongo, // ฝั่งตรงข้าม => ฝั่งตัวเอง
   },
 })
 

@@ -1,31 +1,111 @@
 import { Button, Modal } from 'antd'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { RequestHeader } from "../components/Services/RequestHeader"
 import { RequestInput } from "../components/Services/RequestInput"
 import { useGoogle } from "../contexts/GoogleContext"
 
 import data from '../data/students.json'
 import reqInfo from '../data/requestInfo.json'
+import { gql, useMutation, useQuery } from '@apollo/client'
+import { Navigate, useNavigate } from 'react-router-dom'
+
+const CREATE_REQUEST_MUTATION = gql`
+mutation ($record: CreateOneGeneralRequestInput!) {
+    createGeneralRequest (record : $record) {
+      recordId
+    }
+  }
+`
+
+const USER_QUERY = gql`
+query {
+    users {
+      _id
+      fullname
+      role
+    }
+}
+`
 
 export const GeneralRequest = () => {
-
+    const navigate = useNavigate()
     const { user } = useGoogle()
     const [student, setStudent] = useState(null)
     const [students, setStudents] = useState([])
     const [content, setContent] = useState([])
 
+    const {data: teacherData, loading} = useQuery(USER_QUERY)
+
+    const [createRequestMutation] = useMutation(CREATE_REQUEST_MUTATION)
+    const handleCreateRequest = useCallback(
+        async (e) => {
+            e.preventDefault()
+            // console.log(title, content, authorId, tagId)
+            const inputReqs = document.querySelectorAll(".student-request :where(input.input-request, textarea.input-request,select.input-request,.input-request input)")
+            
+            const teacherName = localStorage.getItem("itss-requestTeacherName")
+
+            console.log(inputReqs[4].value);
+
+            const record = {
+                title: inputReqs[0].value,
+                teacherID: inputReqs[1].value,
+                teacherName: teacherName,
+                studentIdMongo: "628cd69016475755ddf0f005",
+                studentId: inputReqs[2].value,
+                fullname: inputReqs[3].value,
+                degree: inputReqs[4].value,
+                year: inputReqs[5].value,
+                program: inputReqs[6].value,
+                major: inputReqs[7].value,
+                semester: inputReqs[8].value,
+                school_year: inputReqs[9].value,
+                description: inputReqs[10].value,
+            }
+            console.log(record);
+
+            try {
+                await createRequestMutation({
+                    variables: {
+                        record
+                    },
+                })
+                const modal = Modal.success({
+                    content: 'สร้างใบคำร้องเสร็จสิ้น',
+                });
+                setTimeout(() => {
+                    navigate("/service")
+                    modal.destroy()
+                }, 2000)
+            } catch (err) {
+                console.error(err)
+            }
+        },
+        [createRequestMutation],
+    )
+
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const sendPopup = () => {
-        const inputReqs = document.querySelectorAll(".student-request :where(input.input-request, textarea.input-request,.input-request input)")
+        const inputReqs = document.querySelectorAll(".student-request :where(input.input-request, textarea.input-request,select.input-request,.input-request input)")
 
+        const teacherName = teacherData.users.find((t) => t._id == inputReqs[1].value).fullname
+
+        localStorage.setItem("itss-requestTeacherName", teacherName)
         let countEmtry = 0
         setContent([])
-        inputReqs.forEach((el) => {
+        inputReqs.forEach((el, i) => {
             if (el.value){
-                setContent((prev) => {
-                    return [...prev, el.value]
-                })
+                if (i == 1){
+                    setContent((prev) => {
+                        return [...prev, teacherName]
+                    })
+                }
+                else {
+                    setContent((prev) => {
+                        return [...prev, el.value]
+                    })
+                }
             }
             else{
                 countEmtry++
@@ -74,7 +154,14 @@ export const GeneralRequest = () => {
             <RequestHeader text="สำหรับนักศึกษา" />
             <div className="request-col-2 student-request">
                 <RequestInput text="หัวข้อเรื่อง" />
-                <RequestInput text="ถึงอาจารย์" />
+                {/* <RequestInput text="ถึงอาจารย์" /> */}
+                <select className="input-request">
+                    {
+                        teacherData?.users?.filter((t) => t.role === "teacher").map((t) => (
+                            <option value={t._id}>{t.fullname}</option>
+                        ))
+                    }
+                </select>
                 <RequestInput text="รหัสนักศึกษา" value={student ? student.std_id : ""} disabled={student ? true : false} />
                 <RequestInput text="ชื่อ - นามสกุล" value={student ? `${student.Fname ?? ""} ${student.Lname ?? ""}` : ""} disabled={student ? true : false} />
                 <RequestInput text="ระดับ" value={student ? student.degree : ""} disabled={student ? true : false} />
@@ -123,7 +210,7 @@ export const GeneralRequest = () => {
                 </div>
             </div>
 
-            <Modal title="ยืนยันใบคำร้องทั่วไป" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} okText="ส่งใบ">
+            <Modal title="ยืนยันใบคำร้องทั่วไป" visible={isModalVisible} onOk={handleCreateRequest} onCancel={handleCancel} okText="ส่งใบ">
             {
                 content.map((c, i) => (
                     <div key={"ct-"+i}>

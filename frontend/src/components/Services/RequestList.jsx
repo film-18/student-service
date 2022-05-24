@@ -46,7 +46,7 @@ export const RequestList = ({ request }) => {
     )
 
     return (
-        <Link to="/service/general-request/:id" className="text-black">
+        <Link to={`/service/general-request/${request._id}`} className="text-black">
 
             <div className="request-list-item" >
                 <div className="request-list-title">{request.title}</div>

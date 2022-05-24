@@ -16,7 +16,32 @@ const LeaveRequestSchema = new Schema({
     type: String,
     required: true,
   },
+  fullname: {
+    type: String,
+    required: true,
+  },
+  program: {
+    type: String,
+    required: true,
+  },
+  major: {
+    type: String,
+    required: true,
+  },
+  degree: {
+    type: String,
+    required: true,
+  },
+  year: {
+    type: String,
+    required: true,
+  },
   semester: {
+    type: String,
+    required: true,
+    default: null,
+  },
+  school_year: {
     type: String,
     required: true,
     default: null,
@@ -64,7 +89,7 @@ const LeaveRequestSchema = new Schema({
     type: String,
     required: true,
   },
-  teacherId: {
+  teacherID: {
     type: String,
     required: true,
   },
