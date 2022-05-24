@@ -11,7 +11,7 @@ schemaComposer.Query.addFields({
 //   posts: posts.posts,
 //   postId: posts.postId,
 //   postPagination: posts.postPagination,
-
+  me: users.me,
   users: users.users,
   userId: users.userId,
 
@@ -38,7 +38,6 @@ schemaComposer.Mutation.addFields({
 //   updatePostId: posts.updatePostId,
 //   deletePostId: posts.deletePostId,
 
-  me: users.me,
   createUser: users.createUser,
   login: users.login,
 
