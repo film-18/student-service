@@ -33,6 +33,7 @@ const queryStaff = gql`
   }
 `;
 
+
 const { Meta } = Card;
 const { TabPane } = Tabs;
 
@@ -86,16 +87,16 @@ export const Staff = memo(() => {
           <TabPane tab="เจ้าหน้าที่ห้องฟ้า" key="3">
             <div className="row">
               {staff?.users?.map((s) => (
-                  <div className="col-md-3 mb-3">
-                    <Card
-                      small
-                      hoverable
-                      cover={<img alt="example" src={s.imageUri} />}
-                    >
-                      <Meta title={s.fullname} description={s.email} />
-                    </Card>
-                  </div>
-                ))}
+                <div className="col-md-3 mb-3">
+                  <Card
+                    small
+                    hoverable
+                    cover={<img alt="example" src={s.imageUri} />}
+                  >
+                    <Meta title={s.fullname} description={s.email} />
+                  </Card>
+                </div>
+              ))}
             </div>
           </TabPane>
         </Tabs>
