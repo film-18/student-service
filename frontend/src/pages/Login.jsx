@@ -1,5 +1,5 @@
 import { Input, Button, Typography } from 'antd';
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import { Avatar, Card } from 'antd';
 import { UserOutlined, LockOutlined, GoogleOutlined } from '@ant-design/icons';
@@ -7,64 +7,48 @@ import { useGoogle } from '../contexts/GoogleContext';
 import { GoogleLogin } from 'react-google-login';
 import { gql, useQuery, useMutation } from "@apollo/client"
 import {useNavigate} from 'react-router-dom';
-
-
-
-
-
+import { useCookies } from 'react-cookie';
+import { useApp } from '../contexts/AccountContext';
 
 
 const { Meta } = Card;;
 
-
-const LOGIN_MUTATION = gql`
-    mutation ($username:String!,$password:String!) {
-        login(username:$username,password:$password){
-        token
-        }
+const queryUser = gql`
+query{
+    me{
+      _id
+      username
+      firstname
+      lastname
     }
-`
-// const queryUser = gql`
-// query {
-//     users {
-//       username,
-//       password,
-//       role
-//     }
-//   }
-// `
+  }`
 
 
 const AUTH_TOKEN = 'filmballpetenewbeer-token';
 
 
+
+
 export const Login = () => {
+    const { data: guu, refetch } = useQuery(queryUser);
+    const {login} = useApp();
+    const [cookies, setCookie, removeCookie] = useCookies(['token'])
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const { user, signIn, signOut } = useGoogle()
     const navigate = useNavigate()
 
-    const [login] = useMutation(LOGIN_MUTATION, {
-        variables: {
-          username: username,
-          password: password
-        },
-        onCompleted: ({ login }) => {
-        localStorage.setItem(AUTH_TOKEN, login.token);
-        navigate('/');
-        console.log(login)
-        }
-      });
+    useEffect(() => {
+        console.log('111', guu)
+    }, [])
 
 
     const handleSubmit = useCallback(
          () => {
             event.preventDefault()
-            login()
+            login(username, password)
         },
     )
-
-
 
     return (
         <div className="container my-3" >
@@ -83,7 +67,7 @@ export const Login = () => {
                 // }
 
                 >
-                    <h3 className="text-center">เข้าสู่ระบบ</h3>
+                    <h3 className="text-center">เข้าสู่ระบบ </h3>
                     <form onSubmit={handleSubmit} className='w-100'>
                         <div className='mx-3 my-3'>
                             <div className='row mb-2'>

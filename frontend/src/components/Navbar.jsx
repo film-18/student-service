@@ -8,6 +8,7 @@ import { memo, useEffect, useState } from "react";
 import { useGoogleLogin } from 'react-google-login';
 import { useGoogleLogout } from 'react-google-login'
 import { useGoogle } from '../contexts/GoogleContext';
+import { useApp } from '../contexts/AccountContext';
 
 
 
@@ -17,6 +18,7 @@ import { useGoogle } from '../contexts/GoogleContext';
 const Navbar = memo(() => {
 
     const { user, signIn, signOut } = useGoogle()
+    const {user2, data, logout} = useApp();
     const [ profile, setProfile ] = useState(null)
 
     // const [user, setUser] = useState(null);
@@ -57,11 +59,15 @@ const Navbar = memo(() => {
 
     useEffect(
         () => {
-            setProfile(user)
+            setProfile(user2)
             // alert(user)
         },
-        [user , setProfile]
-     ) 
+        [user2 , setProfile]
+     )
+    
+    useEffect(() => {
+        console.log(user2, data)
+    }, [])
 
 
     const { Header, Content, Footer } = Layout;
@@ -119,10 +125,11 @@ const Navbar = memo(() => {
                             </Menu.Item>
                             <Menu.Item>
                                 <Link to="/staff" >บุคลลากร</Link>
+                                {/* <h1>{profile.username}</h1> */}
                             </Menu.Item>
 
-                            <Menu.SubMenu key="SubMenu" title={profile ?  profile.email : "บัญชี"}>
-                                <Menu.ItemGroup style={{ textAlign: "center", paddingBottom: "10px" }} title={profile ? `${profile?.givenName} ${profile?.familyName}` : 'บัญชี'}>
+                            <Menu.SubMenu key="SubMenu" title={profile ?  profile?.firstname : "บัญชี"}>
+                                <Menu.ItemGroup style={{ textAlign: "center", paddingBottom: "10px" }} title={profile ? `${profile?.role}` : 'บัญชี'}>
                                     {
                                         profile ?
                                             <>
@@ -132,7 +139,7 @@ const Navbar = memo(() => {
                                                     </Link>
                                                 </Menu.Item>
                                                 <Menu.Item key="setting:2">
-                                                    <div onClick={signOut}>
+                                                    <div onClick={logout}>
                                                         ออกจากระบบ
                                                     </div>
                                                 </Menu.Item>

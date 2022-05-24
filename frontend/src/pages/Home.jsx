@@ -97,10 +97,10 @@ export const Home = memo(() => {
                             </Button>
                             </div>
                             <div className="col-12 col-md-6">
-                                <div className="news-img">
+                                <div className="news-img my-3 text-center">
                                     <img
                                         src={updateNews?.UpdateNews?.[0].image}
-                                        width="100%"
+                                        width="70%"
                                     />
                                 </div>
                             </div>
