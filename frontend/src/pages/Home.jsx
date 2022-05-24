@@ -22,25 +22,7 @@ function onChange(a, b, c) {
     console.log(a, b, c);
 }
 
-const queryStaff = gql`
-  query {
-    users(filter: { role: staff }) {
-      fullname
-      firstname
-      lastname
-      username
-      password
-      email
-      year
-      role
-      degree
-      program
-      major
-      _id
-      imageUri
-    }
-  }
-`;
+
 
 const queryUpdateNews = gql`
 query{
@@ -65,7 +47,6 @@ query{
 
 export const Home = memo(() => {
     const [news, setNews] = useState(null);
-    const { data: staff, refetch: refetchStaff } = useQuery(queryStaff);
     const { data: updateNews, refetch: refetchNews } = useQuery(queryUpdateNews);
 
     useEffect(() => {
@@ -174,25 +155,6 @@ export const Home = memo(() => {
                         <p>{_news.content}</p>
                     </>
                 ))}
-
-                <div className="container text-center my-5">
-                    <div className="row">
-                        <Typography.Title level={2} className="mb-4">
-                            เจ้าหน้าที่ห้องฟ้า
-                        </Typography.Title>
-                        {staff?.users?.map((s) => (
-                            <div className="col-4">
-                                <div className="mt-2">
-                                    <Avatar size={250} src={<Image src={s.imageUri} />} />
-                                </div>
-                                <div className="mt-3">
-                                    <h5 className="mb-0">{s.fullname}</h5>
-                                    <Descriptions.Item >{s.email}</Descriptions.Item>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
 
                 {/* <div className="container text-center">
           <div className="row">

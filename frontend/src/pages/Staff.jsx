@@ -11,6 +11,27 @@ import {
   Layout,
 } from "antd";
 import staffInfo from "../data/staff.json";
+import { gql, useQuery, useMutation } from "@apollo/client";
+
+const queryStaff = gql`
+  query {
+    users(filter: { role: staff }) {
+      fullname
+      firstname
+      lastname
+      username
+      password
+      email
+      year
+      role
+      degree
+      program
+      major
+      _id
+      imageUri
+    }
+  }
+`;
 
 const { Meta } = Card;
 const { TabPane } = Tabs;
@@ -20,14 +41,15 @@ const onChange = (key) => {
 };
 
 export const Staff = memo(() => {
+  const { data: staff, refetch: refetchStaff } = useQuery(queryStaff);
   return (
     <>
-      <div className="container my-5 text-center">
+      <div className="container my-3 text-center">
         <div className="row mb-2">
-          <Typography.Title level={3}>IT Kmitl Staff</Typography.Title>
+          <Typography.Title level={3}>บุคลลากร</Typography.Title>
         </div>
         <Tabs defaultActiveKey="1" onChange={onChange}>
-          <TabPane tab="Academic Staff" key="1">
+          <TabPane tab="บุคลากรสายวิชาการ" key="1">
             <div className="row">
               {staffInfo
                 .filter((s) => s.type === "Academic")
@@ -44,8 +66,8 @@ export const Staff = memo(() => {
                 ))}
             </div>
           </TabPane>
-          <TabPane tab="Support Staff" key="2">
-          <div className="row">
+          <TabPane tab="บุคลากรสายสนับสนุน" key="2">
+            <div className="row">
               {staffInfo
                 .filter((s) => s.type === "Support")
                 .map((staff) => (
@@ -61,62 +83,23 @@ export const Staff = memo(() => {
                 ))}
             </div>
           </TabPane>
+          <TabPane tab="เจ้าหน้าที่ห้องฟ้า" key="3">
+            <div className="row">
+              {staff?.users?.map((s) => (
+                  <div className="col-md-3 mb-3">
+                    <Card
+                      small
+                      hoverable
+                      cover={<img alt="example" src={s.imageUri} />}
+                    >
+                      <Meta title={s.fullname} description={s.email} />
+                    </Card>
+                  </div>
+                ))}
+            </div>
+          </TabPane>
         </Tabs>
       </div>
-      {/* <div className="container">
-        <div className="row">
-          <div className="col-4">
-            <Card
-              hoverable
-              cover={
-                <img
-                  alt="example"
-                  src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-                  style={{ width: 240 }}
-                />
-              }
-            >
-              <Meta
-                title="Europe Street beat"
-                description="www.instagram.com"
-              />
-            </Card>
-          </div>
-          <div className="col-4">
-            <Card
-              hoverable
-              cover={
-                <img
-                  alt="example"
-                  src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-                  style={{ width: 240 }}
-                />
-              }
-            >
-              <Meta
-                title="Europe Street beat"
-                description="www.instagram.com"
-              />
-            </Card>
-          </div><div className="col-4">
-            <Card
-              hoverable
-              cover={
-                <img
-                  alt="example"
-                  src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-                  style={{ width: 240 }}
-                />
-              }
-            >
-              <Meta
-                title="Europe Street beat"
-                description="www.instagram.com"
-              />
-            </Card>
-          </div>    
-        </div>
-      </div> */}
     </>
   );
 });
