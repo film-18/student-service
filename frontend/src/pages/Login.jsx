@@ -6,10 +6,24 @@ import { UserOutlined, LockOutlined, GoogleOutlined } from '@ant-design/icons';
 import { useGoogle } from '../contexts/GoogleContext';
 import { GoogleLogin } from 'react-google-login';
 import { gql, useQuery, useMutation } from "@apollo/client"
+import {useNavigate} from 'react-router-dom';
+
+
+
+
+
 
 
 const { Meta } = Card;;
 
+
+const LOGIN_MUTATION = gql`
+    mutation ($username:String!,$password:String!) {
+        login(username:$username,password:$password){
+        token
+        }
+    }
+`
 // const queryUser = gql`
 // query {
 //     users {
@@ -21,45 +35,39 @@ const { Meta } = Card;;
 // `
 
 
+const AUTH_TOKEN = 'filmballpetenewbeer-token';
+
+
 export const Login = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const { user, signIn, signOut } = useGoogle()
+    const navigate = useNavigate()
 
-    // const { data: dataUser } = useQuery(queryUser)
+    const [login] = useMutation(LOGIN_MUTATION, {
+        variables: {
+          username: username,
+          password: password
+        },
+        onCompleted: ({ login }) => {
+        localStorage.setItem(AUTH_TOKEN, login.token);
+        navigate('/');
+        console.log(login)
+        }
+      });
 
 
     const handleSubmit = useCallback(
-        () => {
+         () => {
             event.preventDefault()
-            console.log(username, password);
+            login()
         },
-        [username, password],
     )
 
 
 
     return (
         <div className="container my-3" >
-            {/* <div className='row'>
-                <h1 className="text-center mt-5">เข้าสู่ระบบ</h1>
-                <form onSubmit={handleSubmit} className='w-100'>
-                    <div className='row mt-2 justify-content-center'>
-                        <div className='col-12 col-md-6'>
-                            <div>ชื่อผู้ใช้ : </div>
-                            <Input className="mt-2" size="large" onChange={(e) => setUsername(e.target.value)} />
-                        </div>
-                    </div>
-                    <div className='row mt-2 justify-content-center'>
-                        <div className='col-12 col-md-6'>
-                            <div>รหัสผ่าน : </div>
-                            <Input className="mt-2" size="large" type="password" onChange={(e) => setPassword(e.target.value)} />
-                        </div>
-                    </div>
-                    <div className='mt-3 text-center'>
-                        <Button type='primary' htmlType="submit">เข้าสู่ระบบ</Button>
-                    </div>
-                </form> */}
             <div className='row justify-content-center'>
                 <Card
                     hoverable
