@@ -131,7 +131,7 @@ const Navbar = memo(() => {
                   <Link to="/service">งานเอกสาร</Link>
                 </Menu.Item>
                 <Menu.Item>
-                  <Link to="/staff">บุคลลากร</Link>
+                  <Link to="/staff">บุคลากร</Link>
                   {/* <h1>{profile.username}</h1> */}
                 </Menu.Item>
 
@@ -153,7 +153,7 @@ const Navbar = memo(() => {
                       </>
                     ) : (
                       "บัญชี"
-                    )
+                    )   
                   }
                 >
                   <Menu.ItemGroup

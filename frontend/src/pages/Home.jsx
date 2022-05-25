@@ -1,13 +1,13 @@
 import { memo, useEffect, useState } from "react";
 import {
-    Image,
-    Carousel,
-    Row,
-    Col,
-    Button,
-    Typography,
-    Layout,
-    Pagination,
+  Image,
+  Carousel,
+  Row,
+  Col,
+  Button,
+  Typography,
+  Layout,
+  Pagination,
 } from "antd";
 import { AlertFilled, ExclamationCircleFilled } from "@ant-design/icons";
 import data from "../data/news.json";
@@ -19,10 +19,8 @@ import { UserOutlined } from "@ant-design/icons";
 import { gql, useQuery, useMutation } from "@apollo/client";
 
 function onChange(a, b, c) {
-    console.log(a, b, c);
+  console.log(a, b, c);
 }
-
-
 
 const queryUpdateNews = gql`
 query{
@@ -34,8 +32,8 @@ query{
       startDate,
       endDate,
     }
-  }`;
-
+  }
+`;
 
 // const contentStyle = {
 //     height: '500px',
@@ -160,9 +158,9 @@ export const Home = memo(() => {
             </Typography.Title>
           </div>
         </div> */}
-            </div>
-            {/* <div style={{ padding: '30px' }} div className="container"> */}
-            {/* <Typography.Title level={4}>
+      </div>
+      {/* <div style={{ padding: '30px' }} div className="container"> */}
+      {/* <Typography.Title level={4}>
                 ข่าวสารและประชาสัมพันธ์
             </Typography.Title>
 
@@ -182,13 +180,13 @@ export const Home = memo(() => {
                 </div>
             </div> */}
 
-            {/* <Button type="primary" shape="round" size="large" style={{ marginTop: '30px', float: 'right' }} icon={<AlertFilled />} onClick={() => location.href = '/news'}>
+      {/* <Button type="primary" shape="round" size="large" style={{ marginTop: '30px', float: 'right' }} icon={<AlertFilled />} onClick={() => location.href = '/news'}>
                 <span className="thaiFont">
                     ข่าวสารเพิ่มเติม
                 </span>
             </Button> */}
 
-            {/* <div style={{ padding: '30px', paddingTop: '100px' }}>
+      {/* <div style={{ padding: '30px', paddingTop: '100px' }}>
                 <Typography.Title level={3}>
                     ปฏิทินการศึกษา
                 </Typography.Title>
@@ -202,7 +200,7 @@ export const Home = memo(() => {
                     {_news.content}
                 </p>
             </>)} */}
-            {/* </div> */}
-        </>
-    );
+      {/* </div> */}
+    </>
+  );
 });
