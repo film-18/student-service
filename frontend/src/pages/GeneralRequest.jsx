@@ -2,7 +2,7 @@ import { Button, Modal } from 'antd'
 import { useState, useEffect, useCallback } from 'react'
 import { RequestHeader } from "../components/Services/RequestHeader"
 import { RequestInput } from "../components/Services/RequestInput"
-import { useGoogle } from "../contexts/GoogleContext"
+import { useApp } from "../contexts/AccountContext"
 
 import data from '../data/students.json'
 import reqInfo from '../data/requestInfo.json'
@@ -29,29 +29,36 @@ query {
 
 export const GeneralRequest = () => {
     const navigate = useNavigate()
-    const { user } = useGoogle()
+    // const { user } = useGoogle()
+    const { user2 } = useApp()
     const [student, setStudent] = useState(null)
     const [students, setStudents] = useState([])
     const [content, setContent] = useState([])
 
-    const {data: teacherData, loading} = useQuery(USER_QUERY)
+    const { data: teacherData, loading } = useQuery(USER_QUERY)
 
     const [createRequestMutation] = useMutation(CREATE_REQUEST_MUTATION)
+
+    useEffect(() => {
+        setStudent(user2)
+        // console.log(user2?._id)
+    }, [user2])
+
     const handleCreateRequest = useCallback(
         async (e) => {
             e.preventDefault()
             // console.log(title, content, authorId, tagId)
             const inputReqs = document.querySelectorAll(".student-request :where(input.input-request, textarea.input-request,select.input-request,.input-request input)")
-            
+
             const teacherName = localStorage.getItem("itss-requestTeacherName")
 
-            console.log(inputReqs[4].value);
+            // console.log(student);
 
             const record = {
                 title: inputReqs[0].value,
                 teacherID: inputReqs[1].value,
                 teacherName: teacherName,
-                studentIdMongo: "628cd69016475755ddf0f005",
+                studentIdMongo: user2?._id,
                 studentId: inputReqs[2].value,
                 fullname: inputReqs[3].value,
                 degree: inputReqs[4].value,
@@ -81,7 +88,7 @@ export const GeneralRequest = () => {
                 console.error(err)
             }
         },
-        [createRequestMutation],
+        [createRequestMutation, user2],
     )
 
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -95,8 +102,8 @@ export const GeneralRequest = () => {
         let countEmtry = 0
         setContent([])
         inputReqs.forEach((el, i) => {
-            if (el.value){
-                if (i == 1){
+            if (el.value) {
+                if (i == 1) {
                     setContent((prev) => {
                         return [...prev, teacherName]
                     })
@@ -107,15 +114,15 @@ export const GeneralRequest = () => {
                     })
                 }
             }
-            else{
+            else {
                 countEmtry++
             }
         })
 
-        if (!countEmtry){
+        if (!countEmtry) {
             showModal()
         }
-        else{
+        else {
             alert("ไม่ครบ")
         }
 
@@ -123,31 +130,36 @@ export const GeneralRequest = () => {
 
     const showModal = () => {
         setIsModalVisible(true);
-      };
-    
-      const handleOk = () => {
-        setIsModalVisible(false);
-      };
-    
-      const handleCancel = () => {
-        setIsModalVisible(false);
-      };
+    };
 
-    useEffect(
-        () => {
-            setStudents(data)
+    const handleOk = () => {
+        setIsModalVisible(false);
+    };
 
-            if (user){
-                const stdId = user.email.split("@")[0]
-                if (students){
-                    const std = students.find(std => std.std_id == stdId)
-                    setStudent(std);
-                }
-            }
-        },
-        [data, setStudents, setStudent, user, students]
-    )
-    
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
+
+    // useEffect(
+    //     () => {
+    //         setStudents(data)
+
+    //         if (user){
+    //             const stdId = user.email.split("@")[0]
+    //             if (students){
+    //                 const std = students.find(std => std.std_id == stdId)
+    //                 setStudent(std);
+    //             }
+    //         }
+    //     },
+    //     [data, setStudents, setStudent, user, students]
+    // )
+
+    // useEffect(() => {
+    //     setStudent(user2)
+    //     console.log(user2._id)
+    // }, [user2])
+
     return (
         <div className="container mt-5 pb-5">
             <h2 className="text-center">สร้างใบคำร้องทั่วไป</h2>
@@ -162,8 +174,8 @@ export const GeneralRequest = () => {
                         ))
                     }
                 </select>
-                <RequestInput text="รหัสนักศึกษา" value={student ? student.std_id : ""} disabled={student ? true : false} />
-                <RequestInput text="ชื่อ - นามสกุล" value={student ? `${student.Fname ?? ""} ${student.Lname ?? ""}` : ""} disabled={student ? true : false} />
+                <RequestInput text="รหัสนักศึกษา" value={student ? student.studentID : ""} disabled={student ? true : false} />
+                <RequestInput text="ชื่อ - นามสกุล" value={student ? `${student.firstname || ""} ${student.lastname || ""}` : ""} disabled={student ? true : false} />
                 <RequestInput text="ระดับ" value={student ? student.degree : ""} disabled={student ? true : false} />
                 <RequestInput text="ปี" value={student ? student.year : ""} disabled={student ? true : false} />
                 <RequestInput text="สาขาวิชา" value={student ? student.program : ""} disabled={student ? true : false} />
@@ -177,12 +189,20 @@ export const GeneralRequest = () => {
                 <RequestInput text="ลงชื่อ" />
             </div>
             <div className='text-end mt-3 mb-3'>
+                {/* <Button
+                    className="mt-3"
+                    type="primary"
+                    size="large"
+                    onClick={sendPopup}
+                >
+                    ส่งเรื่อง
+                </Button> */}
                 <button className="btn btn-primary" onClick={sendPopup}>ส่งเรื่อง</button>
             </div>
 
-            <div className='row'>
+            {/* <div className='row'>
                 <div className="col teacher-request">
-                    <RequestHeader text="สำหรับอาจารย์" />
+                    <RequestHeader text="สำหรับอาจารย์"/>
                     <RequestInput text="ความคิดเห็น" />
                     <RequestInput text="วันที่" type="date" />
                     <div className='mt-3 text-end'>
@@ -208,19 +228,19 @@ export const GeneralRequest = () => {
                         <button className="btn btn-danger ms-2 btn-reject">ปฏิเสธ</button>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             <Modal title="ยืนยันใบคำร้องทั่วไป" visible={isModalVisible} onOk={handleCreateRequest} onCancel={handleCancel} okText="ส่งใบ">
-            {
-                content.map((c, i) => (
-                    <div key={"ct-"+i}>
-                        {reqInfo[0].input[i].nameTH} : {c}
-                    </div>
-                ))
-            }
-            <div className="mt-3 text-secondary">กรุณาตรวจสอบใบคำร้องอีกครั้ง ถ้าข้อมูล<ins>ครบ</ins>และ<ins>ถูกต้อง</ins> กรุณากดปุ่ม ส่งใบ</div>
+                {
+                    content.map((c, i) => (
+                        <div key={"ct-" + i}>
+                            {reqInfo[0].input[i].nameTH} : {c}
+                        </div>
+                    ))
+                }
+                <div className="mt-3 text-secondary">กรุณาตรวจสอบใบคำร้องอีกครั้ง ถ้าข้อมูล<ins>ครบ</ins>และ<ins>ถูกต้อง</ins> กรุณากดปุ่ม ส่งใบ</div>
             </Modal>
         </div>
-        
+
     )
 }

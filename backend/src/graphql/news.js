@@ -25,3 +25,20 @@ export const UpdateNews = schemaComposer.createResolver({
     return postNews
   },
 })
+
+export const searchNews = schemaComposer.createResolver({
+  name: 'searchNews',
+  kind: 'query',
+  type: [NewsTC],
+  args: {
+    keyword: 'String!',
+  },
+  resolve: async ({ args }) => {
+    const { keyword } = args
+    // query database เพื่อหา Newa ที่มี Keyword นี้อยู่ใน Title
+    // Select * from News where title LIKE '%keyword%'
+
+    const foundPosts = await NewsModel.find({ title: { $regex: keyword, $options: 'i' } })
+    return foundPosts
+  },
+})

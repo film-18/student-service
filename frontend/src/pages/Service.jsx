@@ -66,7 +66,6 @@ export const Service = memo(() => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [items, setItems] = useState([...RequestInfo]);
     const [isError, setIsError] = useState(false);
-
     const [requestPopup, setRequestPopup] = useState(null);
 
     const { user2: user } = useApp()
@@ -89,7 +88,7 @@ export const Service = memo(() => {
 
     const handleCreate = useCallback(
         (page) => () => {
-            location.href = `service/${page}/create`;
+            window.location.href = `service/${page}/create`;
             setIsModalVisible(false);
         },
         []
@@ -158,7 +157,7 @@ export const Service = memo(() => {
                     background:
                         "linear-gradient(180deg, #112B3C 70%, rgb(235, 245, 255) 50%)",
                 }}
-            >
+            >   
                 <div className="container my-5 text-center">
                     <div className="row mb-2">
                         <Typography.Title level={3} style={{ color: "#d9d9d9" }}>

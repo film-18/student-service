@@ -6,7 +6,7 @@ import { CookiesProvider } from 'react-cookie';
 import Cookies from 'universal-cookie';
 
 import 'antd/dist/antd.less';
-import { GoogleProvider } from './contexts/GoogleContext';
+// import { GoogleProvider } from './contexts/GoogleContext';
 import { AppProvider } from './contexts/AccountContext';
 import { BrowserRouter } from "react-router-dom";
 import { ApolloClient, ApolloProvider,createHttpLink, InMemoryCache } from '@apollo/client'

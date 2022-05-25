@@ -1,9 +1,12 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useParams } from "react-router-dom"
+import { RequestHeader } from "../components/Services/RequestHeader"
+import { RequestInput } from "../components/Services/RequestInput"
 
 import stdsData from '../data/students.json'
 import reqData from '../data/requestItems.json'
 import { gql, useQuery } from '@apollo/client';
+import { useApp } from "../contexts/AccountContext"
 
 const REQUEST_QUERY = gql`
 query ($gen_id: MongoID!) {
@@ -29,24 +32,31 @@ query ($gen_id: MongoID!) {
 
 export const GeneralRequestText = () => {
     const { id } = useParams()
+    const { user2 } = useApp()
+    const [userRole, setuserRole] = useState(null)
 
-    const {data: requestData} = useQuery(REQUEST_QUERY, {
+    const { data: requestData } = useQuery(REQUEST_QUERY, {
         variables: {
             "gen_id": id
         }
     })
 
+    useEffect(() => {
+        setuserRole(user2)
+        console.log(user2?.role)
+    }, [user2])
+
     const dateRequest = useMemo(
         () => {
             if (requestData) {
                 const date = requestData?.generalRequestId?.requestDate.split("T")[0].split("-")
-                const monthName = ["มกราคม", "กุมภาพันธ์", "มีนาคม","เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"]
+                const monthName = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"]
                 return [date[2], monthName[parseInt(date[1])], date[0]]
             }
         },
         [requestData]
     )
-    
+
     // useEffect(
     //     () => {
     //         const req = reqData.find(req => req.req_id == id)
@@ -59,7 +69,7 @@ export const GeneralRequestText = () => {
     //     }
     //     }, [requestData, setStudent]
     // )
-    
+
     return (
         // <Link to={`service/general-request/${generalRequest._id}`} className="text-decoration-none text-black">
         <div className="container pb-5 pt-4">
@@ -76,17 +86,17 @@ export const GeneralRequestText = () => {
                         <div>คณะเทคโนโลยีสารสนเทศ</div>
                         <div>สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง</div>
                         <div>
-                            วันที่ {dateRequest ? dateRequest[0] : ""} เดือน {dateRequest ? dateRequest[1] : ""} พ.ศ. {parseInt(dateRequest ? dateRequest[2] : 0) +  543}
+                            วันที่ {dateRequest ? dateRequest[0] : ""} เดือน {dateRequest ? dateRequest[1] : ""} พ.ศ. {parseInt(dateRequest ? dateRequest[2] : 0) + 543}
 
                         </div>
                     </div>
                 </div>
                 <div className='request-form-title mt-4'>
                     <b>เรื่อง : </b>
-                    {requestData?.generalRequestId?.title} 
+                    {requestData?.generalRequestId?.title}
                     &nbsp;ภาคการศึกษาที่ {requestData?.generalRequestId?.semester}
                     &nbsp;ปีการศึกษา {requestData?.generalRequestId?.school_year}
-                    </div>
+                </div>
                 <div><b>เรียน : </b>คณบดีคณะเทคโนโลยีสารสนเทศ</div>
                 <div className='mt-4'>
                     &emsp;&emsp;&emsp;&emsp;ข้าพเจ้า {requestData?.generalRequestId?.fullname}
@@ -95,8 +105,8 @@ export const GeneralRequestText = () => {
                     &nbsp;สาขาวิชา {requestData?.generalRequestId?.program}
                     &nbsp;{
                         requestData?.generalRequestId?.major != "-" ?
-                        "แขนงวิชา " + requestData?.generalRequestId?.major :
-                        ""
+                            "แขนงวิชา " + requestData?.generalRequestId?.major :
+                            ""
                     }
                 </div>
                 <div className='mt-4'>
@@ -143,6 +153,50 @@ export const GeneralRequestText = () => {
                         <div>({requestData?.generalRequestId?.fullname})</div>
                     </div>
                 </div>
+            </div>
+            <div className='row mt-2' >
+                {user2?.role === "teacher" ? (
+                    <div className="col teacher-request">
+                        <RequestHeader text="สำหรับอาจารย์" />
+                        <RequestInput text="ความคิดเห็น" />
+                        <RequestInput text="วันที่" type="date" />
+                        <div className='mt-3 text-end'>
+                            <button className="btn btn-success btn-approve">อนุญาต</button>
+                            <button className="btn btn-danger ms-2 btn-reject">ปฏิเสธ</button>
+                        </div>
+                    </div>
+                ) : (
+                    <p></p>
+                )}
+
+                {user2?.role === "staff" ? (
+                    <div className="col staff-request">
+                        <RequestHeader text="สำหรับเจ้าหน้าที่" />
+                        <RequestInput text="ความคิดเห็น" />
+                        <RequestInput text="วันที่" type="date" />
+                        <div className='mt-3 text-end'>
+                            <button className="btn btn-success btn-approve">อนุญาต</button>
+                            <button className="btn btn-danger ms-2 btn-reject">ปฏิเสธ</button>
+                        </div>
+                    </div>
+                ) : (
+                    <p></p>
+                )}
+
+                {user2?.role === "dean" ? (
+                    <div className="col dean-request">
+                    <RequestHeader text="สำหรับคณบดี" />
+                    <RequestInput text="ความคิดเห็น" />
+                    <RequestInput text="วันที่" type="date" />
+                    <div className='mt-3 text-end'>
+                        <button className="btn btn-success btn-approve">อนุญาต</button>
+                        <button className="btn btn-danger ms-2 btn-reject">ปฏิเสธ</button>
+                    </div>
+                </div>
+                ) : (
+                    <p></p>
+                )}
+
             </div>
         </div>
         // </Link>

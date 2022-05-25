@@ -31,6 +31,7 @@ schemaComposer.Query.addFields({
   newsId: news.newsId,
   newsPagination: news.newsPagination,
   UpdateNews: news.UpdateNews,
+  searchNews: news.searchNews,
 
 })
 schemaComposer.Mutation.addFields({
