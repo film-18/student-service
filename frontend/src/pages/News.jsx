@@ -65,7 +65,7 @@ export const News = () => {
 
   return (
     <div className="container my-3">
-      {user?.role !== "student" ? (
+      {user?.role !== "student"&&user? (
         <div className="text-end">
           <Link to="/news/create">
             <Button type="primary">สร้างโพสต์</Button>
