@@ -86,7 +86,7 @@ export const GeneralRequestText = () => {
     }, [user2])
 
     const dateRequest = useMemo(
-        () => {
+        () => { 
             if (requestData) {
                 const date = requestData?.generalRequestId?.requestDate.split("T")[0].split("-")
                 const monthName = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"]
@@ -176,10 +176,20 @@ export const GeneralRequestText = () => {
                 <div className='request-form-degree text-end'>
                     <div>ระดับ{requestData?.generalRequestId?.degree}</div>
                 </div>
-                <h3 className='text-center mt-5'>คำร้องทั่วไป</h3>
+                {/* <h3 className='text-center mt-5'>คำร้องทั่วไป</h3> */}
+                <div className='row'>
+                    <div className='col-2 mx-5 mt-1'>
+                        <img src="https://www.it.kmitl.ac.th/wp-content/uploads/2017/12/cropped-it-logo.png" width="50%" />
+                    </div>
+                    <div className='col-6 text-center'>
+                        <h3 className='text-center mt-4'>คำร้องทั่วไป</h3>
+                    </div>
+                    {/* <div className='col-2'>
+                    </div> */}
+                </div>
                 <div className='d-flex justify-content-between'>
                     <div>
-                        <img src="" alt="" />
+
                     </div>
                     <div>
                         <div>คณะเทคโนโลยีสารสนเทศ</div>
@@ -190,6 +200,7 @@ export const GeneralRequestText = () => {
                         </div>
                     </div>
                 </div>
+                
                 <div className='request-form-title mt-4'>
                     <b>เรื่อง : </b>
                     {requestData?.generalRequestId?.title}
