@@ -1,6 +1,9 @@
 
 import { useCallback, useMemo } from "react";
 import { Button } from 'antd';
+import moment from 'moment'
+import 'moment/locale/th'
+moment.locale('th')
 
 // import GeneralRequestText from '../../pages/GeneralRequestText';
 import { Link } from "react-router-dom";
@@ -16,6 +19,8 @@ let status_name = {
 
 
 export const RequestList = ({ request }) => {
+
+    const time = moment(request.updatedAt).add(543, "year").format("LL")
     const path = useMemo(
         () => {
             if (request.__typename === "GeneralRequest"){
@@ -64,10 +69,9 @@ export const RequestList = ({ request }) => {
 
     return (
         <Link to={path} className="text-black">
-
             <div className="request-list-item" >
                 <div className="request-list-title">{request.title}</div>
-                {request.updatedAt}
+                {time}
                 {setStatusColor}
                 {/* <Link to={`service/general-request/${request._id}`} className="text-decoration-none text-black">
                 <GeneralRequestText generalRequest={request._id}/>

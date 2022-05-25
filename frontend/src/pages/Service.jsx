@@ -10,6 +10,8 @@ import {
     Modal,
     Layout,
 } from "antd";
+import { Radio, Input} from 'antd';
+
 import { DownloadOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom";
 import { Spin, Space, Empty } from "antd";
@@ -90,6 +92,8 @@ export const Service = memo(() => {
     const [isError, setIsError] = useState(false);
     const [requestPopup, setRequestPopup] = useState(null);
 
+
+
     const { user2: user } = useApp()
 
     const { data: dataService, refetch, loading } = useQuery(USER_QUERY, {
@@ -132,6 +136,23 @@ export const Service = memo(() => {
     
     
     const [requests, setRequests] = useState(null)
+    const [filterRequest, setfilterRequest] = useState({})
+    const [value, setValue] = useState("all");
+    const onChange = (e) => {
+        setValue(e.target.value);
+        if(e.target.value=="success"){
+            setRequest([requests[0].filter((x)=>x.status=="approved"),requests[1].filter((x)=>x.status=="approved")])
+        }
+        else if(e.target.value=="all"){
+            setRequests(requests)
+        }
+        else if(e.target.value="fail"){
+            setRequests([requests[0].filter((x)=>x.status=="rejected"),requests[1].filter((x)=>x.status=="rejected")])
+        }
+        else{
+            setRequests([requests[0].filter((x)=>x.status=="teacher_pending"),requests[1].filter((x)=>x.status=="teacher_pending")])
+        }
+      };
 
     useEffect(
         () => {
@@ -175,6 +196,8 @@ export const Service = memo(() => {
     if (loading) {
         return <div>Loading...</div>
     }
+
+
     
     return (
         <>
@@ -206,23 +229,20 @@ export const Service = memo(() => {
             </Layout>
             <div className="container ">
                 <div className="request-body row justify-content-center">
+                <Radio.Group onChange={onChange} value={value} className="text-center mb-3">
+                    <Space direction="horizontal">
+                        <Radio value={"all"}>สถานะทั้งหมด</Radio>
+                        <Radio value={"success"}>เสร็จสิ้น</Radio>
+                        <Radio value={"fail"}>ปฏิเสธ</Radio>
+                        <Radio value={"pending"}>กำลังดำเนินการ</Radio>
+                    </Space>
+                </Radio.Group>
                     <Tabs defaultActiveKey="0">
                         <TabPane tab="ทั้งหมด" key="0" className="request-list ">
                             {(requests ? [...requests[0], ...requests[1]] : []).map((req) => (
                                 <RequestList request={req} />
                             ))}
                         </TabPane>
-                        {/* {
-                        requestTopics.map((topic, index) => (
-                            <TabPane tab={topic.name} key={index + 1} className="request-list">
-                                {
-                                    requests.filter(req => req.type == topic.nameEN).map((req) => (
-                                        <RequestList request={req} />
-                                    ))
-                                }
-                            </TabPane>
-                        ))
-                    } */}
                         <TabPane tab="ใบคำร้องทั่วไป" key="1" className="request-list">
                             {(requests ? requests[0] : []).map((req) => (
                                 <RequestList request={req} />
@@ -245,6 +265,9 @@ export const Service = memo(() => {
                             <Empty />
                         </TabPane>
                     </Tabs>
+
+
+
                 </div>
 
                 {requestPopup ? (

@@ -12,6 +12,10 @@ import { BrowserRouter } from "react-router-dom";
 import { ApolloClient, ApolloProvider,createHttpLink, InMemoryCache } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context';
 
+import moment from 'moment'
+import 'moment/dist/locale/th'
+moment.locale('th')
+
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:3001/graphql',

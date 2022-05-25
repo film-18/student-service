@@ -26,7 +26,7 @@ function onChange(a, b, c) {
 
 const queryUpdateNews = gql`
 query{
-    UpdateNews {
+    news {
       title,
       shortDes,
       body,
@@ -50,10 +50,7 @@ export const Home = memo(() => {
     const { data: updateNews, refetch: refetchNews } = useQuery(queryUpdateNews);
 
     useEffect(() => {
-        axios.get("http://localhost:8000/news").then((res) => {
-            console.log(res.data);
-            setNews(res.data);
-        });
+        console.log(updateNews)
     }, []);
 
     return (
@@ -79,12 +76,12 @@ export const Home = memo(() => {
                             </Typography.Title>
                             <div className="row">
                                 <h4 style={{ color: "#08979c" }}>
-                                    {updateNews?.UpdateNews?.[0].title}
+                                    {updateNews?.news?.[0].title}
                                 </h4>
                                 <p style={{ color: "#08979c" }}>
-                                    {updateNews?.UpdateNews?.[0].shortDes}
+                                    {updateNews?.news?.[0].shortDes}
                                 <br></br>
-                                    {updateNews?.UpdateNews?.[0].body}</p>
+                                    {updateNews?.news?.[0].body}</p>
                             </div>
                             
                             <Button
@@ -99,8 +96,9 @@ export const Home = memo(() => {
                             <div className="col-12 col-md-6">
                                 <div className="news-img my-3 text-center">
                                     <img
-                                        src={updateNews?.UpdateNews?.[0].image}
-                                        width="70%"
+                                        src={updateNews?.news?.[0].image}
+                                        width="auto"
+                                        height="300px"
                                     />
                                 </div>
                             </div>
@@ -147,12 +145,11 @@ export const Home = memo(() => {
 
                 <div style={{ padding: "30px", paddingTop: "100px" }}>
                     <Typography.Title level={2}>ปฏิทินการศึกษา</Typography.Title>
-                    <CalendarItem lists={{}} />
+                    <CalendarItem lists={updateNews?.news} />
                 </div>
-                {news?.map((_news) => (
+                {updateNews?.news?.map((_news) => (
                     <>
-                        <h2>{_news.title}</h2>
-                        <p>{_news.content}</p>
+                        <h2>{_news.title+"::startat:"+_news.startDate+"::endDate:"+_news.endDate}</h2>
                     </>
                 ))}
 

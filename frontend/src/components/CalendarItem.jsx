@@ -1,14 +1,50 @@
 import { Badge, Calendar } from "antd";
+import { gql, useQuery, useMutation } from "@apollo/client"
+const queryUpdateNews = gql`
+query{
+    news {
+      title,
+      shortDes,
+      body,
+      image,
+      startDate,
+      endDate,
+    }
+  }`;
 
 function onPanelChange(value, mode) {
     console.log(value.format('YYYY-MM-DD'), mode);
 }
 
 function getListData(value) {
+    const { data: news, refetch: refetchNews } = useQuery(queryUpdateNews);
+    
+
+    // console.log(yearStartDate,monthStartDate,dateStartDate)
+    // console.log(yearEndDate,monthEndDate,dateEndDate)
+
+    
+
+
+
+    news?.news.forEach(element => {
+        const startDate = new Date(element.startDate)
+        const yearStartDate = startDate.getFullYear()
+        const monthStartDate = startDate.getMonth()+1
+        const dateStartDate = startDate.getDay()
+        const endDate = new Date(element.endDate)
+        const yearEndDate = endDate.getFullYear()
+        const monthEndDate = endDate.getMonth()+1
+        const dateEndDate = endDate.getDay()
+        const title = element.title
+
+        
+
+    });
     
     const calendar_lists = {
-        "2022" : {
-            "3" : {
+        "2021" : {
+            "5" : {
                 "1" : [
                     {type: "error", content: "testt"},
                     {type: "warning", content: "testt"},
@@ -36,8 +72,8 @@ function getListData(value) {
     return listData || [];
 }
 
-function dateCellRender(value) {
-  const listData = getListData(value);
+function dateCellRender(value,lists) {
+  const listData = getListData(value,lists);
   return (
     <div className="events">
       {listData.map((item, index) => (
@@ -49,8 +85,8 @@ function dateCellRender(value) {
   );
 }
 
-export const CalendarItem = () => {
+export const CalendarItem = (props) => {
     return (
-        <Calendar onPanelChange={onPanelChange} dateCellRender={dateCellRender} />
+        <Calendar onPanelChange={onPanelChange} dateCellRender={(data)=>dateCellRender(data,props.lists)} />
     )
 }
