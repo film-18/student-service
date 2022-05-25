@@ -6,6 +6,8 @@ import reqData from '../data/requestItems.json'
 import { gql, useQuery } from '@apollo/client';
 import { Avatar, List, Space, Divider, Image, Button } from 'antd';
 import { useApp } from "../contexts/AccountContext"
+import { RequestInput } from '../components/Services/RequestInput';
+import { RequestHeader } from '../components/Services/RequestHeader';
 
 const REQUEST_QUERY = gql`
 query ($id: MongoID!) {
@@ -32,6 +34,7 @@ query ($id: MongoID!) {
         subjectId
         subjectName
         teacherName
+        teacherID
         teacherComment
         teacherStatus
         teacherDate
@@ -273,6 +276,36 @@ export const LeaveRequestText = () => {
 
             </div> */}
             </div>
+            {
+                user2.role === "teacher" ?
+                <div className='teacher-request'>
+                    <RequestHeader text="สำหรับอาจารย์" />
+                        <div className="d-flex justify-content-between" style={{gap: "10px"}}>
+                            <div className="request-input">
+                                <div className="request-input-text">อาจารย์</div>
+                            </div>
+                            <div className="request-input">
+                                <div className="request-input-text">ความคิดเห็น</div>
+                            </div>
+                            <div className="request-input">
+                                <div className="request-input-text">วันที่</div>
+                            </div>
+                        </div>
+                        {
+                            request?.teacherList.map((t) => (
+                                <div className="d-flex justify-content-between mt-2" style={{gap: "10px"}}>
+                                    <RequestInput value={t.teacherName} disabled={true} />
+                                    <RequestInput disabled={user2?._id != t.teacherID} />
+                                    <RequestInput disabled={user2?._id != t.teacherID} type="date" />
+                                </div>
+                            ))
+                        }
+                    <div className='mt-3 text-end'>
+                        <Button size="large" className="bg-success">อนุญาต</Button>
+                        <Button size="large" type="danger">ปฏิเสธ</Button>
+                    </div>
+                </div> : ""
+            }
         </div>
         // </Link>
     )

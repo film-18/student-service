@@ -23,9 +23,22 @@ function getListData(value) {
     // console.log(yearStartDate,monthStartDate,dateStartDate)
     // console.log(yearEndDate,monthEndDate,dateEndDate)
 
-    
 
-
+    // let calendar_lists = {
+    //     "2022" : {
+    //         "5" : {
+    //             "26" : [
+    //                 {type: "error", content: "testt"},
+    //                 {type: "warning", content: "testt"},
+    //             ],
+    //             "5" : [
+    //                 {type: "success", content: "testt"},
+    //                 {type: "error", content: "testt"},
+    //             ]
+    //         }
+    //     }
+    // }
+    let calendar_lists = {}
 
     news?.news.forEach(element => {
         const startDate = new Date(element.startDate)
@@ -38,24 +51,42 @@ function getListData(value) {
         const dateEndDate = endDate.getDay()
         const title = element.title
 
-        
+        // console.log({
+        //   startDate,
+        //   yearStartDate,
+        //   monthStartDate,
+        //   dateStartDate,
+        //   endDate,
+        //   yearEndDate,
+        //   monthEndDate,
+        //   dateEndDate,
+        //   title,
+        // });
 
-    });
-    
-    const calendar_lists = {
-        "2021" : {
-            "5" : {
-                "1" : [
-                    {type: "error", content: "testt"},
-                    {type: "warning", content: "testt"},
-                ],
-                "5" : [
-                    {type: "success", content: "testt"},
-                    {type: "error", content: "testt"},
-                ]
+        calendar_lists = {
+          ...calendar_lists,
+          [yearStartDate] : {
+                [monthStartDate] : {
+                    [dateStartDate] : [
+                        {type: "success", content: title}
+                    ]
+                }
             }
         }
-    }
+
+        calendar_lists = {
+          ...calendar_lists,
+          [yearEndDate] : {
+                [monthEndDate] : {
+                    [dateEndDate] : [
+                        {type: "success", content: title}
+                    ]
+                }
+            }
+        }
+      });
+
+    console.log(calendar_lists);
 
     let listYearData = calendar_lists[value.year()]
 
@@ -68,6 +99,8 @@ function getListData(value) {
     if (listMonthData){
         listData = listMonthData[value.date()]
     }
+
+    console.log(listData);
 
     return listData || [];
 }

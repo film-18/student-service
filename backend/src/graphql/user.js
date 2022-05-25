@@ -139,7 +139,9 @@ UserTC.addRelation('DoRequestLeave', {
   },
   prepareArgs: {
     filter: (user) => ({
-      teacherID: user._id,
+      teacherList: {
+        teacherID: user._id,
+      },
     }),
   },
 })

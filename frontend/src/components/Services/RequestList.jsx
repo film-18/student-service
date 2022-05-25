@@ -71,8 +71,10 @@ export const RequestList = ({ request }) => {
         <Link to={path} className="text-black">
             <div className="request-list-item" >
                 <div className="request-list-title">{request.title}</div>
-                {time}
-                {setStatusColor}
+                <div className="d-flex align-items-center" style={{gap: "20px"}}>
+                    <div style={{color: "#888"}}>{time}</div>
+                    {setStatusColor}
+                </div>
                 {/* <Link to={`service/general-request/${request._id}`} className="text-decoration-none text-black">
                 <GeneralRequestText generalRequest={request._id}/>
             </Link> */}

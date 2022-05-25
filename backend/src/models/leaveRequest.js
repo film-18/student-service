@@ -123,15 +123,12 @@ const LeaveRequestSchema = new Schema({
   },
   subjectId: {
     type: String,
-    required: true,
   },
   subjectName: {
     type: String,
-    required: true,
   },
   teacherID: {
     type: String,
-    required: true,
   },
   file: {
     type: String,
