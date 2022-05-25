@@ -24,6 +24,8 @@ import { Login } from "./pages/Login";
 import { News } from "./pages/News";
 import { GeneralRequestText } from "./pages/GeneralRequestText";
 import { Staff } from "./pages/Staff";
+import { CreateNews } from "./pages/CreateNews";
+import { NewsText } from "./pages/NewsText";
 moment.locale('th')
 
 
@@ -36,6 +38,8 @@ function App() {
               <Route index element={<Home />} />
               <Route path="login/" element={<Login />} />
               <Route path="news/" element={<News />} />
+              <Route path="news/create" element={<CreateNews />} />
+              <Route path="news/:id" element={<NewsText />} />
               <Route path="service/" element={<Service />} />
               <Route path="notification/" element={<Notification />} />
               <Route path="profile/" element={<Profile />} />

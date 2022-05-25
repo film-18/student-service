@@ -1,13 +1,12 @@
 import { NewsItem } from '../components/NewsItem'
 import news from '../data/news.json'
 import '../App.css'
-import { Avatar, List, Space, Divider, Image } from 'antd';
+import { Avatar, List, Space, Divider, Image, Button } from 'antd';
 import React from 'react';
 import { StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons';
 import { gql, useQuery, useMutation } from "@apollo/client"
-
-
-
+import { Link } from 'react-router-dom';
+import { useApp } from '../contexts/AccountContext';
 
 
 const IconText = ({ icon, text }) => (
@@ -27,13 +26,16 @@ query {
       image,
       startDate,
       endDate,
+      _id
     }
   }
 `;
 
 export const News = () => {
     const { data: dateNews, refetch } = useQuery(queryNews);
+    const {user2: user} = useApp()
 
+    console.log(user);
     // const data = dateNews.from({
     //     length: dateNews.length,
     //   }).map((_, i) => ({
@@ -50,8 +52,16 @@ export const News = () => {
 
     return (
         <div className="container my-3">
+            {
+                user?.role !== "student" ?
+                <div className='text-end'>
+                    <Link to="/news/create">
+                        <Button type="primary">สร้างโพสต์</Button>
+                    </Link>
+                </div> : ""
+            }
             {dateNews?.news?.map((n) => {
-                return <>
+                return <Link to={`/news/${n._id}`}>
                     <div className='row'>
                         <div className='col-12 col-md-4'>
                             {/* <Avatar src="https://joeschmoe.io/api/v1/random" /> */}
@@ -78,7 +88,7 @@ export const News = () => {
                         <Divider />
 
                     </div>
-                </>
+                </Link>
 
             })}
             <div>
