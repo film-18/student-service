@@ -21,6 +21,8 @@ query{
       degree
       program
       major
+      imageUri
+      fullname
     }
   }`;
 const LOGIN_MUTATION = gql`
@@ -36,7 +38,7 @@ export const AccountContext = createContext({})
 export const AppProvider = ({ children }) => {
   const [user2, setUser] = useState(null)
   const [cookies, setCookie, removeCookie] = useCookies(['token'])
-  const [loadMe, { data, loading }] = useLazyQuery(ME_QUERY, { fetchPolicy: 'network-only' })
+  const [loadMe, { data, loading, refetch }] = useLazyQuery(ME_QUERY, { fetchPolicy: 'network-only' })
   const [loginMutation] = useMutation(LOGIN_MUTATION)
   const navigate = useNavigate()
   const login = useCallback(
@@ -86,6 +88,7 @@ export const AppProvider = ({ children }) => {
   )
   const value = useMemo(
     () => ({
+      refetch,
       loading,
       user2,
       login,
@@ -93,7 +96,7 @@ export const AppProvider = ({ children }) => {
       loadMe,
       data
     }),
-    [loading, login, logout, user2, loadMe, data],
+    [refetch,loading, login, logout, user2, loadMe, data],
   )
   return (
     <AccountContext.Provider value={value}>

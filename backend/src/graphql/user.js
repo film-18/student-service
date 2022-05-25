@@ -11,6 +11,8 @@ import { UserModel, UserTC } from '../models/user'
 export const users = UserTC.getResolver('findMany')
 export const userId = UserTC.getResolver('findById')
 
+export const updateuserId = UserTC.getResolver('updateById')
+
 export const me = schemaComposer.createResolver({
   name: 'me',
   kind: 'query',
@@ -154,3 +156,4 @@ UserTC.addRelation('DoNews', {
     }),
   },
 })
+

@@ -41,6 +41,7 @@ schemaComposer.Mutation.addFields({
 
   createUser: users.createUser,
   login: users.login,
+  updateuserId: users.updateuserId,
 
   // createRequest: requests.createRequest,
   // updateRequestId: requests.updateRequestId,
