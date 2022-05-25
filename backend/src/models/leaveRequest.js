@@ -131,7 +131,7 @@ const LeaveRequestSchema = new Schema({
     type: String,
   },
   file: {
-    type: String,
+    type: [String],
     default: '-',
   },
   teacherList: {

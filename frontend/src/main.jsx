@@ -9,15 +9,17 @@ import 'antd/dist/antd.less';
 // import { GoogleProvider } from './contexts/GoogleContext';
 import { AppProvider } from './contexts/AccountContext';
 import { BrowserRouter } from "react-router-dom";
-import { ApolloClient, ApolloProvider,createHttpLink, InMemoryCache } from '@apollo/client'
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context';
+
+import { createUploadLink  } from 'apollo-upload-client'
 
 import moment from 'moment'
 import 'moment/dist/locale/th'
 moment.locale('th')
 
 
-const httpLink = createHttpLink({
+const httpLink = createUploadLink({
   uri: 'http://localhost:3001/graphql',
 });
 

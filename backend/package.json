@@ -11,19 +11,25 @@
     "@babel/register": "^7.17.7",
     "apollo-server-core": "^3.6.5",
     "apollo-server-express": "^3.6.5",
+    "apollo-upload-server": "^7.1.0",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
-    "graphql": "^16.3.0",
+    "graphql": "^16.5.0",
     "graphql-compose": "^9.0.7",
     "graphql-compose-mongoose": "^9.7.1",
+    "graphql-upload": "^13.0.0",
     "jsonwebtoken": "^8.5.1",
+    "minio": "^7.0.28",
     "mongoose": "^6.2.8",
     "mongoose-bcrypt": "^1.9.0"
   },
   "devDependencies": {
     "eslint-config-iinitz": "^0.2.6",
     "nodemon": "^2.0.15"
+  },
+  "resolutions": {
+    "fs-capacitor": "3.0.0"
   }
 }

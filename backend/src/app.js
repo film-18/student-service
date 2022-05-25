@@ -2,6 +2,8 @@ import { createServer } from 'http'
 
 import { ApolloServerPluginDrainHttpServer, ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 import { ApolloServer } from 'apollo-server-express'
+import { apolloUploadExpress } from 'apollo-upload-server'
+import bodyParser from 'body-parser'
 import cors from 'cors'
 import express from 'express'
 import jsonwebtoken from 'jsonwebtoken'
@@ -17,6 +19,9 @@ app.use(cors())
 app.get('/', (req, res) => {
   res.json({ message: 'Server running' })
 })
+
+app.use('/graphql', bodyParser.json())
+app.use('/graphql', apolloUploadExpress())
 
 const startApolloServer = async () => {
   const httpServer = createServer(app)
@@ -49,6 +54,7 @@ const startApolloServer = async () => {
     app,
     path: '/graphql',
     // cors: { origin: ['*'] },
+
   })
   httpServer.listen({ port: 3001 })
 }

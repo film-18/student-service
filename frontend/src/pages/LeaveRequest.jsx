@@ -11,6 +11,12 @@ import { Upload, message } from 'antd';
 import { useApp } from "../contexts/AccountContext"
 import { gql, useMutation, useQuery } from "@apollo/client"
 
+const UPLOAD_MUTATION = gql`
+mutation ($file: Upload) {
+    UploadLeaveRequestFile(document: $file)
+}
+`
+
 const props = {
   name: 'file',
   action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
@@ -65,6 +71,17 @@ export const LeaveRequest = () => {
     const [createLeaveRequestMutation] = useMutation(CREATE_REQUEST_MUTATION)
     const {data: userData} = useQuery(USER_QUERY)
 
+    const [uploadedFiles, setUploadFiles] = useState([])
+    const [uploadImage, { data: uploadedImageData, reset: resetUploaded }] = useMutation(UPLOAD_MUTATION)
+
+    useEffect(() => {
+        if(uploadedImageData && uploadedImageData.UploadLeaveRequestFile) {
+            setUploadFiles([...uploadedFiles, uploadedImageData.UploadLeaveRequestFile])
+            resetUploaded()
+        }
+        console.log(uploadedFiles)
+    }, [uploadedImageData, uploadedFiles])
+
     const handleCreateLeaveRequest = useCallback(
         async() => {
             // content.forEach((c, i) => console.log(i, c))
@@ -86,8 +103,8 @@ export const LeaveRequest = () => {
                 "startDate": content[11],
                 "endDate": content[12],
                 "parent": content[14],
-                "file": fileUploadName,
-                "teacherList": teachers
+                "file": uploadedFiles,
+                "teacherList": teachers,
             }
 
             try {
@@ -140,7 +157,7 @@ export const LeaveRequest = () => {
 
         // showModal()
 
-        if (!countEmtry && fileUpload){
+        if (!countEmtry && uploadedFiles.length > 0){
             setTeachers([])
             for (let i = 0; i < (inputReqs.length - 15) / 3; i++){
                 const teacherName = userData?.users.find((u) => u._id === inputReqs[+(15+(3*i)+2)].value).fullname
@@ -301,9 +318,23 @@ export const LeaveRequest = () => {
                 </div>
                 <div className="w-100">
                     <div>เอกสาร : </div>
-                    <Upload {...props} className="file-upload">
-                        <Button size="large" className="mt-3 bg-success">+ อัปโหลดไฟล์</Button>
-                    </Upload>
+                    <input
+                        type={'file'}
+                        onChange={async (e) => {
+                            await uploadImage({
+                                variables: {
+                                    file: e.target.files[0]
+                                }
+                            })
+                        }}
+                    />
+
+                    {
+                        uploadedFiles.map(file => <>
+                            <a href={`https://s3.ktnis.me/std-service/${file}`} target='_blank'>{file}</a><br/>
+                        </>)
+                    }
+
                 </div>
             </div>
             <div className='text-end mt-3 mb-3'>

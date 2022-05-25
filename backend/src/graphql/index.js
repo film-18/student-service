@@ -54,6 +54,7 @@ schemaComposer.Mutation.addFields({
   createLeaveRequest: leaveRequest.createLeaveRequest,
   updateGeneralLeaveRequestId: leaveRequest.updateGeneralLeaveRequestId,
   deleteGeneralLeaveRequestId: leaveRequest.deleteGeneralLeaveRequestId,
+  UploadLeaveRequestFile: leaveRequest.UploadLeaveRequestFile,
 
   createNews: news.createNews,
   updateNewsId: news.updateNewsId,
