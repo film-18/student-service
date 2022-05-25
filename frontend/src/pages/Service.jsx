@@ -40,27 +40,49 @@ query ($id: MongoID!) {
         title
         status
         _id
+        updatedAt
       }
       RequestedLeave {
         title
         status
         _id
         leaveType
+        updatedAt
       }
       DoRequestGeneral {
         title
         status
         _id
+        updatedAt
       }
       DoRequestLeave {
         title
         status
         _id
         leaveType
+        updatedAt
       }
     }
   }
 `;
+
+const REQUEST_QUERY = gql`
+query {
+    generalRequest {
+        title
+        status
+        _id
+        updatedAt
+    }
+    leaveRequest {
+        title
+        status
+        _id
+        leaveType
+        updatedAt
+    }
+}
+`
 
 export const Service = memo(() => {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -77,6 +99,7 @@ export const Service = memo(() => {
         }
     });
 
+    const { data: dataAllRequest } = useQuery(REQUEST_QUERY);
 
     const showModal = useCallback(
         (req) => () => {
@@ -112,17 +135,17 @@ export const Service = memo(() => {
 
     useEffect(
         () => {
-            if (!dataService) {
+            
+            if (!dataService || !dataAllRequest) {
                 console.log("No!");
                 setRequests(null)
             }
             else if (dataService?.userId?.role === "student"){
                 console.log("STUDENT : " + dataService?.userId?.role);
                 setRequests([[...dataService?.userId?.RequestedGeneral], [...dataService?.userId?.RequestedLeave]])
-                // setRequests([].concat(dataService?.userId?.RequestedGeneral, dataService?.userId?.RequestedLeave))
             }
-            else {
-                console.log("OTHER : " + dataService?.userId?.role);
+            else if (dataService?.userId?.role === "teacher") {
+                console.log("TEACHER : " + dataService?.userId?.role);
                 let reqs = []
                 if (dataService.userId.DoRequestGeneral){
                     reqs.push(dataService.userId.DoRequestGeneral)
@@ -136,14 +159,17 @@ export const Service = memo(() => {
                 else {
                     reqs.push([])
                 }
-                // setRequests([[...dataService?.userId?.DoRequestedGeneral], [...dataService?.userId?.DoRequestedLeave]])
-                // const reqs = [].concat([dataService?.userId?.DoRequestedGeneral], [dataService?.userId?.DoRequestedLeave]) 
                 setRequests(reqs)
-                console.log(reqs);
-                console.log(dataService);
             }
+            else {
+                console.log("OTHER : " + dataService?.userId?.role);
+                console.log(dataAllRequest);
+                setRequests([dataAllRequest?.generalRequest, dataAllRequest?.leaveRequest])
+                // setRequests([dataAllRequest?.generalRequest.filter((r) => r.status === "staff_pending"), dataAllRequest?.leaveRequest.filter((r) => r.status === "staff_pending")])
+            }
+            refetch()
         },
-        [dataService, setRequests]
+        [dataService, setRequests, dataAllRequest]
     )
 
     if (loading) {

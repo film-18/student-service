@@ -50,6 +50,7 @@ export const RequestList = ({ request }) => {
 
             <div className="request-list-item" >
                 <div className="request-list-title">{request.title}</div>
+                {request.updatedAt}
                 {setStatusColor}
                 {/* <Link to={`service/general-request/${request._id}`} className="text-decoration-none text-black">
                 <GeneralRequestText generalRequest={request._id}/>

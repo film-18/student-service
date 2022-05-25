@@ -1,12 +1,13 @@
-import { useState, useEffect, useMemo } from 'react'
-import { useParams } from "react-router-dom"
+import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useNavigate, useParams } from "react-router-dom"
 import { RequestHeader } from "../components/Services/RequestHeader"
 import { RequestInput } from "../components/Services/RequestInput"
 
 import stdsData from '../data/students.json'
 import reqData from '../data/requestItems.json'
-import { gql, useQuery } from '@apollo/client';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import { useApp } from "../contexts/AccountContext"
+import { Modal } from 'antd'
 
 const REQUEST_QUERY = gql`
 query ($gen_id: MongoID!) {
@@ -24,22 +25,60 @@ query ($gen_id: MongoID!) {
         program
         major
         teacherComment
+        teacherDate
         staffComment
+        staffDate
         deanComment
+        deanDate
     }
 }
 `;
 
+const TEACHER_COMMENT_MUTAION = gql`
+mutation ($record: UpdateByIdGeneralRequestInput!, $id: MongoID!) {
+    updateGeneralRequestId (_id: $id,record : $record) {
+      record {
+        teacherStatus
+      }
+    }
+  }
+`
+
+const STAFF_COMMENT_MUTAION = gql`
+mutation ($record: UpdateByIdGeneralRequestInput!, $id: MongoID!) {
+    updateGeneralRequestId (_id: $id,record : $record) {
+      record {
+        staffStatus
+      }
+    }
+  }
+`
+
+const DEAN_COMMENT_MUTAION = gql`
+mutation ($record: UpdateByIdGeneralRequestInput!, $id: MongoID!) {
+    updateGeneralRequestId (_id: $id,record : $record) {
+      record {
+        deanStatus
+      }
+    }
+  }
+`
+
 export const GeneralRequestText = () => {
     const { id } = useParams()
     const { user2 } = useApp()
+    const navigate = useNavigate()
     const [userRole, setuserRole] = useState(null)
 
-    const { data: requestData } = useQuery(REQUEST_QUERY, {
+    const { data: requestData, refetch: requestRefetch } = useQuery(REQUEST_QUERY, {
         variables: {
             "gen_id": id
         }
     })
+
+    const [createTeacherCommentMutation] = useMutation(TEACHER_COMMENT_MUTAION)
+    const [createStaffCommentMutation] = useMutation(STAFF_COMMENT_MUTAION)
+    const [createDeanCommentMutation] = useMutation(DEAN_COMMENT_MUTAION)
 
     useEffect(() => {
         setuserRole(user2)
@@ -55,6 +94,66 @@ export const GeneralRequestText = () => {
             }
         },
         [requestData]
+    )
+
+    const updateRequest = useCallback(
+        (who, status) => async () => {
+            const inputReqs = document.querySelectorAll(`.${who}-request :where(input.input-request, .input-request input)`)
+            let statusNext;
+            if (status === "rejected"){
+                statusNext = "rejected"
+            }
+            try {
+                if (who === "teacher") {
+                    await createTeacherCommentMutation({
+                        variables: {
+                            id,
+                            record : {
+                                teacherComment: inputReqs[0].value,
+                                teacherDate: inputReqs[1].value,
+                                teacherStatus: status,
+                                status: statusNext ?? "staff_pending"
+                            }
+                        }
+                    })
+                }
+                else if (who === "staff") {
+                    await createStaffCommentMutation({
+                        variables: {
+                            id,
+                            record : {
+                                staffComment: inputReqs[0].value,
+                                staffDate: inputReqs[1].value,
+                                staffStatus: status,
+                                status: statusNext ?? "dean_pending"
+                            }
+                        }
+                    })
+                }
+                else {
+                    await createDeanCommentMutation({
+                        variables: {
+                            id,
+                            record : {
+                                deanComment: inputReqs[0].value,
+                                deanDate: inputReqs[1].value,
+                                deanStatus: status,
+                                status: status
+                            }
+                        }
+                    })
+                }
+                const modal = Modal.success({
+                    content: 'อัปเดตเสร็จสิ้น',
+                });
+                setTimeout(() => {
+                    navigate("/service")
+                    modal.destroy()
+                }, 2000)
+            } catch (error) {
+                
+            }
+        }
     )
 
     // useEffect(
@@ -161,8 +260,8 @@ export const GeneralRequestText = () => {
                         <RequestInput text="ความคิดเห็น" />
                         <RequestInput text="วันที่" type="date" />
                         <div className='mt-3 text-end'>
-                            <button className="btn btn-success btn-approve">อนุญาต</button>
-                            <button className="btn btn-danger ms-2 btn-reject">ปฏิเสธ</button>
+                            <button onClick={updateRequest("teacher", "approved")} className="btn btn-success btn-approve">อนุญาต</button>
+                            <button onClick={updateRequest("teacher", "rejected")} className="btn btn-danger ms-2 btn-reject">ปฏิเสธ</button>
                         </div>
                     </div>
                 ) : (
@@ -175,8 +274,8 @@ export const GeneralRequestText = () => {
                         <RequestInput text="ความคิดเห็น" />
                         <RequestInput text="วันที่" type="date" />
                         <div className='mt-3 text-end'>
-                            <button className="btn btn-success btn-approve">อนุญาต</button>
-                            <button className="btn btn-danger ms-2 btn-reject">ปฏิเสธ</button>
+                            <button onClick={updateRequest("staff", "approved")} className="btn btn-success btn-approve">อนุญาต</button>
+                            <button onClick={updateRequest("staff", "rejected")} className="btn btn-danger ms-2 btn-reject">ปฏิเสธ</button>
                         </div>
                     </div>
                 ) : (
@@ -189,8 +288,8 @@ export const GeneralRequestText = () => {
                     <RequestInput text="ความคิดเห็น" />
                     <RequestInput text="วันที่" type="date" />
                     <div className='mt-3 text-end'>
-                        <button className="btn btn-success btn-approve">อนุญาต</button>
-                        <button className="btn btn-danger ms-2 btn-reject">ปฏิเสธ</button>
+                        <button onClick={updateRequest("dean", "approved")} className="btn btn-success btn-approve">อนุญาต</button>
+                        <button onClick={updateRequest("dean", "rejected")} className="btn btn-danger ms-2 btn-reject">ปฏิเสธ</button>
                     </div>
                 </div>
                 ) : (
