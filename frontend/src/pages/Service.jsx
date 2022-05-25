@@ -140,18 +140,6 @@ export const Service = memo(() => {
     const [value, setValue] = useState("all");
     const onChange = (e) => {
         setValue(e.target.value);
-        if(e.target.value=="success"){
-            setRequest([requests[0].filter((x)=>x.status=="approved"),requests[1].filter((x)=>x.status=="approved")])
-        }
-        else if(e.target.value=="all"){
-            setRequests(requests)
-        }
-        else if(e.target.value="fail"){
-            setRequests([requests[0].filter((x)=>x.status=="rejected"),requests[1].filter((x)=>x.status=="rejected")])
-        }
-        else{
-            setRequests([requests[0].filter((x)=>x.status=="teacher_pending"),requests[1].filter((x)=>x.status=="teacher_pending")])
-        }
       };
 
     useEffect(
@@ -239,27 +227,79 @@ export const Service = memo(() => {
                 </Radio.Group>
                     <Tabs defaultActiveKey="0">
                         <TabPane tab="ทั้งหมด" key="0" className="request-list ">
-                            {(requests ? [...requests[0], ...requests[1]] : []).map((req) => (
+                            {(requests && value=="all" ? [...requests[0], ...requests[1]] : []).map((req) => (
                                 <RequestList request={req} />
                             ))}
+                            {(requests && value=="success" ? [...requests[0].filter((x)=>x.status=="approved"), ...requests[1].filter((x)=>x.status=="approved")] : []).map((req) => (
+                                <RequestList request={req} />
+                            ))
+                            }
+                            {(requests && value=="fail" ? [...requests[0].filter((x)=>x.status=="rejected"), ...requests[1].filter((x)=>x.status=="rejected")] : []).map((req) => (
+                                <RequestList request={req} />
+                            ))
+                            }
+                            {(requests && value=="pending" ? [...requests[0].filter((x)=>x.status=="teacher_pending"||x.status=="staff_pending"||x.status=="dean_pending"), ...requests[1].filter((x)=>x.status=="teacher_pending"||x.status=="staff_pending"||x.status=="dean_pending")] : []).map((req) => (
+                                <RequestList request={req} />
+                            ))
+                            }
                         </TabPane>
                         <TabPane tab="ใบคำร้องทั่วไป" key="1" className="request-list">
-                            {(requests ? requests[0] : []).map((req) => (
+                            {(requests && value=="all"? requests[0] : []).map((req) => (
                                 <RequestList request={req} />
                             ))}
+                            {(requests && value=="success"? requests[0].filter((x)=>x.status=="approved") : []).map((req) => (
+                                <RequestList request={req} />
+                            ))}
+                            {(requests && value=="fail"? requests[0].filter((x)=>x.status=="rejected") : []).map((req) => (
+                                <RequestList request={req} />
+                            ))}
+                            {(requests && value=="pending"? requests[0].filter((x)=>x.status=="teacher_pending"||x.status=="staff_pending"||x.status=="dean_pending") : []).map((req) => (
+                                <RequestList request={req} />
+                            ))}
+                            
                         </TabPane>
                         <TabPane tab="ใบลาป่วย" key="2" className="request-list">
-                            {(requests ? requests[1] : []).filter((l) => l.leaveType === "Sick")
+                            {(requests && value=="all"? requests[1] : []).filter((l) => l.leaveType === "Sick")
+                                .map((req) => (
+                                    <RequestList request={req} />
+                                ))
+                                }
+                            {(requests && value=="success"? requests[1] : []).filter((l) => l.leaveType === "Sick"&&l.status=="approved")
+                                .map((req) => (
+                                    <RequestList request={req} />
+                                ))
+                                }
+                            {(requests && value=="fail"? requests[1] : []).filter((l) => l.leaveType === "Sick"&&l.status=="rejected")
+                                .map((req) => (
+                                    <RequestList request={req} />
+                                ))
+                                }
+                            {(requests && value=="pending"? requests[1] : []).filter((l) => l.leaveType === "Sick"&&(l.status=="teacher_pending"||l.status=="staff_pending"||l.status=="dean_pending"))
                                 .map((req) => (
                                     <RequestList request={req} />
                                 ))
                                 }
                         </TabPane>
                         <TabPane tab="ใบลากิจ" key="3" className="request-list">
-                            {(requests ? requests[1] : []).filter((l) => l.leaveType === "Business")
+                            {(requests && value=="all" ? requests[1] : []).filter((l) => l.leaveType === "Business")
                                 .map((req) => (
                                     <RequestList request={req} />
                                 ))}
+                            {(requests && value=="success"? requests[1] : []).filter((l) => l.leaveType === "Business"&&l.status=="approved")
+                                .map((req) => (
+                                    <RequestList request={req} />
+                                ))
+                                }
+                            {(requests && value=="fail"? requests[1] : []).filter((l) => l.leaveType === "Business"&&l.status=="rejected")
+                                .map((req) => (
+                                    <RequestList request={req} />
+                                ))
+                                }
+                            {(requests && value=="pending"? requests[1] : []).filter((l) => l.leaveType === "Business"&&(l.status=="teacher_pending"||l.status=="staff_pending"||l.status=="dean_pending"))
+                                .map((req) => (
+                                    <RequestList request={req} />
+                                ))
+                                }
                         </TabPane>
                         <TabPane tab="ใบขอทุนการศึกษา" key="4" className="request-list">
                             <Empty />
