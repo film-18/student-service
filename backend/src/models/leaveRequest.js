@@ -12,6 +12,10 @@ const LeaveRequestSchema = new Schema({
     enum: ['Sick', 'Business'],
     required: true,
   },
+  studentIdMongo: {
+    type: String,
+    required: true,
+  },
   studentId: {
     type: String,
     required: true,
@@ -65,7 +69,11 @@ const LeaveRequestSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ['teacher-pending', 'approved', 'rejected', '-'],
+    enum: ['teacher_pending', 'approved', 'rejected', '-'],
+    default: '-',
+  },
+  teacherName: {
+    type: String,
     default: '-',
   },
   teacherComment: {

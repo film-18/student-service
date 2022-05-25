@@ -14,7 +14,24 @@ let status_name = {
     "_": "ไม่มีสถานะ"
 }
 
+
 export const RequestList = ({ request }) => {
+    const path = useMemo(
+        () => {
+            if (request.__typename === "GeneralRequest"){
+                return `/service/general-request/${request._id}`
+            }
+            else {
+                if (request.leaveType === "Business"){
+                    return `/service/leave-request/personal/${request._id}`
+                }
+                else{
+                    return `/service/leave-request/sick/${request._id}`
+                }
+            }
+        },
+        []
+    )
     const setStatusColor = useMemo(
         () => {
             if (request.status == "approved") {
@@ -46,7 +63,7 @@ export const RequestList = ({ request }) => {
     )
 
     return (
-        <Link to={`/service/general-request/${request._id}`} className="text-black">
+        <Link to={path} className="text-black">
 
             <div className="request-list-item" >
                 <div className="request-list-title">{request.title}</div>

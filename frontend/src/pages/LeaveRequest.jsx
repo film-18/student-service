@@ -1,13 +1,15 @@
 import { useParams } from "react-router-dom"
 import { Button, Modal } from 'antd'
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { RequestHeader } from "../components/Services/RequestHeader"
 import { RequestInput } from "../components/Services/RequestInput"
-import { useGoogle } from "../contexts/GoogleContext"
+// import { useGoogle } from "../contexts/GoogleContext"
 import data from '../data/students.json'
 import reqInfo from '../data/requestInfo.json'
 
 import { Upload, message } from 'antd';
+import { useApp } from "../contexts/AccountContext"
+import { gql, useQuery } from "@apollo/client"
 
 const props = {
   name: 'file',
@@ -27,10 +29,20 @@ const props = {
   },
 };
 
+const USER_QUERY = gql`
+query {
+    users {
+      _id
+      fullname
+      role
+    }
+}
+`
 export const LeaveRequest = () => {
     const { type } = useParams()
-
-    const { user } = useGoogle()
+    
+    const {user2: user} = useApp()
+    // const { user } = useGoogle()
     const [student, setStudent] = useState({})
     const [students, setStudents] = useState([])
     const [subjects, setSubjects] = useState([])
@@ -41,7 +53,10 @@ export const LeaveRequest = () => {
 
     const sendPopup = () => {
         const inputReqs = document.querySelectorAll(".student-request :where(input.input-request, textarea.input-request,.input-request input)")
+
         const fileUpload = document.querySelector(".ant-upload-list-item-name")
+
+        inputReqs.forEach((el, i) => console.log(i, el.value))
 
         let countEmtry = 0
         setContent([])
@@ -102,19 +117,58 @@ export const LeaveRequest = () => {
         [setSubjects]
       )
 
+      const program = useMemo(
+        () => {
+              const programName = {
+                  "Information_Technology": "เทคโนโลยีสารสนเทศ",
+                  "Data_Science_and_Business_Analytics": "วิทยาการข้อมูลและการวิเคราะห์เชิงธุรกิจ",
+                  "Business_Information_Technology__International_Program_": "เทคโนโลยีสารสนเทศทางธุรกิจ (หลักสูตรนานาชาติ)"
+              }
+              return programName[user?.program]
+        },
+        []
+    )
+
+    const major = useMemo(
+        () => {
+              const majorName = {
+                  "-": "-",
+                  "Software_Engineering": "วิศวกรรมซอฟต์แวร์",
+                  "Network_and_System_Technology": "เทคโนโลยีเครือข่ายและระบบ",
+                  "Multimedia_and_Game_Development": "การพัฒนาสื่อประสมและเกม"
+              }
+              return majorName[user?.major]
+        },
+        []
+    )
+
+    const degree = useMemo(
+        () => {
+              const degreeName = {
+                  "Bachelor": "ปริญญาตรี",
+                  "Master": "ปริญญาโท",
+                  "Doctor": "ปริญญาเอก"
+              }
+              return degreeName[user?.degree]
+        },
+        []
+    )
+    
     useEffect(
         () => {
-            setStudents(data)
+            setStudent(user)
+            console.log(user);
+            // setStudents(user)
 
-            if (user){
-                const stdId = user.email.split("@")[0]
-                if (students){
-                    const std = students.find(std => std.std_id == stdId)
-                    setStudent(std);
-                }
-            }
+            // if (user){
+                // const stdId = user.email.split("@")[0]
+                // if (students){
+                //     const std = students.find(std => std.std_id == stdId)
+                //     setStudent(std);
+                // }
+            // }
         },
-        [data, setStudents, setStudent, user, students, subjects]
+        [data, setStudent, user, students, subjects]
     )
 
     return (
@@ -124,12 +178,12 @@ export const LeaveRequest = () => {
             <div className="request-col-2 student-request">
                 <RequestInput text="หัวข้อเรื่อง" />
                 <RequestInput text="ประเภทการลา" value={type === "sick" ? "ลาป่วย" : "ลากิจ"} disabled={true} />
-                <RequestInput text="รหัสนักศึกษา" value={student ? student.std_id : ""} disabled={student ? true : false} />
-                <RequestInput text="ชื่อ - นามสกุล" value={student ? `${student.Fname ?? ""} ${student.Lname ?? ""}` : ""} disabled={student ? true : false} />
-                <RequestInput text="ระดับ" value={student ? student.degree : ""} disabled={student ? true : false} />
+                <RequestInput text="รหัสนักศึกษา" value={student ? student.studentID : ""} disabled={student ? true : false} />
+                <RequestInput text="ชื่อ - นามสกุล" value={student ? `${student.firstname ?? ""} ${student.lastname ?? ""}` : ""} disabled={student ? true : false} />
+                <RequestInput text="ระดับ" value={degree ?? ""} disabled={student ? true : false} />
                 <RequestInput text="ปีที่" value={student ? student.year : ""} disabled={student ? true : false} />
-                <RequestInput text="สาขาวิชา" value={student ? student.program : ""} disabled={student ? true : false} />
-                <RequestInput text="แขนงวิชา" value={student ? student.major : ""} disabled={student ? true : false} />
+                <RequestInput text="สาขาวิชา" value={program ?? ""} disabled={student ? true : false} />
+                <RequestInput text="แขนงวิชา" value={major ?? ""} disabled={student ? true : false} />
                 <RequestInput text="ภาคเรียนที่" />
                 <RequestInput text="ปีการศึกษา" />
                 <div className='w-100'>
