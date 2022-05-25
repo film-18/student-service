@@ -180,10 +180,10 @@ export const LeaveRequest = () => {
                 <RequestInput text="ประเภทการลา" value={type === "sick" ? "ลาป่วย" : "ลากิจ"} disabled={true} />
                 <RequestInput text="รหัสนักศึกษา" value={student ? student.studentID : ""} disabled={student ? true : false} />
                 <RequestInput text="ชื่อ - นามสกุล" value={student ? `${student.firstname ?? ""} ${student.lastname ?? ""}` : ""} disabled={student ? true : false} />
-                <RequestInput text="ระดับ" value={degree ?? ""} disabled={student ? true : false} />
+                <RequestInput text="ระดับ" value={student ? student.degree : ""}  disabled={student ? true : false} />
                 <RequestInput text="ปีที่" value={student ? student.year : ""} disabled={student ? true : false} />
-                <RequestInput text="สาขาวิชา" value={program ?? ""} disabled={student ? true : false} />
-                <RequestInput text="แขนงวิชา" value={major ?? ""} disabled={student ? true : false} />
+                <RequestInput text="สาขาวิชา" value={student ? student.program : ""} disabled={student ? true : false} />
+                <RequestInput text="แขนงวิชา" value={student ? student.major : ""} disabled={student ? true : false} />
                 <RequestInput text="ภาคเรียนที่" />
                 <RequestInput text="ปีการศึกษา" />
                 <div className='w-100'>
