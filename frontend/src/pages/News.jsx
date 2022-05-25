@@ -1,158 +1,121 @@
-import { NewsItem } from '../components/NewsItem'
-import news from '../data/news.json'
-import '../App.css'
-import { Avatar, List, Space, Divider, Image, Button } from 'antd';
-import React from 'react';
-import { StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons';
-import { gql, useQuery, useMutation } from "@apollo/client"
-import { Link } from 'react-router-dom';
-import { useApp } from '../contexts/AccountContext';
-
+import { NewsItem } from "../components/NewsItem";
+import news from "../data/news.json";
+import "../App.css";
+import {
+  Avatar,
+  List,
+  Space,
+  Divider,
+  Image,
+  Button,
+  Card,
+  Row,
+  Col,
+  Typography,
+} from "antd";
+import React from "react";
+import {
+  StarOutlined,
+  LikeOutlined,
+  MessageOutlined,
+  CalendarOutlined,
+} from "@ant-design/icons";
+import { gql, useQuery, useMutation } from "@apollo/client";
+import { Link } from "react-router-dom";
+import { useApp } from "../contexts/AccountContext";
+import moment from "moment";
 
 const IconText = ({ icon, text }) => (
-    <Space>
-        {React.createElement(icon)}
-        {text}
-    </Space>
+  <Space>
+    {React.createElement(icon)}
+    {text}
+  </Space>
 );
 
-
 const queryNews = gql`
-query {
-    news {
-      title,
-      shortDes,
-      body,
-      image,
-      startDate,
-      endDate,
+  query {
+    UpdateNews {
+      title
+      shortDes
+      body
+      image
+      startDate
+      endDate
       _id
     }
   }
 `;
 
 export const News = () => {
-    const { data: dateNews, refetch } = useQuery(queryNews);
-    const {user2: user} = useApp()
+  const { data: dateNews, refetch } = useQuery(queryNews);
+  const { user2: user } = useApp();
 
-    console.log(user);
-    // const data = dateNews.from({
-    //     length: dateNews.length,
-    //   }).map((_, i) => ({
-    //     href: 'https://ant.design',
-    //     title: dateNews.title,
-    //     avatar: 'https://joeschmoe.io/api/v1/random',
-    //     description:
-    //       dateNews.shortDes,
-    //     content: 
-    //     dateNews.body,
-    //   }));
+  console.log(user);
+  // const data = dateNews.from({
+  //     length: dateNews.length,
+  //   }).map((_, i) => ({
+  //     href: 'https://ant.design',
+  //     title: dateNews.title,
+  //     avatar: 'https://joeschmoe.io/api/v1/random',
+  //     description:
+  //       dateNews.shortDes,
+  //     content:
+  //     dateNews.body,
+  //   }));
 
-
-
-    return (
-        <div className="container my-3">
-            {
-                user?.role !== "student" ?
-                <div className='text-end'>
-                    <Link to="/news/create">
-                        <Button type="primary">สร้างโพสต์</Button>
-                    </Link>
-                </div> : ""
-            }
-            {dateNews?.news?.map((n) => {
-                return <Link to={`/news/${n._id}`}>
-                    <div className='row'>
-                        <div className='col-12 col-md-4'>
-                            {/* <Avatar src="https://joeschmoe.io/api/v1/random" /> */}
-                            <Image
-                                width={200}
-                                src={n.image}
-                            />
-                        </div>
-                        <div className='col-12 col-md-8'>
-                            <div className='card-title'>
-                                {/* <Typography.Title level={3} >
-                                    {n.title}
-                                </Typography.Title> */}
-
-                            </div>
-
-                            <div className='card-bode'>
-                                {n.shortDes}
-                            </div>
-                            <List.Item.Meta
-                                description={n.body}
-                            />
-                        </div>
-                        <Divider />
-
-                    </div>
-                </Link>
-
-            })}
-            <div>
-                {/* {dateNews?.news?.map((s) => {
-                    return <> */}
-                        {/* <List
-                            itemLayout="vertical"
-                            size="large"
-                            pagination={{
-                                onChange: (page) => {
-                                    console.log(page);
-                                },
-                                pageSize: 3,
-                            }}
-                            dataSource={dateNews?.news?.map(s)}
-                            renderItem={(s) => (    
-                                <List.Item
-                                    key={s.title}
-                                    actions={[
-                                        <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
-                                        <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
-                                        <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
-                                    ]}
-                                    extra={
-                                        <img
-                                            width={272}
-                                            alt="logo"
-                                            src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                                        />
-                                    }
-                                    
-                                >
-                                    <List.Item.Meta
-                                        avatar={<Avatar src={s.title} />}
-                                        title={<a>{s.body}</a>}
-                                        description={s.shortDes}
-                                    />
-                                    
-                                </List.Item>
-
-                            )}
-                        /> */}
-                    {/* </>
-
-                })} */}
-            </div>
-
-
-
-
-            {/* {
-                news.map((n) => (
-                    <div className='mt-2 mb-2' style={{ height: "fit-content" }}>
-                        <NewsItem news={n} />
-                    </div>
-                ))
-            } */}
-
+  return (
+    <div className="container my-3">
+      {user?.role !== "student" ? (
+        <div className="text-end">
+          <Link to="/news/create">
+            <Button type="primary">สร้างโพสต์</Button>
+          </Link>
         </div>
-
-
-
-
-
-
-    )
-}
+      ) : (
+        ""
+      )}
+      <div className="row">
+        <Typography.Title level={3} className="text-center">
+          ข่าวสาร
+        </Typography.Title>
+        {dateNews?.UpdateNews?.map((n) => {
+          return (
+            // n.shortDes n.body n.title n.image n._id
+            <div className="col-md-6 my-2">
+              <Link to={`/news/${n._id}`}>
+                <div className="site-card-border-less-wrapper">
+                  <Card bordered={false} hoverable>
+                    <Row>
+                      <Col span={8}>
+                        <Avatar
+                          shape="square"
+                          size={175}
+                          src={
+                            n.image
+                              ? n.image
+                              : "https://www.flexx.co/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png"
+                          }
+                        />
+                      </Col>
+                      <Col span={16}>
+                        <h4>{n.title}</h4>
+                        <p>
+                          {" "}
+                          <CalendarOutlined />{" "}
+                          {moment(n.startDate).format("DD/MM/YYYY")} -{" "}
+                          {moment(n.endDate).format("DD/MM/YYYY")}
+                        </p>
+                        <p>{n.shortDes}</p>
+                      </Col>
+                    </Row>
+                  </Card>
+                </div>
+              </Link>
+            </div>
+          );
+        })}
+      </div>
+      <div></div>
+    </div>
+  );
+};

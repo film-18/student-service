@@ -47,7 +47,7 @@ export const Staff = memo(() => {
     <>
       <div className="container my-3 text-center">
         <div className="row mb-2">
-          <Typography.Title level={3}>บุคลลากร</Typography.Title>
+          <Typography.Title level={3}>บุคลากร</Typography.Title>
         </div>
         <Tabs defaultActiveKey="1" onChange={onChange}>
           <TabPane tab="บุคลากรสายวิชาการ" key="1">
