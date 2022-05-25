@@ -190,69 +190,6 @@ const Navbar = memo(() => {
         </div>
       </div>
 
-      {/* <Layout>
-            <Header style={{ display: "flex", justifyContent: "space-between" }}>
-                <Link to="/" >
-                    <div style={{ color: 'white', fontSize: '30px' }}>Student Service</div>
-                </Link>
-                <div style={{ minWidth: "550px" }}>
-                    <Menu mode="horizontal" style={{ justifyContent: "flex-end" }}>
-
-                        <Menu.Item>
-                            <Link to="/" >
-                                หน้าหลัก
-                            </Link>
-                        </Menu.Item>
-
-                        <Menu.Item>
-                            <Link to="/login" >เข้าสู่ระบบ</Link>
-                        </Menu.Item>
-
-                        <Menu.Item>
-                            <Link to="/news" >ข่าวสาร</Link>
-                        </Menu.Item>
-
-                        <Menu.Item>
-                            <Link to="/service" >งานเอกสาร</Link>
-                        </Menu.Item>
-
-                        <Menu.SubMenu key="SubMenu" title={profile ? user.email : "บัญชี"}>
-                            <Menu.ItemGroup style={{ textAlign: "center", paddingBottom: "10px" }} title={user ? `${user?.givenName} ${user?.familyName}` : 'บัญชี'}>
-                                {
-                                    user ?
-                                        <>
-                                            <Menu.Item key="setting:1">
-                                                <Link to={`/profile`} >
-                                                    โปรไฟล์
-                                                </Link>
-                                            </Menu.Item>
-                                            <Menu.Item key="setting:2">
-                                                <div onClick={signOut}>
-                                                    ออกจากระบบ
-                                                </div>
-                                            </Menu.Item>
-                                        </>
-                                        : <Menu.Item key="setting:1">
-                                            <div onClick={signIn}>
-                                                เข้าสู่ระบบ
-                                            </div>
-                                        </Menu.Item>
-                                }
-                            </Menu.ItemGroup>
-                        </Menu.SubMenu>
-
-                        <Menu.Item>
-                            <Link to="/notification" >
-                                <Badge size="large" count={10} style={{ margin: '5px' }}>
-                                    <Avatar icon={<NotificationFilled />} />
-                                </Badge>
-                            </Link>
-                        </Menu.Item>
-                    </Menu>
-                </div>
-            </Header>
-        </Layout> */}
-
       <div className="h-12"></div>
 
       <Outlet />
@@ -260,12 +197,11 @@ const Navbar = memo(() => {
       <Footer style={{ backgroundColor: "#112B3C" }} className="my-5">
         <div className="container">
           <div className="row">
-            <div className="col-8">
+            <div className="col-8" style={{color:"white"}}>
               Faculty of Information Technology <br></br>
               King Mongkut's Institute of Technology Ladkrabang <br></br>
               1, Chalong Krung 1, Ladkrabang, Bangkok 10520
             </div>
-            <div className="col-4">Social Media</div>
           </div>
         </div>
       </Footer>
