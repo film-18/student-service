@@ -186,3 +186,7 @@
     border: 1px solid black;
     width: calc(100% / 3);
 }
+
+.request-form-table.leave th, .request-form-table.leave td{
+    width: fit-content;
+}

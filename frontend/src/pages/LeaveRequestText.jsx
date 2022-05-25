@@ -28,6 +28,14 @@ query ($id: MongoID!) {
       teacherName
       updatedAt
       createdAt
+      teacherList {
+        subjectId
+        subjectName
+        teacherName
+        teacherComment
+        teacherStatus
+        teacherDate
+      }
     }
   }
 `;
@@ -193,28 +201,30 @@ export const LeaveRequestText = () => {
                         <div>อาจาร์ยที่ปรึกษา</div>
                     </div>
                 </div>
-                <div className='request-form-table' style={{ width: "auto"}}>
+                <div className='request-form-table leave' style={{ width: "auto"}}>
                     <table>
                         <thead>
                             
                             <th>รหัสวิชา</th>
                             <th>ชื่อวิชา</th>
                             <th>อาจารย์ผู้สอน</th>
-                            <th>อนุญาติ</th>
-                            <th>ไม่อนุญาติ</th>
+                            <th>คำสั่ง</th>
                             <th>วัน / เดือน / ปี</th>
                             <th>หมายเหตุ</th>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                            {
+                                request?.teacherList.map((l) => (
+                                    <tr>
+                                        <td>{l.subjectId}</td>
+                                        <td>{l.subjectName}</td>
+                                        <td>{l.teacherName}</td>
+                                        <td>{l.teacherStatus !== "_" ? l.teacherStatus : ""}</td>
+                                        <td>{l.teacherDate ?? ""}</td>
+                                        <td>{l.teacherComment !== "-" ? l.teacherComment : ""}</td>
+                                    </tr>
+                                ))
+                            }
                         </tbody>
                     </table>
                 </div>

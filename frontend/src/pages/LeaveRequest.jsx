@@ -9,7 +9,7 @@ import reqInfo from '../data/requestInfo.json'
 
 import { Upload, message } from 'antd';
 import { useApp } from "../contexts/AccountContext"
-import { gql, useQuery } from "@apollo/client"
+import { gql, useMutation, useQuery } from "@apollo/client"
 
 const props = {
   name: 'file',
@@ -29,14 +29,12 @@ const props = {
   },
 };
 
-const USER_QUERY = gql`
-query {
-    users {
-      _id
-      fullname
-      role
+const CREATE_REQUEST_MUTATION = gql`
+mutation ($record: CreateOneLeaveRequestInput!){
+    createLeaveRequest (record: $record) {
+      recordId
     }
-}
+  }
 `
 export const LeaveRequest = () => {
     const { type } = useParams()
@@ -50,6 +48,22 @@ export const LeaveRequest = () => {
     const [fileUploadName, setFileUploadName] = useState("")
 
     const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const [createLeaveRequestMutation] = useMutation(CREATE_REQUEST_MUTATION)
+
+    const handleCreateLeaveRequest = useCallback(
+        () => {
+            const inputReqs = document.querySelectorAll(".student-request :where(input.input-request, textarea.input-request,.input-request input)")
+
+            inputReqs.forEach((el, i) => console.log(i, el.value))
+            try {
+                
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        []
+    )
 
     const sendPopup = () => {
         const inputReqs = document.querySelectorAll(".student-request :where(input.input-request, textarea.input-request,.input-request input)")
@@ -180,10 +194,10 @@ export const LeaveRequest = () => {
                 <RequestInput text="ประเภทการลา" value={type === "sick" ? "ลาป่วย" : "ลากิจ"} disabled={true} />
                 <RequestInput text="รหัสนักศึกษา" value={student ? student.studentID : ""} disabled={student ? true : false} />
                 <RequestInput text="ชื่อ - นามสกุล" value={student ? `${student.firstname ?? ""} ${student.lastname ?? ""}` : ""} disabled={student ? true : false} />
-                <RequestInput text="ระดับ" value={student ? student.degree : ""}  disabled={student ? true : false} />
+                <RequestInput text="ระดับ" value={degree ?? ""}  disabled={student ? true : false} />
                 <RequestInput text="ปีที่" value={student ? student.year : ""} disabled={student ? true : false} />
-                <RequestInput text="สาขาวิชา" value={student ? student.program : ""} disabled={student ? true : false} />
-                <RequestInput text="แขนงวิชา" value={student ? student.major : ""} disabled={student ? true : false} />
+                <RequestInput text="สาขาวิชา" value={program ?? ""} disabled={student ? true : false} />
+                <RequestInput text="แขนงวิชา" value={major ?? ""} disabled={student ? true : false} />
                 <RequestInput text="ภาคเรียนที่" />
                 <RequestInput text="ปีการศึกษา" />
                 <div className='w-100'>
@@ -248,7 +262,7 @@ export const LeaveRequest = () => {
                 </div>
             </div>
 
-            <Modal title="ยืนยันใบลา" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} okText="ส่งใบ">
+            <Modal title="ยืนยันใบลา" visible={isModalVisible} onOk={handleCreateLeaveRequest} onCancel={handleCancel} okText="ส่งใบ">
             {
                 content.filter((_, i) => i < 15).map((c, i) => (
                     <div key={"ct-"+i}>
