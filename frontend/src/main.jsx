@@ -20,7 +20,7 @@ moment.locale('th')
 
 
 const httpLink = createUploadLink({
-  uri: 'http://localhost:3001/graphql',
+  uri: import.meta.env.VITE_GRAPHQL_ENDPOINT || 'http://localhost:3001/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
