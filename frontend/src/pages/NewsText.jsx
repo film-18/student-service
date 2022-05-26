@@ -1,7 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
-import { Image } from "antd";
+import { Image,Spin } from "antd";
 
 const NEWSID_QUERY = gql`
   query ($id: MongoID!) {
@@ -19,7 +19,7 @@ const NEWSID_QUERY = gql`
 export const NewsText = () => {
   const { id } = useParams();
 
-  const { data: newsData } = useQuery(NEWSID_QUERY, {
+  const { data: newsData,loading } = useQuery(NEWSID_QUERY, {
     variables: {
       id,
     },
@@ -50,6 +50,9 @@ export const NewsText = () => {
     return convertDate(newsData?.newsId?.endDate.split("T")[0].split("-"));
   }, [newsData]);
 
+  if (loading) {
+    return <><div className="container w-100 p-3 text-center" style={{ height: 500}}><Spin style={{ fontSize: 200 }} /></div></>;
+  }
   return (
     // <div className="container">
     //     <h1 className="mt-3 mb-3 fw-bold">{newsData?.newsId.title}</h1>
