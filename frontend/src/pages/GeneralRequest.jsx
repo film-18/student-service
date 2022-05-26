@@ -1,5 +1,5 @@
 import { Button, Modal } from 'antd'
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { RequestHeader } from "../components/Services/RequestHeader"
 import { RequestInput } from "../components/Services/RequestInput"
 import { useApp } from "../contexts/AccountContext"
@@ -30,7 +30,7 @@ query {
 export const GeneralRequest = () => {
     const navigate = useNavigate()
     // const { user } = useGoogle()
-    const { user2 } = useApp()
+    const { user2: user } = useApp()
     const [student, setStudent] = useState(null)
     const [students, setStudents] = useState([])
     const [content, setContent] = useState([])
@@ -40,9 +40,9 @@ export const GeneralRequest = () => {
     const [createRequestMutation] = useMutation(CREATE_REQUEST_MUTATION)
 
     useEffect(() => {
-        setStudent(user2)
-        // console.log(user2?._id)
-    }, [user2])
+        setStudent(user)
+        // console.log(user?._id)
+    }, [user])
 
     const handleCreateRequest = useCallback(
         async (e) => {
@@ -58,7 +58,7 @@ export const GeneralRequest = () => {
                 title: inputReqs[0].value,
                 teacherID: inputReqs[1].value,
                 teacherName: teacherName,
-                studentIdMongo: user2?._id,
+                studentIdMongo: user?._id,
                 studentId: inputReqs[2].value,
                 fullname: inputReqs[3].value,
                 degree: inputReqs[4].value,
@@ -68,6 +68,7 @@ export const GeneralRequest = () => {
                 semester: inputReqs[8].value,
                 school_year: inputReqs[9].value,
                 description: inputReqs[10].value,
+                status: "teacher_pending"
             }
             console.log(record);
 
@@ -88,7 +89,7 @@ export const GeneralRequest = () => {
                 console.error(err)
             }
         },
-        [createRequestMutation, user2],
+        [createRequestMutation, user],
     )
 
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -156,9 +157,45 @@ export const GeneralRequest = () => {
     // )
 
     // useEffect(() => {
-    //     setStudent(user2)
-    //     console.log(user2._id)
-    // }, [user2])
+    //     setStudent(user)
+    //     console.log(user._id)
+    // }, [user])
+    const program = useMemo(
+        () => {
+              const programName = {
+                  "Information_Technology": "เทคโนโลยีสารสนเทศ",
+                  "Data_Science_and_Business_Analytics": "วิทยาการข้อมูลและการวิเคราะห์เชิงธุรกิจ",
+                  "Business_Information_Technology__International_Program_": "เทคโนโลยีสารสนเทศทางธุรกิจ (หลักสูตรนานาชาติ)"
+              }
+              return programName[user?.program]
+        },
+        [user]
+    )
+
+    const major = useMemo(
+        () => {
+              const majorName = {
+                  "-": "-",
+                  "Software_Engineering": "วิศวกรรมซอฟต์แวร์",
+                  "Network_and_System_Technology": "เทคโนโลยีเครือข่ายและระบบ",
+                  "Multimedia_and_Game_Development": "การพัฒนาสื่อประสมและเกม"
+              }
+              return majorName[user?.major]
+        },
+        [user]
+    )
+
+    const degree = useMemo(
+        () => {
+              const degreeName = {
+                  "Bachelor": "ปริญญาตรี",
+                  "Master": "ปริญญาโท",
+                  "Doctor": "ปริญญาเอก"
+              }
+              return degreeName[user?.degree]
+        },
+        [user]
+    )
 
     return (
         <div className="container mt-5 pb-5">
@@ -167,19 +204,22 @@ export const GeneralRequest = () => {
             <div className="request-col-2 student-request">
                 <RequestInput text="หัวข้อเรื่อง" />
                 {/* <RequestInput text="ถึงอาจารย์" /> */}
-                <select className="input-request">
-                    {
-                        teacherData?.users?.filter((t) => t.role === "teacher").map((t) => (
-                            <option value={t._id}>{t.fullname}</option>
-                        ))
-                    }
-                </select>
+                <div className='request-input'>
+                <div className="request-input-text">ถึงอาจารย์ :</div>
+                    <select className="input-request w-100" style={{height: "40px", border: "1px solid #d9d9d9", borderRadius: "2px", padding: "5.7px 11px"}}>
+                        {
+                            teacherData?.users?.filter((t) => t.role === "teacher").map((t) => (
+                                <option value={t._id}>{t.fullname}</option>
+                            ))
+                        }
+                    </select>
+                </div>
                 <RequestInput text="รหัสนักศึกษา" value={student ? student.studentID : ""} disabled={student ? true : false} />
                 <RequestInput text="ชื่อ - นามสกุล" value={student ? `${student.firstname || ""} ${student.lastname || ""}` : ""} disabled={student ? true : false} />
-                <RequestInput text="ระดับ" value={student ? student.degree : ""} disabled={student ? true : false} />
+                <RequestInput text="ระดับ" value={degree ?? ""} disabled={student ? true : false} />
                 <RequestInput text="ปี" value={student ? student.year : ""} disabled={student ? true : false} />
-                <RequestInput text="สาขาวิชา" value={student ? student.program : ""} disabled={student ? true : false} />
-                <RequestInput text="แขนงวิชา" value={student ? student.major : ""} disabled={student ? true : false} />
+                <RequestInput text="สาขาวิชา" value={program ?? ""} disabled={student ? true : false} />
+                <RequestInput text="แขนงวิชา" value={major ?? ""} disabled={student ? true : false} />
                 <RequestInput text="ภาคเรียน" />
                 <RequestInput text="ปีการศึกษา" />
                 <div className='w-100'>

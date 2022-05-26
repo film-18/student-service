@@ -63,7 +63,7 @@ export const LeaveRequest = () => {
     const [students, setStudents] = useState([])
     const [subjects, setSubjects] = useState([""])
     const [content, setContent] = useState([])
-    const [fileUploadName, setFileUploadName] = useState("")
+    const [fileUploadName, setFileUploadName] = useState([])
     const [teachers, setTeachers] = useState([])
 
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -131,9 +131,12 @@ export const LeaveRequest = () => {
     const sendPopup = () => {
         const inputReqs = document.querySelectorAll(".student-request :where(input.input-request, select.input-request, textarea.input-request,.input-request input)")
 
-        const fileUpload = document.querySelector(".ant-upload-list-item-name")
-        
-        
+        const fileUploads = document.querySelectorAll(".file-upload-name a")
+        setFileUploadName([])
+        fileUploads.forEach((el) => {
+            setFileUploadName((prev) => [...prev, el.innerHTML])
+        })
+
 
         let countEmtry = 0
         setContent([])
@@ -147,13 +150,6 @@ export const LeaveRequest = () => {
                 countEmtry++
             }
         })
-
-        if (fileUpload){
-            setFileUploadName(fileUpload.innerHTML)
-        }
-        else{
-            setFileUploadName("")
-        }
 
         // showModal()
 
@@ -330,9 +326,9 @@ export const LeaveRequest = () => {
                     />
 
                     {
-                        uploadedFiles.map(file => <>
+                        uploadedFiles.map(file => <div className="file-upload-name">
                             <a href={`https://s3.ktnis.me/std-service/${file}`} target='_blank'>{file}</a><br/>
-                        </>)
+                        </div>)
                     }
 
                 </div>
@@ -384,11 +380,12 @@ export const LeaveRequest = () => {
                 <div className="col-4">{reqInfo[1].input[17].nameTH}</div>
                 {
                     content.filter((_, i) => i >= 15).map((c, i) => (
-                        <div className="col-4">{c}</div>
+                        (Number.isInteger((i+1)/3)) ?
+                        <div className="col-4">{teachers[parseInt(i/3)]?.teacherName}</div> : <div className="col-4">{c}</div>
                     ))
                 }
             </div>
-            <div>ไฟล์ที่อัปโหลด : {fileUploadName}</div>
+            <div>ไฟล์ที่อัปโหลด : {fileUploadName.map((f) => <div>{f}</div>)}</div>
             <div className="mt-3 text-secondary">กรุณาตรวจสอบใบลาอีกครั้ง ถ้าข้อมูล<ins>ครบ</ins>และ<ins>ถูกต้อง</ins> กรุณากดปุ่ม ส่งใบ</div>
             </Modal>
         </div>
