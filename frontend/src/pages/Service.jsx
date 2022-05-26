@@ -302,7 +302,7 @@ export const Service = memo(() => {
                                 }
                         </TabPane>
                         <TabPane tab="ใบขอทุนการศึกษา" key="4" className="request-list">
-                            <Empty />
+                            <Empty description="ยังไม่ให้บริการ" />
                         </TabPane>
                     </Tabs>
 
