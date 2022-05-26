@@ -5,7 +5,7 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import { Avatar, Card, } from "antd"; 
-import { Button, Popover, Modal, Checkbox, Form, Input, Select } from "antd";
+import { Button, Popover, Modal, Checkbox, Form, Input, Select,Spin } from "antd";
 const { Option } = Select;
 import { Outlet, Link } from "react-router-dom";
 const { Meta } = Card;
@@ -51,7 +51,7 @@ const editProfile = gql`
 // }
 
 export const Profile = memo(() => {
-  const { user2: user, refetch } = useApp();
+  const { user2: user, refetch,loading } = useApp();
 
   const [visible, setVisible] = useState(false);
 
@@ -127,6 +127,9 @@ export const Profile = memo(() => {
     settelephone(user.telephone);
     setVisible(false);
   };
+  if (loading) {
+    return <><div className="container w-100 p-3 text-center" style={{ height: 500}}><Spin style={{ fontSize: 200 }} /></div></>;
+  }
 
   return (
     <>

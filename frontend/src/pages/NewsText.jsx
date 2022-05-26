@@ -1,6 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
+import { Image } from "antd";
 
 const NEWSID_QUERY = gql`
   query ($id: MongoID!) {
@@ -69,8 +70,8 @@ export const NewsText = () => {
             {dateEnd ? dateEnd[0] : ""} {dateEnd ? dateEnd[1] : ""}{" "}
             {dateEnd ? dateEnd[2] : ""}
           </div>
-          <div className="w-100">
-            <img src={newsData?.newsId.image} alt="" width="70%" />
+          <div className="justify-content-center text-center">
+          <Image src={newsData?.newsId.image} width={700}></Image>
           </div>
           <h4>รายละเอียด</h4>
           <div className="fs-5 mt-1">{newsData?.newsId.body}</div>

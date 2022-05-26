@@ -1,5 +1,5 @@
 import { memo, useEffect, useState } from "react";
-import { Avatar, List, Card, Row, Col, Typography } from "antd";
+import { Avatar, List, Card, Row, Col, Typography, Spin, Empty } from "antd";
 const { Title } = Typography;
 import {
   CheckCircleOutlined,
@@ -58,7 +58,7 @@ export const Notification = memo(() => {
   const { user2: user } = useApp();
   return (
     <>
-      <div className="container" style={{ height: 1080, overflow: "auto" }}>
+      <div className="container" style={{ height: 500, overflow: "auto" }}>
         <div className="row">
           <Typography.Title level={3} className="text-center">
             การแจ้งเตือน
@@ -86,7 +86,20 @@ const General = ({ role }) => {
   const { data: queryDean } = useQuery(queryFromDean);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <>
+        <div
+          className="container w-100 p-3 text-center"
+          style={{ height: 500 }}
+        >
+          <Spin style={{ fontSize: 200 }} />
+        </div>
+      </>
+    );
+  }
+
+  if (!user) {
+    return <><Empty /></>;
   }
 
   if (role == "student") {
@@ -113,9 +126,8 @@ const General = ({ role }) => {
         <Noticard prop={queryDean}></Noticard>
       </>
     );
-  }
-  else{
-    return(<div></div>)
+  } else {
+    return <div></div>;
   }
 };
 

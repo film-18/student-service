@@ -12,6 +12,7 @@ import {
   Row,
   Col,
   Typography,
+  Spin
 } from "antd";
 import React from "react";
 import {
@@ -68,7 +69,7 @@ export const News = () => {
   const location = useLocation()
   let keyword = location?.state?.keyword? location.state.keyword: ""
   // let dataSearch = location?.state?.dataSearch? location.state.dataSearch : ""
-  const { data: dataNews, refetch } = useQuery(searchNews , {
+  const { data: dataNews, refetch,loading } = useQuery(searchNews , {
     variables : {
       keyword : keyword
     }
@@ -94,7 +95,9 @@ export const News = () => {
   //     content:
   //     dateNews.body,
   //   }));
-
+  if (loading) {
+    return <><div className="container w-100 p-3 text-center" style={{ height: 500}}><Spin style={{ fontSize: 200 }} /></div></>;
+  }
   return (
     <div className="container my-3">
       {user?.role !== "student" && user ? (
@@ -143,14 +146,14 @@ export const News = () => {
                         />
                       </Col>
                       <Col span={16}>
-                        <h4>{n.title}</h4>
+                        <h5>{n.title}</h5>
                         <p>
                           {" "}
                           <CalendarOutlined />{" "}
                           {moment(n.startDate).format("DD/MM/YYYY")} -{" "}
                           {moment(n.endDate).format("DD/MM/YYYY")}
                         </p>
-                        <p>{n.shortDes}</p>
+                        <p style={{overflow:"hidden",width:"100%",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{n.shortDes}</p>
                       </Col>
                     </Row>
                   </Card>

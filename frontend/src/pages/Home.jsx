@@ -15,7 +15,7 @@ import data from "../data/news.json";
 import { NewsItem } from "../components/NewsItem";
 import { CalendarItem } from "../components/CalendarItem";
 import axios from "axios";
-import { Avatar, Descriptions } from "antd";
+import { Avatar, Descriptions, Spin } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { Link } from "react-router-dom";
@@ -40,11 +40,19 @@ const queryUpdateNews = gql`
 
 export const Home = memo(() => {
   const [news, setNews] = useState(null);
-  const { data: updateNews, refetch: refetchNews } = useQuery(queryUpdateNews);
+  const {
+    data: updateNews,
+    refetch: refetchNews,
+    loading,
+  } = useQuery(queryUpdateNews);
 
   useEffect(() => {
     console.log(updateNews);
   }, []);
+
+  if (loading) {
+    return <><div className="container w-100 p-3 text-center" style={{ height: 500}}><Spin style={{ fontSize: 200 }} /></div></>;
+  }
 
   return (
     <>
@@ -59,20 +67,32 @@ export const Home = memo(() => {
                 <h4 style={{ color: "white" }}>
                   {updateNews?.UpdateNews?.[0].title}
                 </h4>
-                <p style={{ color: "white" }}>
-                  {updateNews?.UpdateNews?.[0].shortDes}
-                  <br></br>
-                  {updateNews?.UpdateNews?.[0].body}
-                </p>
+                <div>
+                  <p
+                    style={{
+                      color: "white",
+                      overflow: "hidden",
+                      width: "100%",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {updateNews?.UpdateNews?.[0].shortDes}
+                    <br></br>
+                    {updateNews?.UpdateNews?.[0].body}
+                  </p>
+                </div>
               </div>
 
               <Button
                 type="primary"
                 shape="round"
                 size="large"
-                onClick={() => (location.href = "/news")}
+                onClick={() =>
+                  (location.href = "/news/" + updateNews?.UpdateNews?.[0]._id)
+                }
               >
-                <span>ข่าวเพิ่มเติม</span>
+                <span>อ่านต่อ</span>
               </Button>
             </div>
             <div className="col-12 col-md-6">
@@ -126,11 +146,20 @@ export const Home = memo(() => {
                         </Typography.Title>
                       </Col>
                       <Col span={17} className="py-1 px-5">
-                        <Typography.Title level={3}>
+                        <Typography.Title level={4}>
                           {n.title}
                           <p>{n.shortDes}</p>
                         </Typography.Title>
-                        <p>{n.body}</p>
+                        <p
+                          style={{
+                            overflow: "hidden",
+                            width: "100%",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {n.body}
+                        </p>
                       </Col>
                       <Col span={4}>
                         <Avatar

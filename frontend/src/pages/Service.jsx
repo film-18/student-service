@@ -182,8 +182,8 @@ export const Service = memo(() => {
     )
 
     if (loading) {
-        return <div>Loading...</div>
-    }
+        return <><div className="container w-100 p-3 text-center" style={{ height: 500}}><Spin style={{ fontSize: 200 }} /></div></>;
+      }
 
 
     
