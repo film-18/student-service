@@ -51,8 +51,8 @@ query ($id: MongoID!) {
 
 
 const TEACHER_COMMENT_MUTAION = gql`
-mutation ($record : UpdateByIdLeaveRequestInput! , $_id :MongoID!) {
-    updateGeneralLeaveRequestId (_id : $_id , record: $record) {
+mutation ($record : UpdateByIdLeaveRequestInput! , $id :MongoID!) {
+    updateGeneralLeaveRequestId (_id : $id , record: $record) {
       record {
         teacherStatus
       }
@@ -64,7 +64,7 @@ export const LeaveRequestText = () => {
     const { id } = useParams()
     const { user2 } = useApp()
 
-    const { data: requestData } = useQuery(REQUEST_QUERY, {
+    const { data: requestData, refetch } = useQuery(REQUEST_QUERY, {
         variables: {
             "id": id
         }
@@ -131,26 +131,72 @@ export const LeaveRequestText = () => {
         [requestData]
     )
 
+    const indexList = useMemo(
+        () => {
+            const obj = request?.teacherList.find((l) => l.teacherID === user2?._id)
+            const index = request?.teacherList.findIndex((o) => o.teacherID === obj.teacherID)
+            console.log(index);
+            return index
+        },
+        [request, user2]
+    )
+
     const updateRequest = useCallback(
         (who, status) => async () => {
             const inputReqs = document.querySelectorAll(`.${who}-request :where(input.input-request, .input-request input)`)
             console.log(inputReqs)
-            let statusNext;
-            if (status === "rejected"){
-                statusNext = "rejected"
-            }
             try {
+                console.log(status);
                 if (who === "teacher") {
                     console.log(comment, date)
+                    let teacherList = request?.teacherList
+                    let teacherListNew = []
+                    teacherList.forEach((l) => {
+                        let newL = {
+                            ...l
+                        }
+                        delete newL["__typename"]
+                        teacherListNew.push(newL)
+                    })
+                    console.log(teacherListNew);
+                    const newRecord = {
+                        ...teacherListNew[indexList],
+                        teacherStatus: status,
+                        teacherComment: comment,
+                        teacherDate: date
+                    }
+                    const newTeacherList = teacherListNew.map((l, i) => {
+                        if (i == indexList){
+                            return newRecord
+                        }
+                        return l
+                    })
+                    const isSuccess = newTeacherList.filter((l) => l.teacherStatus == "_")
+                    const statusAll = newTeacherList.map((l) => l.teacherStatus == "approved")
+                    const isApproved = statusAll.filter((l) => l)
+                    console.log(statusAll);
+                    console.log();
+                    let statusRequest;
+                    if (isSuccess.length === 0){
+                        if (statusAll.length === isApproved.length) {
+                            statusRequest = "approved"
+                        }
+                        else {
+                            statusRequest = "rejected"
+                        }
+                    }
+                    console.log(newTeacherList);
                     await createTeacherCommentMutation({
                         variables: {
                             id,
                             record : {
-                                teacherList: [{}]
+                                teacherList: newTeacherList,
+                                status: statusRequest ?? "teacher_pending"
                             }
                         }
                     })
                 }
+                refetch()
                 const modal = Modal.success({
                     content: 'อัปเดตเสร็จสิ้น',
                 });
@@ -159,7 +205,7 @@ export const LeaveRequestText = () => {
                     modal.destroy()
                 }, 2000)
             } catch (error) {
-                
+                console.log(error.message);
             }
         }
     )
@@ -290,8 +336,8 @@ export const LeaveRequestText = () => {
                                         <td>{l.subjectId}</td>
                                         <td>{l.subjectName}</td>
                                         <td>{l.teacherName}</td>
-                                        <td>{l.teacherStatus !== "_" ? l.teacherStatus : ""}</td>
-                                        <td>{l.teacherDate ?? ""}</td>
+                                        <td>{l.teacherStatus === "_" ? "" : l.teacherStatus === "approved" ? "อนุญาต" : "ปฏิเสธ"}</td>
+                                        <td>{l.teacherDate?.split("T")[0] ?? ""}</td>
                                         <td>{l.teacherComment !== "-" ? l.teacherComment : ""}</td>
                                     </tr>
                                 ))
@@ -366,10 +412,10 @@ export const LeaveRequestText = () => {
                                     <div className="request-input">
                                         {/* <RequestInput disabled={user2?._id != t.teacherID} onChange={(e) => setComment(e.target.value)} />
                                         <RequestInput disabled={user2?._id != t.teacherID} type="date" /> */}
-                                        <Input disabled={user2?._id != t.teacherID} size="large"  onChange={(e) => setComment(e.target.value)} className="input-request"></Input>
+                                        <Input disabled={user2?._id != t.teacherID || t.teacherComment !== "-"} size="large" onChange={(e) => setComment(e.target.value)} value={t.teacherComment !== "-" ? t.teacherComment : comment} className="input-request"></Input>
                                     </div>
                                     <div className='request-input'>
-                                    <DatePicker size="large" className="w-100 input-request" defaultValue={moment()} readOnly={user2?._id != t.teacherID} format="YYYY/MM/DD"
+                                    <DatePicker size="large" className="w-100 input-request" disabled={user2?._id != t.teacherID || t.teacherComment !== "-"} format="YYYY/MM/DD"
                                     onChange={onChangeDate} />
                                     </div>
                                 </div>
@@ -377,7 +423,7 @@ export const LeaveRequestText = () => {
                         }
                     <div className='mt-3 text-end'>
                         <Button size="large" onClick={updateRequest("teacher", "approved")} className="bg-success mx-2">อนุญาต</Button>
-                        <Button size="large"  onClick={updateRequest("teacher", "approved")} type="danger">ปฏิเสธ</Button>
+                        <Button size="large"  onClick={updateRequest("teacher", "rejected")} type="danger">ปฏิเสธ</Button>
                     </div>
                 </div> : ""
             }
