@@ -132,7 +132,7 @@ export const LeaveRequest = () => {
 
     const sendPopup = () => {
         const inputReqs = document.querySelectorAll(".student-request :where(input.input-request, select.input-request, textarea.input-request,.input-request input)")
-
+        inputReqs.forEach(el => console.log(el))
         const fileUploads = document.querySelectorAll(".file-upload-name a")
         setFileUploadName([])
         fileUploads.forEach((el) => {
@@ -301,11 +301,11 @@ export const LeaveRequest = () => {
                                     <RequestInput />
                                     <RequestInput />
                                     <div className="request-input">
-                                        <Select className="w-100 input-request" style={{height: "40px", borderRadius: "2px"}} size="large">
+                                        <select className="w-100 input-request" style={{height: "40px", borderRadius: "2px"}}>
                                             {userData?.users?.filter((u) => u.role === "teacher").map((u) => (
-                                                <Option  value={u._id}>{u.fullname}</Option >
+                                                <option  value={u._id}>{u.fullname}</option >
                                             ))}
-                                        </Select>
+                                        </select>
                                     </div>
                                     <Button type="danger" size="large" onClick={deleteSubject} disabled={i == 0}>ลบ</Button>
                                 </div>

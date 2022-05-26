@@ -195,3 +195,7 @@
     background-color: #70C040;
     color: white!important;
 }
+
+select:focus-visible{
+    border: 1px solid #08979c;
+}
