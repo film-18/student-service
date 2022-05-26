@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
-import { useParams } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 
 import stdsData from '../data/students.json'
 import reqData from '../data/requestItems.json'
@@ -205,7 +205,7 @@ export const LeaveRequestText = () => {
                     content: 'อัปเดตเสร็จสิ้น',
                 });
                 setTimeout(() => {
-                    // navigate("/service")
+                    navigate("/service")
                     modal.destroy()
                 }, 2000)
             } catch (error) {
@@ -352,53 +352,9 @@ export const LeaveRequestText = () => {
                         </tbody>
                     </table>
                 </div>
-                {/* <div className='row mt-2' >
-                {user2?.role === "teacher" ? (
-                    <div className="col teacher-request">
-                        <RequestHeader text="สำหรับอาจารย์" />
-                        <RequestInput text="ความคิดเห็น" />
-                        <RequestInput text="วันที่" type="date" />
-                        <div className='mt-3 text-end'>
-                            <button onClick={updateRequest("teacher", "approved")} className="btn btn-success btn-approve">อนุญาต</button>
-                            <button onClick={updateRequest("teacher", "rejected")} className="btn btn-danger ms-2 btn-reject">ปฏิเสธ</button>
-                        </div>
-                    </div>
-                ) : (
-                    <p></p>
-                )}
-
-                {user2?.role === "staff" ? (
-                    <div className="col staff-request">
-                        <RequestHeader text="สำหรับเจ้าหน้าที่" />
-                        <RequestInput text="ความคิดเห็น" />
-                        <RequestInput text="วันที่" type="date" />
-                        <div className='mt-3 text-end'>
-                            <button onClick={updateRequest("staff", "approved")} className="btn btn-success btn-approve">อนุญาต</button>
-                            <button onClick={updateRequest("staff", "rejected")} className="btn btn-danger ms-2 btn-reject">ปฏิเสธ</button>
-                        </div>
-                    </div>
-                ) : (
-                    <p></p>
-                )}
-
-                {user2?.role === "dean" ? (
-                    <div className="col dean-request">
-                    <RequestHeader text="สำหรับคณบดี" />
-                    <RequestInput text="ความคิดเห็น" />
-                    <RequestInput text="วันที่" type="date" />
-                    <div className='mt-3 text-end'>
-                        <button onClick={updateRequest("dean", "approved")} className="btn btn-success btn-approve">อนุญาต</button>
-                        <button onClick={updateRequest("dean", "rejected")} className="btn btn-danger ms-2 btn-reject">ปฏิเสธ</button>
-                    </div>
-                </div>
-                ) : (
-                    <p></p>
-                )}
-
-            </div> */}
             </div>
             {
-                user2.role === "teacher" ?
+                user2?.role === "teacher" ?
                 <div className='teacher-request'>
                     <RequestHeader text="สำหรับอาจารย์" />
                         <div className="d-flex justify-content-between" style={{gap: "10px"}}>
