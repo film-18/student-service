@@ -26,7 +26,7 @@ query {
     }
 }
 `
-
+// const { Option } = Select;
 export const GeneralRequest = () => {
     const navigate = useNavigate()
     // const { user } = useGoogle()
@@ -97,7 +97,7 @@ export const GeneralRequest = () => {
     const sendPopup = () => {
         const inputReqs = document.querySelectorAll(".student-request :where(input.input-request, textarea.input-request,select.input-request,.input-request input)")
 
-        const teacherName = teacherData.users.find((t) => t._id == inputReqs[1].value).fullname
+        const teacherName = teacherData?.users?.find((t) => t._id == inputReqs[1].value).fullname
 
         localStorage.setItem("itss-requestTeacherName", teacherName)
         let countEmtry = 0
@@ -237,7 +237,8 @@ export const GeneralRequest = () => {
                 >
                     ส่งเรื่อง
                 </Button> */}
-                <button className="btn btn-primary" onClick={sendPopup}>ส่งเรื่อง</button>
+                {/* <button className="btn btn-primary" onClick={sendPopup}>ส่งเรื่อง</button> */}
+                <Button size="large" type="primary" onClick={sendPopup}>ส่งเรื่อง</Button>
             </div>
 
             {/* <div className='row'>

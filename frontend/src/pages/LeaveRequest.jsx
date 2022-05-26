@@ -7,7 +7,7 @@ import { RequestInput } from "../components/Services/RequestInput"
 import data from '../data/students.json'
 import reqInfo from '../data/requestInfo.json'
 
-import { Upload, message } from 'antd';
+import { Upload, message, Select  } from 'antd';
 import { useApp } from "../contexts/AccountContext"
 import { gql, useMutation, useQuery } from "@apollo/client"
 
@@ -52,6 +52,8 @@ query {
     }
 }
 `
+
+const { Option } = Select;
 
 export const LeaveRequest = () => {
     const { type } = useParams()
@@ -299,11 +301,11 @@ export const LeaveRequest = () => {
                                     <RequestInput />
                                     <RequestInput />
                                     <div className="request-input">
-                                        <select className="w-100 input-request" style={{height: "40px", border: "1px solid #d9d9d9", borderRadius: "2px"}}>
+                                        <Select className="w-100 input-request" style={{height: "40px", borderRadius: "2px"}} size="large">
                                             {userData?.users?.filter((u) => u.role === "teacher").map((u) => (
-                                                <option value={u._id}>{u.fullname}</option>
+                                                <Option  value={u._id}>{u.fullname}</Option >
                                             ))}
-                                        </select>
+                                        </Select>
                                     </div>
                                     <Button type="danger" size="large" onClick={deleteSubject} disabled={i == 0}>ลบ</Button>
                                 </div>
@@ -314,6 +316,7 @@ export const LeaveRequest = () => {
                 </div>
                 <div className="w-100">
                     <div>เอกสาร : </div>
+                    {/* <Button size="large" className="mt-3 bg-success">+ เพิ่มเอกสาร</Button> */}
                     <input
                         type={'file'}
                         onChange={async (e) => {
