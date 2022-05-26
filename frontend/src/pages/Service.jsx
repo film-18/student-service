@@ -92,8 +92,6 @@ export const Service = memo(() => {
     const [isError, setIsError] = useState(false);
     const [requestPopup, setRequestPopup] = useState(null);
 
-
-
     const { user2: user } = useApp()
 
     const { data: dataService, refetch, loading } = useQuery(USER_QUERY, {
@@ -226,80 +224,87 @@ export const Service = memo(() => {
                     </Space>
                 </Radio.Group>
                     <Tabs defaultActiveKey="0">
-                        <TabPane tab="ทั้งหมด" key="0" className="request-list ">
-                            {(requests && value=="all" ? [...requests[0], ...requests[1]] : []).map((req) => (
-                                <RequestList request={req} />
-                            ))}
-                            {(requests && value=="success" ? [...requests[0].filter((x)=>x.status=="approved"), ...requests[1].filter((x)=>x.status=="approved")] : []).map((req) => (
-                                <RequestList request={req} />
-                            ))
-                            }
-                            {(requests && value=="fail" ? [...requests[0].filter((x)=>x.status=="rejected"), ...requests[1].filter((x)=>x.status=="rejected")] : []).map((req) => (
-                                <RequestList request={req} />
-                            ))
-                            }
-                            {(requests && value=="pending" ? [...requests[0].filter((x)=>x.status=="teacher_pending"||x.status=="staff_pending"||x.status=="dean_pending"), ...requests[1].filter((x)=>x.status=="teacher_pending"||x.status=="staff_pending"||x.status=="dean_pending")] : []).map((req) => (
-                                <RequestList request={req} />
-                            ))
-                            }
-                        </TabPane>
-                        <TabPane tab="ใบคำร้องทั่วไป" key="1" className="request-list">
-                            {(requests && value=="all"? requests[0] : []).map((req) => (
-                                <RequestList request={req} />
-                            ))}
-                            {(requests && value=="success"? requests[0].filter((x)=>x.status=="approved") : []).map((req) => (
-                                <RequestList request={req} />
-                            ))}
-                            {(requests && value=="fail"? requests[0].filter((x)=>x.status=="rejected") : []).map((req) => (
-                                <RequestList request={req} />
-                            ))}
-                            {(requests && value=="pending"? requests[0].filter((x)=>x.status=="teacher_pending"||x.status=="staff_pending"||x.status=="dean_pending") : []).map((req) => (
-                                <RequestList request={req} />
-                            ))}
-                            
-                        </TabPane>
-                        <TabPane tab="ใบลาป่วย" key="2" className="request-list">
-                            {(requests && value=="all"? requests[1] : []).filter((l) => l.leaveType === "Sick")
-                                .map((req) => (
-                                    <RequestList request={req} />
-                                ))
-                                }
-                            {(requests && value=="success"? requests[1] : []).filter((l) => l.leaveType === "Sick"&&l.status=="approved")
-                                .map((req) => (
-                                    <RequestList request={req} />
-                                ))
-                                }
-                            {(requests && value=="fail"? requests[1] : []).filter((l) => l.leaveType === "Sick"&&l.status=="rejected")
-                                .map((req) => (
-                                    <RequestList request={req} />
-                                ))
-                                }
-                            {(requests && value=="pending"? requests[1] : []).filter((l) => l.leaveType === "Sick"&&(l.status=="teacher_pending"||l.status=="staff_pending"||l.status=="dean_pending"))
-                                .map((req) => (
-                                    <RequestList request={req} />
-                                ))
-                                }
-                        </TabPane>
-                        <TabPane tab="ใบลากิจ" key="3" className="request-list">
-                            {(requests && value=="all" ? requests[1] : []).filter((l) => l.leaveType === "Business")
-                                .map((req) => (
+                        <TabPane tab="ทั้งหมด" key="0" className="request-list">
+                            <div className="d-flex flex-column-reverse">
+                                {(requests && value=="all" ? [...requests[0], ...requests[1]] : []).map((req) => (
                                     <RequestList request={req} />
                                 ))}
-                            {(requests && value=="success"? requests[1] : []).filter((l) => l.leaveType === "Business"&&l.status=="approved")
+                                {(requests && value=="success" ? [...requests[0].filter((x)=>x.status=="approved"), ...requests[1].filter((x)=>x.status=="approved")] : []).map((req) => (
+                                    <RequestList request={req} />
+                                ))
+                                }
+                                {(requests && value=="fail" ? [...requests[0].filter((x)=>x.status=="rejected"), ...requests[1].filter((x)=>x.status=="rejected")] : []).map((req) => (
+                                    <RequestList request={req} />
+                                ))
+                                }
+                                {(requests && value=="pending" ? [...requests[0].filter((x)=>x.status=="teacher_pending"||x.status=="staff_pending"||x.status=="dean_pending"), ...requests[1].filter((x)=>x.status=="teacher_pending"||x.status=="staff_pending"||x.status=="dean_pending")] : []).map((req) => (
+                                    <RequestList request={req} />
+                                ))
+                                }
+                            </div>
+                        </TabPane>
+                        <TabPane tab="ใบคำร้องทั่วไป" key="1" className="request-list">
+                            <div className="d-flex flex-column-reverse">
+                                {(requests && value=="all"? requests[0] : []).map((req) => (
+                                    <RequestList request={req} />
+                                ))}
+                                {(requests && value=="success"? requests[0].filter((x)=>x.status=="approved") : []).map((req) => (
+                                    <RequestList request={req} />
+                                ))}
+                                {(requests && value=="fail"? requests[0].filter((x)=>x.status=="rejected") : []).map((req) => (
+                                    <RequestList request={req} />
+                                ))}
+                                {(requests && value=="pending"? requests[0].filter((x)=>x.status=="teacher_pending"||x.status=="staff_pending"||x.status=="dean_pending") : []).map((req) => (
+                                    <RequestList request={req} />
+                                ))}
+                            </div>
+                        </TabPane>
+                        <TabPane tab="ใบลาป่วย" key="2" className="request-list">
+                            <div className="d-flex flex-column-reverse">
+                                {(requests && value=="all"? requests[1] : []).filter((l) => l.leaveType === "Sick")
+                                    .map((req) => (
+                                        <RequestList request={req} />
+                                    ))
+                                    }
+                                {(requests && value=="success"? requests[1] : []).filter((l) => l.leaveType === "Sick"&&l.status=="approved")
                                 .map((req) => (
                                     <RequestList request={req} />
                                 ))
                                 }
-                            {(requests && value=="fail"? requests[1] : []).filter((l) => l.leaveType === "Business"&&l.status=="rejected")
+                                {(requests && value=="fail"? requests[1] : []).filter((l) => l.leaveType === "Sick"&&l.status=="rejected")
+                                    .map((req) => (
+                                        <RequestList request={req} />
+                                        ))
+                                }
+                                {(requests && value=="pending"? requests[1] : []).filter((l) => l.leaveType === "Sick"&&(l.status=="teacher_pending"||l.status=="staff_pending"||l.status=="dean_pending"))
                                 .map((req) => (
                                     <RequestList request={req} />
-                                ))
+                                    ))
                                 }
-                            {(requests && value=="pending"? requests[1] : []).filter((l) => l.leaveType === "Business"&&(l.status=="teacher_pending"||l.status=="staff_pending"||l.status=="dean_pending"))
-                                .map((req) => (
-                                    <RequestList request={req} />
-                                ))
-                                }
+                            </div>
+                        </TabPane>
+                        <TabPane tab="ใบลากิจ" key="3" className="request-list">
+                            <div className="d-flex flex-column-reverse">
+                                {(requests && value=="all" ? requests[1] : []).filter((l) => l.leaveType === "Business")
+                                    .map((req) => (
+                                        <RequestList request={req} />
+                                    ))}
+                                {(requests && value=="success"? requests[1] : []).filter((l) => l.leaveType === "Business"&&l.status=="approved")
+                                    .map((req) => (
+                                        <RequestList request={req} />
+                                    ))
+                                    }
+                                {(requests && value=="fail"? requests[1] : []).filter((l) => l.leaveType === "Business"&&l.status=="rejected")
+                                    .map((req) => (
+                                        <RequestList request={req} />
+                                    ))
+                                    }
+                                {(requests && value=="pending"? requests[1] : []).filter((l) => l.leaveType === "Business"&&(l.status=="teacher_pending"||l.status=="staff_pending"||l.status=="dean_pending"))
+                                    .map((req) => (
+                                        <RequestList request={req} />
+                                    ))
+                                    }
+                            </div>
                         </TabPane>
                         <TabPane tab="ใบขอทุนการศึกษา" key="4" className="request-list">
                             <Empty description="ยังไม่ให้บริการ" />
@@ -323,9 +328,8 @@ export const Service = memo(() => {
                         <h6>รายละเอียด : {requestPopup.description}</h6>
                         <div class="row">
                             
-                            <Button className="mt-4" size="large" icon={<DownloadOutlined />} href="https://s3.ktnis.me/std-service/แบบฟอร์มใบลาเรียนของนักศึกษา.pdf" target="_blank">
+                            <Button className="mt-4" size="large" icon={<DownloadOutlined />} href={requestPopup?.name === "ใบคำร้องทั่วไป" ? "https://s3.ktnis.me/std-service/คำร้องทั่วไป.pdf" : "https://s3.ktnis.me/std-service/แบบฟอร์มใบลาเรียนของนักศึกษา.pdf"} target="_blank">
                                 ดาวน์โหลดเอกสาร
-                                
                             </Button>
                             
                             <Button
