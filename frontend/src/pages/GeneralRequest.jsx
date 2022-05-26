@@ -1,4 +1,4 @@
-import { Button, Modal } from 'antd'
+import { Button, Modal, Select } from 'antd'
 import { useState, useEffect, useCallback } from 'react'
 import { RequestHeader } from "../components/Services/RequestHeader"
 import { RequestInput } from "../components/Services/RequestInput"
@@ -26,7 +26,7 @@ query {
     }
 }
 `
-
+const { Option } = Select;
 export const GeneralRequest = () => {
     const navigate = useNavigate()
     // const { user } = useGoogle()
@@ -96,7 +96,7 @@ export const GeneralRequest = () => {
     const sendPopup = () => {
         const inputReqs = document.querySelectorAll(".student-request :where(input.input-request, textarea.input-request,select.input-request,.input-request input)")
 
-        const teacherName = teacherData.users.find((t) => t._id == inputReqs[1].value).fullname
+        const teacherName = teacherData?.users?.find((t) => t._id == inputReqs[1].value).fullname
 
         localStorage.setItem("itss-requestTeacherName", teacherName)
         let countEmtry = 0
@@ -174,6 +174,18 @@ export const GeneralRequest = () => {
                         ))
                     }
                 </select>
+
+
+                {/* <div className="">
+                <div className="request-input-text">ถึงอาจารย์</div>
+                <Select className="w-100 input-request" style={{ height: "40px", borderRadius: "2px" }} size="large">
+                    {
+                        teacherData?.users?.filter((t) => t.role === "teacher").map((t) => (
+                            <Option value={t._id}>{t.fullname}</Option>
+                        ))
+                    }
+                </Select>
+                </div> */}
                 <RequestInput text="รหัสนักศึกษา" value={student ? student.studentID : ""} disabled={student ? true : false} />
                 <RequestInput text="ชื่อ - นามสกุล" value={student ? `${student.firstname || ""} ${student.lastname || ""}` : ""} disabled={student ? true : false} />
                 <RequestInput text="ระดับ" value={student ? student.degree : ""} disabled={student ? true : false} />
@@ -197,7 +209,8 @@ export const GeneralRequest = () => {
                 >
                     ส่งเรื่อง
                 </Button> */}
-                <button className="btn btn-primary" onClick={sendPopup}>ส่งเรื่อง</button>
+                {/* <button className="btn btn-primary" onClick={sendPopup}>ส่งเรื่อง</button> */}
+                <Button size="large" type="primary" onClick={sendPopup}>ส่งเรื่อง</Button>
             </div>
 
             {/* <div className='row'>
