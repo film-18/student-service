@@ -1,13 +1,18 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import { useParams } from "react-router-dom"
 
 import stdsData from '../data/students.json'
 import reqData from '../data/requestItems.json'
-import { gql, useQuery } from '@apollo/client';
-import { Avatar, List, Space, Divider, Image, Button } from 'antd';
+import { gql, useQuery, useMutation } from '@apollo/client';
+import { Avatar, List, Space, Divider, Image, Button, Input, DatePicker } from 'antd';
 import { useApp } from "../contexts/AccountContext"
 import { RequestInput } from '../components/Services/RequestInput';
 import { RequestHeader } from '../components/Services/RequestHeader';
+import { Modal } from 'antd'
+import moment from 'moment'
+import 'moment/locale/th'
+moment.locale('th')
+
 
 const REQUEST_QUERY = gql`
 query ($id: MongoID!) {
@@ -43,6 +48,18 @@ query ($id: MongoID!) {
   }
 `;
 
+
+
+const TEACHER_COMMENT_MUTAION = gql`
+mutation ($record : UpdateByIdLeaveRequestInput! , $_id :MongoID!) {
+    updateGeneralLeaveRequestId (_id : $_id , record: $record) {
+      record {
+        teacherStatus
+      }
+    }
+  }
+`;
+
 export const LeaveRequestText = () => {
     const { id } = useParams()
     const { user2 } = useApp()
@@ -52,6 +69,10 @@ export const LeaveRequestText = () => {
             "id": id
         }
     })
+
+    const [createTeacherCommentMutation] = useMutation(TEACHER_COMMENT_MUTAION)
+    const [comment, setComment] = useState(null)
+    const [date, setDate] = useState(null)
 
     const [request, setRequest] = useState()
 
@@ -66,6 +87,13 @@ export const LeaveRequestText = () => {
         // setuserRole(user2)
         console.log(user2?.role)
     }, [user2])
+
+
+    const onChangeDate = (date, dateString) => {
+        setDate(dateString)
+        console.log(dateString);
+      };
+      
 
     const convertDate = (date) => {
         if (requestData) {
@@ -102,6 +130,46 @@ export const LeaveRequestText = () => {
         },
         [requestData]
     )
+
+    const updateRequest = useCallback(
+        (who, status) => async () => {
+            const inputReqs = document.querySelectorAll(`.${who}-request :where(input.input-request, .input-request input)`)
+            console.log(inputReqs)
+            let statusNext;
+            if (status === "rejected"){
+                statusNext = "rejected"
+            }
+            try {
+                if (who === "teacher") {
+                    console.log(comment, date)
+                    await createTeacherCommentMutation({
+                        variables: {
+                            id,
+                            record : {
+                                teacherList: [{}]
+                            }
+                        }
+                    })
+                }
+                const modal = Modal.success({
+                    content: 'อัปเดตเสร็จสิ้น',
+                });
+                setTimeout(() => {
+                    // navigate("/service")
+                    modal.destroy()
+                }, 2000)
+            } catch (error) {
+                
+            }
+        }
+    )
+
+    // useEffect(
+    //     () => {
+    //         setComment(Comment)
+    //     },
+    //     [setComment]
+    // )
 
     // useEffect(
     //     () => {
@@ -295,14 +363,21 @@ export const LeaveRequestText = () => {
                             request?.teacherList.map((t) => (
                                 <div className="d-flex justify-content-between mt-2" style={{gap: "10px"}}>
                                     <RequestInput value={t.teacherName} disabled={true} />
-                                    <RequestInput disabled={user2?._id != t.teacherID} />
-                                    <RequestInput disabled={user2?._id != t.teacherID} type="date" />
+                                    <div className="request-input">
+                                        {/* <RequestInput disabled={user2?._id != t.teacherID} onChange={(e) => setComment(e.target.value)} />
+                                        <RequestInput disabled={user2?._id != t.teacherID} type="date" /> */}
+                                        <Input disabled={user2?._id != t.teacherID} size="large"  onChange={(e) => setComment(e.target.value)} className="input-request"></Input>
+                                    </div>
+                                    <div className='request-input'>
+                                    <DatePicker size="large" className="w-100 input-request" defaultValue={moment()} readOnly={user2?._id != t.teacherID} format="YYYY/MM/DD"
+                                    onChange={onChangeDate} />
+                                    </div>
                                 </div>
                             ))
                         }
                     <div className='mt-3 text-end'>
-                        <Button size="large" className="bg-success mx-2">อนุญาต</Button>
-                        <Button size="large" type="danger">ปฏิเสธ</Button>
+                        <Button size="large" onClick={updateRequest("teacher", "approved")} className="bg-success mx-2">อนุญาต</Button>
+                        <Button size="large"  onClick={updateRequest("teacher", "approved")} type="danger">ปฏิเสธ</Button>
                     </div>
                 </div> : ""
             }
