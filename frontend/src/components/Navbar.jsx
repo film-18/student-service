@@ -21,13 +21,36 @@ import { memo, useEffect, useState } from "react";
 // import { useGoogleLogout } from 'react-google-login'
 // import { useGoogle } from '../contexts/GoogleContext';
 import { useApp } from "../contexts/AccountContext";
+import { useLazyQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
+
 
 // const clientId = `${import.meta.env.VITE_GOOGLE_CLIENT_ID}`;
+
+const searchNews = gql`
+query ($keyword: String!){
+  searchNews (keyword: $keyword) {
+    title,
+    shortDes,
+    body,
+    image,
+    startDate,
+    endDate,
+    _id,
+    password
+  }
+}
+`;
+
 
 const Navbar = memo(() => {
   // const { user, signIn, signOut } = useGoogle()
   const { user2, data, logout } = useApp();
   const [profile, setProfile] = useState(null);
+  const [getPost, { data: dataSearch }] = useLazyQuery(searchNews)
+  const [keyword, setKeyword] = useState('')
+  const navigate = useNavigate()
 
   // const [user, setUser] = useState(null);
 
@@ -91,20 +114,49 @@ const Navbar = memo(() => {
       <div className="container">
         <div className="row mt-3">
           <div className="col-12 col-md-4 mt-2">
-            <Typography.Title level={1} className="mb-1">
-              Student Service
-              {/* <ExclamationCircleFilled /> */}
-            </Typography.Title>
-            <h6>Faculty of Information Technology | KMITL </h6>
+            <Link to="/">
+              <Typography.Title level={1} className="mb-1">
+                Student Service
+                {/* <ExclamationCircleFilled /> */}
+              </Typography.Title>
+              <h6>Faculty of Information Technology | KMITL </h6>
+            </Link>
           </div>
           <div className="col-12 col-md-8">
             <div className="row">
               <div className="col-12 col-md-6"></div>
               <div className="col-12 col-md-6">
-                <Search
+                {/* <Search
                   placeholder="input search loading with enterButton"
                   enterButton
-                />
+                /> */}
+                <div className="row">
+                  <div className="col-6 mx-0 px-0">
+                    <Input size="large" className="input-request" value={keyword} onChange={(e) => setKeyword(e.target.value)}></Input>
+                  </div>
+                  <div className="col-6 mx-0 px-0 ">
+                    <Button type="primary" size="large" onClick={() => {
+                      getPost({ variables: { keyword: keyword } })
+                      navigate('/news',{state:{keyword: keyword, dataSearch : dataSearch}})
+                      
+                    }
+                    }>
+
+                      ค้นหา
+                    </Button>
+
+                    {/* <div className="row ">
+                      {dataSearch?.searchNews?.map((postRow) => {
+                        return <>
+
+                          {postRow?.title}
+                          <hr></hr>
+                        </>
+                      })}
+                    </div> */}
+
+                  </div>
+                </div>
               </div>
             </div>
             <div className="row py-3">
@@ -147,13 +199,13 @@ const Navbar = memo(() => {
                               ? profile?.imageUri
                               : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
                           }
-                          style={{marginRight:5}}
+                          style={{ marginRight: 5 }}
                         />
                         {profile?.firstname}
                       </>
                     ) : (
                       "บัญชี"
-                    )   
+                    )
                   }
                 >
                   <Menu.ItemGroup
@@ -197,7 +249,7 @@ const Navbar = memo(() => {
       <Footer style={{ backgroundColor: "#112B3C" }} className="my-5">
         <div className="container">
           <div className="row">
-            <div className="col-8" style={{color:"white"}}>
+            <div className="col-8" style={{ color: "white" }}>
               Faculty of Information Technology <br></br>
               King Mongkut's Institute of Technology Ladkrabang <br></br>
               1, Chalong Krung 1, Ladkrabang, Bangkok 10520
