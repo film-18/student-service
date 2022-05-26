@@ -5,6 +5,8 @@ import {
   FacebookOutlined,
   TwitterOutlined,
   YoutubeOutlined,
+  SearchOutlined,
+  MailOutlined,
 } from "@ant-design/icons";
 import { Outlet, Link } from "react-router-dom";
 import { Layout, Menu, Breadcrumb, Typography } from "antd";
@@ -16,6 +18,7 @@ import {
   Dropdown,
   Space,
   Row,
+  Col,
   Input,
 } from "antd";
 
@@ -25,70 +28,33 @@ import { memo, useEffect, useState } from "react";
 // import { useGoogle } from '../contexts/GoogleContext';
 import { useApp } from "../contexts/AccountContext";
 import { useLazyQuery } from "@apollo/client";
-import { gql, useMutation, useQuery } from '@apollo/client';
-import { useNavigate } from 'react-router-dom';
-
+import { gql, useMutation, useQuery } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
 
 // const clientId = `${import.meta.env.VITE_GOOGLE_CLIENT_ID}`;
 
 const searchNews = gql`
-query ($keyword: String!){
-  searchNews (keyword: $keyword) {
-    title,
-    shortDes,
-    body,
-    image,
-    startDate,
-    endDate,
-    _id,
-    password
+  query ($keyword: String!) {
+    searchNews(keyword: $keyword) {
+      title
+      shortDes
+      body
+      image
+      startDate
+      endDate
+      _id
+      password
+    }
   }
-}
 `;
-
 
 const Navbar = memo(() => {
   // const { user, signIn, signOut } = useGoogle()
   const { user2, data, logout } = useApp();
   const [profile, setProfile] = useState(null);
-  const [getPost, { data: dataSearch }] = useLazyQuery(searchNews)
-  const [keyword, setKeyword] = useState('')
-  const navigate = useNavigate()
-
-  // const [user, setUser] = useState(null);
-
-  // const responseGoogle = (response) => {
-  //     // document.getElementById("emailLogin").innerText = response.profileObj.email;
-  //     setUser(response.profileObj)
-  //     console.log(response);
-
-  // }
-
-  // const onFailure = (res) => {
-  //     console.log(res);
-  // }
-
-  // const responseSignOut = () => {
-  //     setUser(null)
-  // }
-
-  // const { signIn } = useGoogleLogin({
-  //     clientId,
-  //     onSuccess: responseGoogle,
-  //     onFailure,
-  //     isSignedIn: true,
-  //     cookiePolicy: 'single_host_origin',
-  // })
-
-  // const { signOut } = useGoogleLogout({
-  //     clientId,
-  //     onFailure,
-  //     onLogoutSuccess: responseSignOut
-  // })
-
-  // if (!user) {
-  //     return <></>
-  // }
+  const [getPost, { data: dataSearch }] = useLazyQuery(searchNews);
+  const [keyword, setKeyword] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     setProfile(user2);
@@ -104,16 +70,6 @@ const Navbar = memo(() => {
 
   return (
     <>
-      {/* <Layout style={{ padding: "5px"}}>
-            <div style={{ paddingLeft: "10px"}}>
-                <Image
-                    width={200}
-                    height={50}
-                    src="error"
-                    fallback="https://www.it.kmitl.ac.th/wp-content/themes/itkmitl2017wp/img/nav-eng.svg"
-                />
-            </div>
-        </Layout> */}
       <div className="container">
         <div className="row mt-3">
           <div className="col-12 col-md-4 mt-2">
@@ -129,37 +85,32 @@ const Navbar = memo(() => {
             <div className="row">
               <div className="col-12 col-md-6"></div>
               <div className="col-12 col-md-6">
-                {/* <Search
-                  placeholder="input search loading with enterButton"
-                  enterButton
-                /> */}
-                <div className="row">
-                  <div className="col-6 mx-0 px-0">
-                    <Input size="large" className="input-request" value={keyword} onChange={(e) => setKeyword(e.target.value)}></Input>
-                  </div>
-                  <div className="col-6 mx-0 px-0 ">
-                    <Button type="primary" size="large" onClick={() => {
-                      getPost({ variables: { keyword: keyword } })
-                      navigate('/news',{state:{keyword: keyword, dataSearch : dataSearch}})
-                      
-                    }
-                    }>
-
+                <Row>
+                  <Col span={18}>
+                    <Input
+                      size="large"
+                      className="input-request"
+                      value={keyword}
+                      placeholder="ค้นหากิจกรรมสำหรับคุณ"
+                      onChange={(e) => setKeyword(e.target.value)}
+                    ></Input>
+                  </Col>
+                  <Col span={6}>
+                    <Button
+                      type="primary"
+                      size="large"
+                      onClick={() => {
+                        getPost({ variables: { keyword: keyword } });
+                        navigate("/news", {
+                          state: { keyword: keyword, dataSearch: dataSearch },
+                        });
+                      }}
+                    >
+                      <SearchOutlined />
                       ค้นหา
                     </Button>
-
-                    {/* <div className="row ">
-                      {dataSearch?.searchNews?.map((postRow) => {
-                        return <>
-
-                          {postRow?.title}
-                          <hr></hr>
-                        </>
-                      })}
-                    </div> */}
-
-                  </div>
-                </div>
+                  </Col>
+                </Row>
               </div>
             </div>
             <div className="row py-3">
@@ -234,8 +185,8 @@ const Navbar = memo(() => {
 
                 <Menu.Item>
                   <Link to="/notification">
-                    <Badge size="large" count={10} style={{ margin: "5px" }}>
-                      <Avatar icon={<NotificationFilled />} />
+                    <Badge size="large" dot={true} offset={[0,-1]}>
+                      <MailOutlined />
                     </Badge>
                   </Link>
                 </Menu.Item>
@@ -258,15 +209,6 @@ const Navbar = memo(() => {
               สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง เลขที่ 1<br />
               ซอยฉลองกรุง 1 แขวงลาดกระบัง เขตลาดกระบัง กรุงเทพฯ 10520 <br />
               +66 (0)2723 4900 +66 (0) 2723 4910
-            </div>
-            <div className="col-4" style={{ color: "white",paddingLeft:"20%"}}>
-              โซเชียลมีเดีย
-              <br />
-              <FacebookOutlined className="mx-2" />
-              <TwitterOutlined className="mx-2" />
-              <YoutubeOutlined className="mx-2" />
-              <br />
-              - แผนผังเว็บไซต์ <br />- เว็บไซต์เดิม
             </div>
           </div>
         </div>
