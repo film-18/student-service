@@ -13,6 +13,8 @@ const REQUEST_QUERY = gql`
 query ($gen_id: MongoID!) {
     generalRequestId (_id: $gen_id) {
         title
+        teacherID
+        studentIdMongo
         teacherName
         studentId
         semester
@@ -63,6 +65,14 @@ mutation ($record: UpdateByIdGeneralRequestInput!, $id: MongoID!) {
     }
   }
 `
+const createNotification = gql`
+  mutation ($record: CreateOneNotificationInput!) {
+    createnotification(record: $record) {
+      recordId
+    }
+  }
+`;
+
 
 export const GeneralRequestText = () => {
     const { id } = useParams()
@@ -76,6 +86,7 @@ export const GeneralRequestText = () => {
         }
     })
 
+    const [createNoti] = useMutation(createNotification)
     const [createTeacherCommentMutation] = useMutation(TEACHER_COMMENT_MUTAION)
     const [createStaffCommentMutation] = useMutation(STAFF_COMMENT_MUTAION)
     const [createDeanCommentMutation] = useMutation(DEAN_COMMENT_MUTAION)
@@ -116,6 +127,17 @@ export const GeneralRequestText = () => {
                             }
                         }
                     })
+                    await createNoti({
+                        variables: {
+                          record: {
+                            title: requestData?.generalRequestId.title,
+                            status: statusNext ?? "staff_pending",
+                            type: "ใบคำร้องทั่วไป",
+                            studentId: requestData?.generalRequestId.studentIdMongo,
+                            teacherId: requestData?.generalRequestId.teacherID
+                          },
+                        },
+                      });
                 }
                 else if (who === "staff") {
                     await createStaffCommentMutation({
@@ -129,6 +151,17 @@ export const GeneralRequestText = () => {
                             }
                         }
                     })
+                    await createNoti({
+                        variables: {
+                          record: {
+                            title: requestData?.generalRequestId.title,
+                            status: statusNext ?? "dean_pending",
+                            type: "ใบคำร้องทั่วไป",
+                            studentId: requestData?.generalRequestId.studentIdMongo,
+                            teacherId: requestData?.generalRequestId.teacherID
+                          },
+                        },
+                      });
                 }
                 else {
                     await createDeanCommentMutation({
@@ -142,6 +175,17 @@ export const GeneralRequestText = () => {
                             }
                         }
                     })
+                    await createNoti({
+                        variables: {
+                          record: {
+                            title: requestData?.generalRequestId.title,
+                            status: status,
+                            type: "ใบคำร้องทั่วไป",
+                            studentId: requestData?.generalRequestId.studentIdMongo,
+                            teacherId: requestData?.generalRequestId.teacherID
+                          },
+                        },
+                      });
                 }
                 const modal = Modal.success({
                     content: 'อัปเดตเสร็จสิ้น',

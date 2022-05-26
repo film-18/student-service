@@ -1,5 +1,7 @@
+import { schemaComposer } from 'graphql-compose'
+
 import {
-  GeneralRequestTC,
+  GeneralRequestTC, GeneralRequestModel,
 } from '../models/generalRequest'
 import { UserTC } from '../models/user'
 
@@ -32,6 +34,17 @@ GeneralRequestTC.addRelation('GeneralListStudentTeacher', {
   },
   prepareArgs: {
     _id: (req) => req.teacherID, // ฝั่งตรงข้าม => ฝั่งตัวเอง
+  },
+})
+
+export const UpdateGeneralRequest = schemaComposer.createResolver({
+  name: 'UpdateGeneralRequest',
+  kind: 'query',
+  type: [GeneralRequestTC],
+  resolve: async (args) => {
+    const { ids } = args
+    const generalRequestNew = await GeneralRequestModel.find({ studentIdMongo: { $in: ids } }).sort({ _id: -1 })
+    return generalRequestNew
   },
 })
 

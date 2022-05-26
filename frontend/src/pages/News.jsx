@@ -24,6 +24,7 @@ import { gql, useQuery, useMutation } from "@apollo/client";
 import { Link } from "react-router-dom";
 import { useApp } from "../contexts/AccountContext";
 import moment from "moment";
+import { useLocation } from 'react-router-dom';
 
 const IconText = ({ icon, text }) => (
   <Space>
@@ -46,9 +47,40 @@ const queryNews = gql`
   }
 `;
 
+
+const searchNews = gql`
+query ($keyword: String!){
+  searchNews (keyword: $keyword) {
+    title,
+    shortDes,
+    body,
+    image,
+    startDate,
+    endDate,
+    _id,
+    password
+  }
+}
+`;
+
 export const News = () => {
-  const { data: dateNews, refetch } = useQuery(queryNews);
+
+  const location = useLocation()
+  let keyword = location?.state?.keyword? location.state.keyword: ""
+  // let dataSearch = location?.state?.dataSearch? location.state.dataSearch : ""
+  const { data: dataNews, refetch } = useQuery(searchNews , {
+    variables : {
+      keyword : keyword
+    }
+  });
   const { user2: user } = useApp();
+  // const { data: dataSearch } = useQuery(searchNews)
+
+  console.log(keyword, dataNews)
+
+  // useEffect(() => {
+    
+  // }, [keyword])
 
   console.log(user);
   // const data = dateNews.from({
@@ -65,10 +97,10 @@ export const News = () => {
 
   return (
     <div className="container my-3">
-      {user?.role !== "student"&&user? (
+      {user?.role !== "student" && user ? (
         <div className="text-end">
           <Link to="/news/create">
-            <Button type="primary">สร้างโพสต์</Button>
+            <Button type="primary" size="large">สร้างโพสต์</Button>
           </Link>
         </div>
       ) : (
@@ -78,7 +110,20 @@ export const News = () => {
         <Typography.Title level={3} className="text-center">
           ข่าวสาร
         </Typography.Title>
-        {dateNews?.UpdateNews?.map((n) => {
+
+        {/* <div className="row ">
+          {dataSearch?.searchNews?.map((postRow) => {
+            return <>
+              {postRow?.title}
+              <PostRow post={postRow}/>
+              <hr></hr>
+            </>
+          })}
+        </div> */}
+
+        {/* {dataSearch ? } */}
+
+        {dataNews?.searchNews?.map((n) => {
           return (
             // n.shortDes n.body n.title n.image n._id
             <div className="col-md-6 my-2">

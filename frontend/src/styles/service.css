@@ -186,3 +186,26 @@
     border: 1px solid black;
     width: calc(100% / 3);
 }
+
+.request-form-table.leave th, .request-form-table.leave td{
+    width: fit-content;
+}
+
+.bg-success {
+    background-color: #70C040;
+    color: white!important;
+}
+
+select:focus-visible{
+    border: 1px solid #08979c;
+}
+
+.ant-typography mark {
+    padding: 5px!important;
+    background-color: #ffe58f;
+    animation: krapip .75s infinite linear alternate;
+}
+
+@keyframes krapip {
+    to {background-color: black; color: white;}
+}

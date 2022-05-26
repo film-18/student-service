@@ -1,11 +1,18 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import { useParams } from "react-router-dom"
 
 import stdsData from '../data/students.json'
 import reqData from '../data/requestItems.json'
-import { gql, useQuery } from '@apollo/client';
-import { Avatar, List, Space, Divider, Image, Button } from 'antd';
+import { gql, useQuery, useMutation } from '@apollo/client';
+import { Avatar, List, Space, Divider, Image, Button, Input, DatePicker } from 'antd';
 import { useApp } from "../contexts/AccountContext"
+import { RequestInput } from '../components/Services/RequestInput';
+import { RequestHeader } from '../components/Services/RequestHeader';
+import { Modal } from 'antd'
+import moment from 'moment'
+import 'moment/locale/th'
+moment.locale('th')
+
 
 const REQUEST_QUERY = gql`
 query ($id: MongoID!) {
@@ -28,6 +35,27 @@ query ($id: MongoID!) {
       teacherName
       updatedAt
       createdAt
+      teacherList {
+        subjectId
+        subjectName
+        teacherName
+        teacherID
+        teacherComment
+        teacherStatus
+        teacherDate
+      }
+    }
+  }
+`;
+
+
+
+const TEACHER_COMMENT_MUTAION = gql`
+mutation ($record : UpdateByIdLeaveRequestInput! , $id :MongoID!) {
+    updateGeneralLeaveRequestId (_id : $id , record: $record) {
+      record {
+        teacherStatus
+      }
     }
   }
 `;
@@ -36,11 +64,15 @@ export const LeaveRequestText = () => {
     const { id } = useParams()
     const { user2 } = useApp()
 
-    const { data: requestData } = useQuery(REQUEST_QUERY, {
+    const { data: requestData, refetch } = useQuery(REQUEST_QUERY, {
         variables: {
             "id": id
         }
     })
+
+    const [createTeacherCommentMutation] = useMutation(TEACHER_COMMENT_MUTAION)
+    const [comment, setComment] = useState(null)
+    const [date, setDate] = useState(null)
 
     const [request, setRequest] = useState()
 
@@ -55,6 +87,13 @@ export const LeaveRequestText = () => {
         // setuserRole(user2)
         console.log(user2?.role)
     }, [user2])
+
+
+    const onChangeDate = (date, dateString) => {
+        setDate(dateString)
+        console.log(dateString);
+      };
+      
 
     const convertDate = (date) => {
         if (requestData) {
@@ -91,6 +130,96 @@ export const LeaveRequestText = () => {
         },
         [requestData]
     )
+
+    // const indexList = useMemo(
+    //     () => {
+    //         const obj = request?.teacherList.find((l) => l.teacherID === user2?._id)
+    //         const index = request?.teacherList.findIndex((o) => o.teacherID === obj.teacherID)
+    //         console.log(index);
+    //         return index
+    //     },
+    //     [request, user2]
+    // )
+
+    const updateRequest = useCallback(
+        (who, status) => async () => {
+            const inputReqs = document.querySelectorAll(`.${who}-request :where(input.input-request, .input-request input)`)
+            console.log(inputReqs)
+            try {
+                console.log(status);
+                if (who === "teacher") {
+                    console.log(comment, date)
+                    let teacherList = request?.teacherList
+                    let teacherListNew = []
+                    teacherList.forEach((l) => {
+                        let newL = {
+                            ...l
+                        }
+                        delete newL["__typename"]
+                        teacherListNew.push(newL)
+                    })
+                    console.log(teacherListNew);
+
+                    const obj = request?.teacherList.find((l) => l.teacherID === user2?._id)
+                    const indexList = request?.teacherList.findIndex((o) => o.teacherID === obj.teacherID)
+                    
+                    const newRecord = {
+                        ...teacherListNew[indexList],
+                        teacherStatus: status,
+                        teacherComment: comment,
+                        teacherDate: date
+                    }
+                    const newTeacherList = teacherListNew.map((l, i) => {
+                        if (i == indexList){
+                            return newRecord
+                        }
+                        return l
+                    })
+                    const isSuccess = newTeacherList.filter((l) => l.teacherStatus == "_")
+                    const statusAll = newTeacherList.map((l) => l.teacherStatus == "approved")
+                    const isApproved = statusAll.filter((l) => l)
+                    console.log(statusAll);
+                    console.log();
+                    let statusRequest;
+                    if (isSuccess.length === 0){
+                        if (statusAll.length === isApproved.length) {
+                            statusRequest = "approved"
+                        }
+                        else {
+                            statusRequest = "rejected"
+                        }
+                    }
+                    console.log(newTeacherList);
+                    await createTeacherCommentMutation({
+                        variables: {
+                            id,
+                            record : {
+                                teacherList: newTeacherList,
+                                status: statusRequest ?? "teacher_pending"
+                            }
+                        }
+                    })
+                }
+                refetch()
+                const modal = Modal.success({
+                    content: 'อัปเดตเสร็จสิ้น',
+                });
+                setTimeout(() => {
+                    // navigate("/service")
+                    modal.destroy()
+                }, 2000)
+            } catch (error) {
+                console.log(error.message);
+            }
+        }
+    )
+
+    // useEffect(
+    //     () => {
+    //         setComment(Comment)
+    //     },
+    //     [setComment]
+    // )
 
     // useEffect(
     //     () => {
@@ -156,7 +285,10 @@ export const LeaveRequestText = () => {
                     &emsp;&emsp;&emsp;&emsp;มีความประสงค์ {request?.description} โดยได้แนบเอกสารดังนี้
                 </div>
                 <div className='mt-2'>
-                    &emsp;&emsp;&emsp;&emsp; {request?.file}
+                    &emsp;&emsp;&emsp;&emsp; <a href={`https://s3.ktnis.me/std-service/${request?.file}`} target="_blank">{(request?.file + "").split("_")[2]}
+                
+                    </a>
+                    
                 </div>
                 <div className='mt-2'>
                     &emsp; จึงขอลาเรียนตั้งแต่วันที่ {dateStart ? dateStart[0] : ""} เดือน {dateStart ? dateStart[1] : ""} พ.ศ. {parseInt(dateStart ? dateStart[2] : 0)}
@@ -193,28 +325,30 @@ export const LeaveRequestText = () => {
                         <div>อาจาร์ยที่ปรึกษา</div>
                     </div>
                 </div>
-                <div className='request-form-table' style={{ width: "auto"}}>
+                <div className='request-form-table leave' style={{ width: "auto"}}>
                     <table>
                         <thead>
                             
                             <th>รหัสวิชา</th>
                             <th>ชื่อวิชา</th>
                             <th>อาจารย์ผู้สอน</th>
-                            <th>อนุญาติ</th>
-                            <th>ไม่อนุญาติ</th>
+                            <th>คำสั่ง</th>
                             <th>วัน / เดือน / ปี</th>
                             <th>หมายเหตุ</th>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                            {
+                                request?.teacherList.map((l) => (
+                                    <tr>
+                                        <td>{l.subjectId}</td>
+                                        <td>{l.subjectName}</td>
+                                        <td>{l.teacherName}</td>
+                                        <td>{l.teacherStatus === "_" ? "" : l.teacherStatus === "approved" ? "อนุญาต" : "ปฏิเสธ"}</td>
+                                        <td>{l.teacherDate?.split("T")[0] ?? ""}</td>
+                                        <td>{l.teacherComment !== "-" ? l.teacherComment : ""}</td>
+                                    </tr>
+                                ))
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -263,6 +397,43 @@ export const LeaveRequestText = () => {
 
             </div> */}
             </div>
+            {
+                user2.role === "teacher" ?
+                <div className='teacher-request'>
+                    <RequestHeader text="สำหรับอาจารย์" />
+                        <div className="d-flex justify-content-between" style={{gap: "10px"}}>
+                            <div className="request-input">
+                                <div className="request-input-text">อาจารย์</div>
+                            </div>
+                            <div className="request-input">
+                                <div className="request-input-text">ความคิดเห็น</div>
+                            </div>
+                            <div className="request-input">
+                                <div className="request-input-text">วันที่</div>
+                            </div>
+                        </div>
+                        {
+                            request?.teacherList.map((t) => (
+                                <div className="d-flex justify-content-between mt-2" style={{gap: "10px"}}>
+                                    <RequestInput value={t.teacherName} disabled={true} />
+                                    <div className="request-input">
+                                        {/* <RequestInput disabled={user2?._id != t.teacherID} onChange={(e) => setComment(e.target.value)} />
+                                        <RequestInput disabled={user2?._id != t.teacherID} type="date" /> */}
+                                        <Input disabled={user2?._id != t.teacherID || t.teacherComment !== "-"} size="large" onChange={(e) => setComment(e.target.value)} value={t.teacherComment !== "-" ? t.teacherComment : comment} className="input-request"></Input>
+                                    </div>
+                                    <div className='request-input'>
+                                    <DatePicker size="large" className="w-100 input-request" disabled={user2?._id != t.teacherID || t.teacherComment !== "-"} format="YYYY/MM/DD"
+                                    onChange={onChangeDate} />
+                                    </div>
+                                </div>
+                            ))
+                        }
+                    <div className='mt-3 text-end'>
+                        <Button size="large" onClick={updateRequest("teacher", "approved")} className="bg-success mx-2">อนุญาต</Button>
+                        <Button size="large"  onClick={updateRequest("teacher", "rejected")} type="danger">ปฏิเสธ</Button>
+                    </div>
+                </div> : ""
+            }
         </div>
         // </Link>
     )

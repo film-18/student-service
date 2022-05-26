@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { Button, Modal } from 'antd'
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { RequestHeader } from "../components/Services/RequestHeader"
@@ -7,9 +7,15 @@ import { RequestInput } from "../components/Services/RequestInput"
 import data from '../data/students.json'
 import reqInfo from '../data/requestInfo.json'
 
-import { Upload, message } from 'antd';
+import { Upload, message, Select  } from 'antd';
 import { useApp } from "../contexts/AccountContext"
-import { gql, useQuery } from "@apollo/client"
+import { gql, useMutation, useQuery } from "@apollo/client"
+
+const UPLOAD_MUTATION = gql`
+mutation ($file: Upload) {
+    UploadLeaveRequestFile(document: $file)
+}
+`
 
 const props = {
   name: 'file',
@@ -29,34 +35,110 @@ const props = {
   },
 };
 
+const CREATE_REQUEST_MUTATION = gql`
+mutation ($record: CreateOneLeaveRequestInput!){
+    createLeaveRequest (record: $record) {
+      recordId
+    }
+  }
+`
+
 const USER_QUERY = gql`
 query {
     users {
-      _id
-      fullname
-      role
+        _id
+        fullname
+        role
     }
 }
 `
+
+const { Option } = Select;
+
 export const LeaveRequest = () => {
     const { type } = useParams()
+    const navigate = useNavigate()
     
     const {user2: user} = useApp()
     // const { user } = useGoogle()
     const [student, setStudent] = useState({})
     const [students, setStudents] = useState([])
-    const [subjects, setSubjects] = useState([])
+    const [subjects, setSubjects] = useState([""])
     const [content, setContent] = useState([])
-    const [fileUploadName, setFileUploadName] = useState("")
+    const [fileUploadName, setFileUploadName] = useState([])
+    const [teachers, setTeachers] = useState([])
 
     const [isModalVisible, setIsModalVisible] = useState(false);
 
+    const [createLeaveRequestMutation] = useMutation(CREATE_REQUEST_MUTATION)
+    const {data: userData} = useQuery(USER_QUERY)
+
+    const [uploadedFiles, setUploadFiles] = useState([])
+    const [uploadImage, { data: uploadedImageData, reset: resetUploaded }] = useMutation(UPLOAD_MUTATION)
+
+    useEffect(() => {
+        if(uploadedImageData && uploadedImageData.UploadLeaveRequestFile) {
+            setUploadFiles([...uploadedFiles, uploadedImageData.UploadLeaveRequestFile])
+            resetUploaded()
+        }
+        console.log(uploadedFiles)
+    }, [uploadedImageData, uploadedFiles])
+
+    const handleCreateLeaveRequest = useCallback(
+        async() => {
+            // content.forEach((c, i) => console.log(i, c))
+            // console.log(teachers);
+
+            const record = {
+                "studentIdMongo": user._id,
+                "title": content[0],
+                "leaveType": content[1] === "ลาป่วย" ? "Sick" : "Business",
+                "studentId": content[2],
+                "fullname": content[3],
+                "degree": content[4],
+                "year": content[5],
+                "program": content[6],
+                "major": content[7],
+                "semester": content[8],
+                "school_year": content[9],
+                "description": content[10],
+                "startDate": content[11],
+                "endDate": content[12],
+                "parent": content[14],
+                "file": uploadedFiles,
+                "teacherList": teachers,
+            }
+
+            try {
+                console.log(record);
+                await createLeaveRequestMutation({
+                    variables: {
+                        record
+                    }
+                })
+                const modal = Modal.success({
+                    content: 'สร้างใบคำร้องเสร็จสิ้น',
+                });
+                setTimeout(() => {
+                    navigate("/service")
+                    modal.destroy()
+                }, 2000)
+            } catch (error) {
+                console.log(error.message);
+            }
+        },
+        [teachers, content]
+    )
+
     const sendPopup = () => {
-        const inputReqs = document.querySelectorAll(".student-request :where(input.input-request, textarea.input-request,.input-request input)")
+        const inputReqs = document.querySelectorAll(".student-request :where(input.input-request, select.input-request, textarea.input-request,.input-request input)")
+        inputReqs.forEach(el => console.log(el))
+        const fileUploads = document.querySelectorAll(".file-upload-name a")
+        setFileUploadName([])
+        fileUploads.forEach((el) => {
+            setFileUploadName((prev) => [...prev, el.innerHTML])
+        })
 
-        const fileUpload = document.querySelector(".ant-upload-list-item-name")
-
-        inputReqs.forEach((el, i) => console.log(i, el.value))
 
         let countEmtry = 0
         setContent([])
@@ -71,16 +153,21 @@ export const LeaveRequest = () => {
             }
         })
 
-        if (fileUpload){
-            setFileUploadName(fileUpload.innerHTML)
-        }
-        else{
-            setFileUploadName("")
-        }
-
         // showModal()
 
-        if (!countEmtry && fileUpload){
+        if (!countEmtry && uploadedFiles.length > 0){
+            setTeachers([])
+            for (let i = 0; i < (inputReqs.length - 15) / 3; i++){
+                const teacherName = userData?.users.find((u) => u._id === inputReqs[+(15+(3*i)+2)].value).fullname
+                setTeachers((prev) => {
+                    return [...prev, {
+                        subjectId: inputReqs[+(15+((3*i)+0))].value, 
+                        subjectName: inputReqs[+(15+(3*i)+1)].value, 
+                        teacherID: inputReqs[+(15+(3*i)+2)].value, 
+                        teacherName}
+                    ]
+                })
+            }
             showModal()
         }
         else{
@@ -114,7 +201,7 @@ export const LeaveRequest = () => {
                 return [...prev.slice(0, subjects.length-1)]
             })
         },
-        [setSubjects]
+        [setSubjects, subjects]
       )
 
       const program = useMemo(
@@ -126,7 +213,7 @@ export const LeaveRequest = () => {
               }
               return programName[user?.program]
         },
-        []
+        [user]
     )
 
     const major = useMemo(
@@ -139,7 +226,7 @@ export const LeaveRequest = () => {
               }
               return majorName[user?.major]
         },
-        []
+        [user]
     )
 
     const degree = useMemo(
@@ -151,7 +238,7 @@ export const LeaveRequest = () => {
               }
               return degreeName[user?.degree]
         },
-        []
+        [user]
     )
     
     useEffect(
@@ -180,10 +267,10 @@ export const LeaveRequest = () => {
                 <RequestInput text="ประเภทการลา" value={type === "sick" ? "ลาป่วย" : "ลากิจ"} disabled={true} />
                 <RequestInput text="รหัสนักศึกษา" value={student ? student.studentID : ""} disabled={student ? true : false} />
                 <RequestInput text="ชื่อ - นามสกุล" value={student ? `${student.firstname ?? ""} ${student.lastname ?? ""}` : ""} disabled={student ? true : false} />
-                <RequestInput text="ระดับ" value={student ? student.degree : ""}  disabled={student ? true : false} />
+                <RequestInput text="ระดับ" value={degree ?? ""}  disabled={student ? true : false} />
                 <RequestInput text="ปีที่" value={student ? student.year : ""} disabled={student ? true : false} />
-                <RequestInput text="สาขาวิชา" value={student ? student.program : ""} disabled={student ? true : false} />
-                <RequestInput text="แขนงวิชา" value={student ? student.major : ""} disabled={student ? true : false} />
+                <RequestInput text="สาขาวิชา" value={program ?? ""} disabled={student ? true : false} />
+                <RequestInput text="แขนงวิชา" value={major ?? ""} disabled={student ? true : false} />
                 <RequestInput text="ภาคเรียนที่" />
                 <RequestInput text="ปีการศึกษา" />
                 <div className='w-100'>
@@ -197,45 +284,78 @@ export const LeaveRequest = () => {
                     <div className="request-input-text">วิชา :</div>
                     <div className="input-subjects">
                         <div>
-                            <RequestInput text="รหัสวิชา" />
-                            <RequestInput text="ชื่อวิชา" />
-                            <RequestInput text="อาจารย์" />
-                            <button className="btn btn-secondary mt-4" onClick={deleteSubject} disabled>ลบ</button>
+                            <div className="request-input">
+                                <div className="request-input-text">รหัสวิชา :</div>
+                            </div>
+                            <div className="request-input">
+                                <div className="request-input-text">ชื่อวิชา :</div>
+                            </div>
+                            <div className="request-input">
+                                <div className="request-input-text">อาจารย์ :</div>
+                            </div>
+                            <Button type="danger" className="opacity-0">ลบ</Button>
                         </div>
                         {
-                            subjects.map((s) => (
-                                <div>
+                            subjects.map((_, i) => (
+                                <div className="mt-2">
                                     <RequestInput />
                                     <RequestInput />
-                                    <RequestInput />
-                                    <button className="btn btn-danger" onClick={deleteSubject}>ลบ</button>
+                                    <div className="request-input">
+                                        <select className="w-100 input-request" style={{height: "40px", borderRadius: "2px"}}>
+                                            {userData?.users?.filter((u) => u.role === "teacher").map((u) => (
+                                                <option  value={u._id}>{u.fullname}</option >
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <Button type="danger" size="large" onClick={deleteSubject} disabled={i == 0}>ลบ</Button>
                                 </div>
                             ))
                         }
                     </div>
-                    <button className="btn btn-success mt-3" onClick={addSubject}>+ เพิ่ม</button>
+                    <Button size="large" className="mt-3 bg-success" onClick={addSubject}>+ เพิ่ม</Button>
                 </div>
                 <div className="w-100">
                     <div>เอกสาร : </div>
-                    <Upload {...props} className="file-upload">
-                        <button className="btn btn-success mt-3">+ อัปโหลดไฟล์</button>
-                    </Upload>
+                    {/* <Button size="large" className="mt-3 bg-success">+ เพิ่มเอกสาร</Button> */}
+                    <input
+                        type={'file'}
+                        onChange={async (e) => {
+                            await uploadImage({
+                                variables: {
+                                    file: e.target.files[0]
+                                }
+                            })
+                        }}
+                    />
+
+                    {
+                        uploadedFiles.map(file => <div className="file-upload-name">
+                            <a href={`https://s3.ktnis.me/std-service/${file}`} target='_blank'>{file}</a><br/>
+                        </div>)
+                    }
+
                 </div>
             </div>
             <div className='text-end mt-3 mb-3'>
-                <button className="btn btn-primary" onClick={sendPopup}>ส่งเรื่อง</button>
+                <Button size="large" type="primary" onClick={sendPopup}>ส่งเรื่อง</Button>
             </div>
 
-            <div className='teacher-request'>
+            {/* <div className='teacher-request'>
                 <RequestHeader text="สำหรับอาจารย์" />
                     <div className="d-flex justify-content-between" style={{gap: "10px"}}>
-                        <RequestInput text="อาจารย์" />
-                        <RequestInput text="ความคิดเห็น" />
-                        <RequestInput text="วันที่" type="date" />
+                        <div className="request-input">
+                            <div className="request-input-text">อาจารย์</div>
+                        </div>
+                        <div className="request-input">
+                            <div className="request-input-text">ความคิดเห็น</div>
+                        </div>
+                        <div className="request-input">
+                            <div className="request-input-text">วันที่</div>
+                        </div>
                     </div>
                     {
                         subjects.map((s) => (
-                            <div className="d-flex justify-content-between" style={{gap: "10px"}}>
+                            <div className="d-flex justify-content-between mt-2" style={{gap: "10px"}}>
                                 <RequestInput />
                                 <RequestInput />
                                 <RequestInput type="date" />
@@ -243,12 +363,12 @@ export const LeaveRequest = () => {
                         ))
                     }
                 <div className='mt-3 text-end'>
-                    <button className="btn btn-success btn-approve">อนุญาต</button>
-                    <button className="btn btn-danger ms-2 btn-reject">ปฏิเสธ</button>
+                    <Button size="large" className="bg-success">อนุญาต</Button>
+                    <Button size="large" type="danger">ปฏิเสธ</Button>
                 </div>
-            </div>
+            </div> */}
 
-            <Modal title="ยืนยันใบลา" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} okText="ส่งใบ">
+            <Modal title="ยืนยันใบลา" visible={isModalVisible} onOk={handleCreateLeaveRequest} onCancel={handleCancel} okText="ส่งใบ">
             {
                 content.filter((_, i) => i < 15).map((c, i) => (
                     <div key={"ct-"+i}>
@@ -263,11 +383,12 @@ export const LeaveRequest = () => {
                 <div className="col-4">{reqInfo[1].input[17].nameTH}</div>
                 {
                     content.filter((_, i) => i >= 15).map((c, i) => (
-                        <div className="col-4">{c}</div>
+                        (Number.isInteger((i+1)/3)) ?
+                        <div className="col-4">{teachers[parseInt(i/3)]?.teacherName}</div> : <div className="col-4">{c}</div>
                     ))
                 }
             </div>
-            <div>ไฟล์ที่อัปโหลด : {fileUploadName}</div>
+            <div>ไฟล์ที่อัปโหลด : {fileUploadName.map((f) => <div>{f}</div>)}</div>
             <div className="mt-3 text-secondary">กรุณาตรวจสอบใบลาอีกครั้ง ถ้าข้อมูล<ins>ครบ</ins>และ<ins>ถูกต้อง</ins> กรุณากดปุ่ม ส่งใบ</div>
             </Modal>
         </div>

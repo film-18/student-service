@@ -1,3 +1,6 @@
+import { GraphQLUpload } from 'apollo-upload-server'
+import { schemaComposer } from 'graphql-compose'
+
 import {
   LeaveRequestTC,
 } from '../models/leaveRequest'
@@ -32,5 +35,45 @@ LeaveRequestTC.addRelation('LeaveListStudentTeacher', {
   },
   prepareArgs: {
     _id: (req) => req.teacherID, // ฝั่งตรงข้าม => ฝั่งตัวเอง
+  },
+})
+
+const minio = require('minio')
+
+const minClient = new minio.Client({
+  endPoint: process.env.AWS_ENDPOINT,
+  useSSL: process.env.AWS_ENDPOINT_SSL === 'true',
+  accessKey: process.env.AWS_ACCESS_KEY,
+  secretKey: process.env.AWS_SECRET_KEY,
+})
+
+schemaComposer.set('Upload', GraphQLUpload)
+
+export const UploadLeaveRequestFile = schemaComposer.createResolver({
+  name: 'UploadLeaveRequestFile',
+  kind: 'mutation',
+  type: 'String',
+  args: {
+    document: 'Upload',
+  },
+  resolve: async ({ args }) => {
+    const { document } = args
+    const {
+      filename, createReadStream,
+    } = await document
+
+    // const ext = /(?:\.([^.]+))?$/.exec(filename)
+
+    const stream = createReadStream()
+
+    const uploadedName = `${(Math.random() + 1).toString(36).substring(2)}_${new Date().valueOf()}_${filename}`
+
+    await minClient.putObject(
+      process.env.AWS_BUCKET_NAME,
+      uploadedName,
+      stream,
+    )
+
+    return uploadedName
   },
 })
