@@ -131,15 +131,15 @@ export const LeaveRequestText = () => {
         [requestData]
     )
 
-    const indexList = useMemo(
-        () => {
-            const obj = request?.teacherList.find((l) => l.teacherID === user2?._id)
-            const index = request?.teacherList.findIndex((o) => o.teacherID === obj.teacherID)
-            console.log(index);
-            return index
-        },
-        [request, user2]
-    )
+    // const indexList = useMemo(
+    //     () => {
+    //         const obj = request?.teacherList.find((l) => l.teacherID === user2?._id)
+    //         const index = request?.teacherList.findIndex((o) => o.teacherID === obj.teacherID)
+    //         console.log(index);
+    //         return index
+    //     },
+    //     [request, user2]
+    // )
 
     const updateRequest = useCallback(
         (who, status) => async () => {
@@ -159,6 +159,10 @@ export const LeaveRequestText = () => {
                         teacherListNew.push(newL)
                     })
                     console.log(teacherListNew);
+
+                    const obj = request?.teacherList.find((l) => l.teacherID === user2?._id)
+                    const indexList = request?.teacherList.findIndex((o) => o.teacherID === obj.teacherID)
+                    
                     const newRecord = {
                         ...teacherListNew[indexList],
                         teacherStatus: status,
