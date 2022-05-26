@@ -199,3 +199,13 @@
 select:focus-visible{
     border: 1px solid #08979c;
 }
+
+.ant-typography mark {
+    padding: 5px!important;
+    background-color: #ffe58f;
+    animation: krapip .75s infinite linear alternate;
+}
+
+@keyframes krapip {
+    to {background-color: black; color: white;}
+}

@@ -5,6 +5,7 @@ import * as leaveRequest from './leaveRequest'
 // import * as posts from './post'
 import * as news from './news'
 // import * as requests from './request'
+import * as notifications from './notification'
 import * as users from './user'
 
 schemaComposer.Query.addFields({
@@ -33,6 +34,10 @@ schemaComposer.Query.addFields({
   UpdateNews: news.UpdateNews,
   searchNews: news.searchNews,
 
+  notification: notifications.notification,
+  notificationId: notifications.notificationId,
+  notificationPagination: notifications.notificationPagination,
+
 })
 schemaComposer.Mutation.addFields({
 //   createPost: posts.createPost,
@@ -59,6 +64,10 @@ schemaComposer.Mutation.addFields({
   createNews: news.createNews,
   updateNewsId: news.updateNewsId,
   deleteNewsId: news.deleteNewsId,
+
+  createnotification: notifications.createnotification,
+  updatenotificationId: notifications.updatenotificationId,
+  deletenotificationId: notifications.deletenotificationId,
 
 })
 

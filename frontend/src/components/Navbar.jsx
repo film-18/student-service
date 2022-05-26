@@ -2,6 +2,9 @@ import {
   NotificationFilled,
   SettingOutlined,
   UserOutlined,
+  FacebookOutlined,
+  TwitterOutlined,
+  YoutubeOutlined,
 } from "@ant-design/icons";
 import { Outlet, Link } from "react-router-dom";
 import { Layout, Menu, Breadcrumb, Typography } from "antd";
@@ -247,12 +250,23 @@ const Navbar = memo(() => {
       <Outlet />
 
       <Footer style={{ backgroundColor: "#112B3C" }} className="my-5">
-        <div className="container">
+        <div className="container-fluid">
           <div className="row">
             <div className="col-8" style={{ color: "white" }}>
-              Faculty of Information Technology <br></br>
-              King Mongkut's Institute of Technology Ladkrabang <br></br>
-              1, Chalong Krung 1, Ladkrabang, Bangkok 10520
+              คณะเทคโนโลยีสารสนเทศ
+              <br />
+              สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง เลขที่ 1<br />
+              ซอยฉลองกรุง 1 แขวงลาดกระบัง เขตลาดกระบัง กรุงเทพฯ 10520 <br />
+              +66 (0)2723 4900 +66 (0) 2723 4910
+            </div>
+            <div className="col-4" style={{ color: "white",paddingLeft:"20%"}}>
+              โซเชียลมีเดีย
+              <br />
+              <FacebookOutlined className="mx-2" />
+              <TwitterOutlined className="mx-2" />
+              <YoutubeOutlined className="mx-2" />
+              <br />
+              - แผนผังเว็บไซต์ <br />- เว็บไซต์เดิม
             </div>
           </div>
         </div>
