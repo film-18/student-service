@@ -43,8 +43,8 @@ const minio = require('minio')
 const minClient = new minio.Client({
   endPoint: process.env.AWS_ENDPOINT,
   useSSL: process.env.AWS_ENDPOINT_SSL === 'true',
-  accessKey: process.env.AWS_ACCESS_KEY,
-  secretKey: process.env.AWS_SECRET_KEY,
+  accessKey: process.env.BUCKET_ACCESS_KEY,
+  secretKey: process.env.BUCKET_SECRET_KEY,
 })
 
 schemaComposer.set('Upload', GraphQLUpload)
