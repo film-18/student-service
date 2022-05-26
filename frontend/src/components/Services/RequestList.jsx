@@ -20,7 +20,7 @@ let status_name = {
 
 export const RequestList = ({ request }) => {
 
-    const time = moment(request.updatedAt).add(543, "year").format("LL")
+    const time = moment(request.updatedAt).add(543, "year").format("LLL")
     const path = useMemo(
         () => {
             if (request.__typename === "GeneralRequest"){

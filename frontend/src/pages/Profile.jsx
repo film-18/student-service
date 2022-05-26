@@ -181,7 +181,7 @@ export const Profile = memo(() => {
           <div className="container-fluid">
             <div className="row">
               <div className="col-md-12">
-                <h3>Edit Profile</h3>
+                <h3>แก้ไขข้อมูล</h3>
                 ชื่อผู้ใช้
                 <Input
                   className="input-request"

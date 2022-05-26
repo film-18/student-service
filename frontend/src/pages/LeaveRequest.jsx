@@ -107,6 +107,7 @@ export const LeaveRequest = () => {
                 "parent": content[14],
                 "file": uploadedFiles,
                 "teacherList": teachers,
+                status: "teacher_pending",
             }
 
             try {
