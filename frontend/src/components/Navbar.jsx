@@ -91,7 +91,7 @@ const Navbar = memo(() => {
                       size="large"
                       className="input-request"
                       value={keyword}
-                      placeholder="ค้นหากิจกรรมสำหรับคุณ"
+                      placeholder="ค้นหาข่าวสารสำหรับคุณ"
                       onChange={(e) => setKeyword(e.target.value)}
                     ></Input>
                   </Col>
