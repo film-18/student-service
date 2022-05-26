@@ -58,7 +58,7 @@ export const Notification = memo(() => {
   const { user2: user } = useApp();
   return (
     <>
-      <div className="container">
+      <div className="container" style={{ height: 1080, overflow: "auto" }}>
         <div className="row">
           <Typography.Title level={3} className="text-center">
             การแจ้งเตือน
