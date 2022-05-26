@@ -322,9 +322,12 @@ export const Service = memo(() => {
                         <h6>ตัวอย่างเช่น {requestPopup.category.join(" ")}</h6>
                         <h6>รายละเอียด : {requestPopup.description}</h6>
                         <div class="row">
-                            <Button className="mt-4" size="large" icon={<DownloadOutlined />} >
+                            
+                            <Button className="mt-4" size="large" icon={<DownloadOutlined />} href="https://s3.ktnis.me/std-service/แบบฟอร์มใบลาเรียนของนักศึกษา.pdf" target="_blank">
                                 ดาวน์โหลดเอกสาร
+                                
                             </Button>
+                            
                             <Button
                                 className="mt-3"
                                 type="primary"

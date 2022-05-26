@@ -285,7 +285,10 @@ export const LeaveRequestText = () => {
                     &emsp;&emsp;&emsp;&emsp;มีความประสงค์ {request?.description} โดยได้แนบเอกสารดังนี้
                 </div>
                 <div className='mt-2'>
-                    &emsp;&emsp;&emsp;&emsp; <a href={`https://s3.ktnis.me/std-service/${request?.file}`}>{request?.file}</a>
+                    &emsp;&emsp;&emsp;&emsp; <a href={`https://s3.ktnis.me/std-service/${request?.file}`} target="_blank">{(request?.file + "").split("_")[2]}
+                
+                    </a>
+                    
                 </div>
                 <div className='mt-2'>
                     &emsp; จึงขอลาเรียนตั้งแต่วันที่ {dateStart ? dateStart[0] : ""} เดือน {dateStart ? dateStart[1] : ""} พ.ศ. {parseInt(dateStart ? dateStart[2] : 0)}
