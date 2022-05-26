@@ -63,7 +63,7 @@ export const Notification = memo(() => {
           <Typography.Title level={3} className="text-center">
             การแจ้งเตือน
           </Typography.Title>
-          <General role={user.role}></General>
+          <General role={user?.role}></General>
         </div>
       </div>
     </>
@@ -113,6 +113,9 @@ const General = ({ role }) => {
         <Noticard prop={queryDean}></Noticard>
       </>
     );
+  }
+  else{
+    return(<div></div>)
   }
 };
 

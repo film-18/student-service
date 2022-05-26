@@ -136,14 +136,14 @@ export const Profile = memo(() => {
             <Avatar
               size={200}
               src={
-                user.imageUri
+                user?.imageUri
                   ? user.imageUri
                   : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
               }
               
             />
-            <h5 className="mt-3">{user.firstname}</h5>
-            <p>@{user.username}</p>
+            <h5 className="mt-3">{user?.firstname}</h5>
+            <p>@{user?.username}</p>
 
             <Button
               className="mt-3"
@@ -157,21 +157,21 @@ export const Profile = memo(() => {
           </div>
           <div className="col-md-8 p-5">
             <h3>
-              {user.firstname} {user.lastname}
+              {user?.firstname} {user?.lastname}
             </h3>
-            <p>{user.email}</p>
-            <p>{user.studentId ? user.studentId : ""}</p>
-            {user.role === "student" ? (
+            <p>{user?.email}</p>
+            <p>{user?.studentId ? user?.studentId : ""}</p>
+            {user?.role === "student" ? (
               <div>
-                <p>Year: {user.year}</p>
-                <p>Degree: {user.degree}</p>
-                <p>Program: {user.program}</p>
-                <p>Major: {user.major}</p>
+                <p>Year: {user?.year}</p>
+                <p>Degree: {user?.degree}</p>
+                <p>Program: {user?.program}</p>
+                <p>Major: {user?.major}</p>
               </div>
             ) : (
-              <p>Role: {user.role}</p>
+              <p>Role: {user?.role}</p>
             )}
-            <p>Tel: {user.telephone}</p>
+            <p>Tel: {user?.telephone}</p>
           </div>
         </div>
         <Modal visible={visible} onCancel={handleCancel} footer={null}>
