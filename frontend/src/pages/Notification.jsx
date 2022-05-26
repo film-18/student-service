@@ -72,7 +72,7 @@ export const Notification = memo(() => {
 
 const General = ({ role }) => {
   const { user2: user } = useApp();
-  const { data: queryStudent, loading } = useQuery(queryFromStudent, {
+  const { data: queryStudent } = useQuery(queryFromStudent, {
     variables: {
       studentId: user?._id,
     },
@@ -83,7 +83,7 @@ const General = ({ role }) => {
     },
   });
   const { data: queryStaff } = useQuery(queryFromStaff);
-  const { data: queryDean } = useQuery(queryFromDean);
+  const { data: queryDean, loading } = useQuery(queryFromDean);
 
   if (loading) {
     return (
@@ -99,7 +99,11 @@ const General = ({ role }) => {
   }
 
   if (!user) {
-    return <><Empty /></>;
+    return (
+      <>
+        <Empty />
+      </>
+    );
   }
 
   if (role == "student") {
@@ -132,9 +136,12 @@ const General = ({ role }) => {
 };
 
 const Noticard = ({ prop }) => {
+  const arr = []
+  prop?.notification?.map((item) => (arr.push(item)))
+  arr.reverse()
   return (
     <>
-      {prop?.notification?.map((item) => (
+      {arr.map((item) => (
         <>
           <Card bordered={false} className="my-2" hoverable>
             <Row>
