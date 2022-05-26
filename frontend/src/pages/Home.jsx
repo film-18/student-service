@@ -155,7 +155,7 @@ export const Home = memo(() => {
           <Typography.Title level={2}>ปฏิทินการศึกษา</Typography.Title>
           <CalendarItem lists={updateNews?.updateNews} />
         </div>
-        {updateNews?.UpdateNews?.map((_news) => (
+        {/* {updateNews?.UpdateNews?.map((_news) => (
           <>
             <h2>
               {_news.title +
@@ -165,7 +165,7 @@ export const Home = memo(() => {
                 _news.endDate}
             </h2>
           </>
-        ))}
+        ))} */}
       </div>
     </>
   );

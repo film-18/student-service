@@ -207,7 +207,7 @@ export const Service = memo(() => {
                     <div className="row mb-0">
                         {requestTopics.map((request) => (
                             <>
-                                <div className="col-2 col-md-2 mx-5">
+                                <div className="col-md-6 col-lg-3 mb-5  justify-content-center d-flex">
                                     <RequestTopic request={request} toggleModal={showModal} />
                                 </div>
                             </>
