@@ -47,10 +47,13 @@ Deployed website: https://student-service.vercel.app/
 API : https://student-service-api.vercel.app/graphql
 
 ## Developer
-- Name: `Krisakorn Amnajsatit` Student ID : `62070006`
-- Name: `Kanlaya Pootsupha` Student ID : `62070011`
-- Name: `Yannawut Sreetong` Student ID : `62070051`
-- Name: `Pongsakorn Prawanna` Student ID : `62070126`
+| Member                        | Github                                      |           
+| ----------------------------- | ------------------------------------------- | 
+| 62070006 Krisakorn Amnajsatit   | [ball9989](https://github.com/ball9989)   |
+| 62070011 Kanlaya Pootsupha   | [film-18](https://github.com/film-18)   | 
+| 62070051 Yannawut Sreetong    | [Yannawut62070051](https://github.com/it62070033)   | 
+| 62070126 Pongsakorn Prawanna  | [newbeerz](https://github.com/newbeerz)   |
+
 
 ## Screenshots
 
