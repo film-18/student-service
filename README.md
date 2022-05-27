@@ -50,7 +50,7 @@ API : https://student-service-api.vercel.app/graphql
 - Name: `Krisakorn Amnajsatit` Student ID : `62070006`
 - Name: `Kanlaya Pootsupha` Student ID : `62070011`
 - Name: `Yannawut` Student ID : `62070051`
-- Name: `Pongsakorn` Student ID : `62070126`
+- Name: `Pongsakorn Prawanna` Student ID : `62070126`
 
 ## Screenshots
 
