@@ -51,7 +51,7 @@ export const Login = () => {
     )
 
     return (
-        <div className="container my-3" >
+        <div className="container my-3" style={{height: 500}}>
             <div className='row justify-content-center'>
                 <Card
                     hoverable
